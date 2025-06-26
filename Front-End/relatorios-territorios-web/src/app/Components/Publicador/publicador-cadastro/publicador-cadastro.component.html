@@ -1,0 +1,48 @@
+<div class="container">
+    <div class="col-md-12 title">
+        <h2 style="font-weight: 100; margin-top: 10px;">Cadastro de Publicador</h2>
+    </div>
+    <hr>
+
+    <div class="col-md-12 inputs">
+        <label for="nome">Nome:</label>
+        <input type="text" class="col-md-4 mr-4 ml-1 form-control" name="nome" id="nome" [(ngModel)]="publicador.nome">
+        <label for="nome">CPF:</label>
+        <input type="text" class="col-md-4 orm-control" style="margin-left: 2.1rem !important;" name="cpf" id="cpf" [(ngModel)]="publicador.cpf">
+    </div>
+    <hr>
+    <div class="col-md-12 inputs">
+        <label for="nome">Email:</label>
+        <input  type="text" class="col-md-4 mr-4 ml-2 form-control" name="email" id="email" [(ngModel)]="publicador.email">
+        <label for="nome">Telefone:</label>
+        <input type="text" class="col-md-4 ml-1 form-control" name="telefone" id="telefone" [(ngModel)]="publicador.telefone">
+    </div>
+    <hr>
+    <div class="col-md-12 inputs" style="display: flex; justify-content: flex-start; align-items: center;">
+        <label for="congregacao">Congregacao:</label>
+        <select class="col-md-4 mr-4 form-control" style="margin-left: 2.1rem !important;" name="congregacao" id="congregacao" [(ngModel)]="publicador.congregacao"> 
+            <option value="1">Niteroi</option>
+        </select>
+    </div>
+    <hr>
+    <div class="col-md-12 inputs" style="display: flex; justify-content: flex-start; align-items: center;">
+        <label for="grupoCampo">Grupo de Campo:</label>
+        <select class="col-md-4 ml-1 mr-2 form-control" name="grupoCampo" id="grupoCampo" [(ngModel)]="publicador.grupoCampo">
+            <option value="1">Fernando Rezende</option>
+            <option value="1">Geraldo Magela</option>
+            <option value="1">Lucas</option>
+            <option value="1">Josue</option>
+            <option value="1">Mauro Lucio</option>
+        </select>
+        <label for="funcao">Função:</label>
+        <select class="col-md-4 ml-2 form-control"name="funcao" id="funcao" [(ngModel)]="publicador.funcao">
+            <option value="anciao">Ancião</option>
+            <option value="servo ministerial">Servo Ministerial</option>
+            <option value="publicador">Publicador</option>
+        </select>
+    </div>
+    <hr>
+    <div class="col-md-12">
+        <button class="col-md-4 btn btn-primary" type="submit" (click)="salvar()">Salvar</button>
+    </div>
+</div>
