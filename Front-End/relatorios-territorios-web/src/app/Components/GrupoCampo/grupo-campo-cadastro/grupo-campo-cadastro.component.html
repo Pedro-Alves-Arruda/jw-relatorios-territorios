@@ -1,0 +1,53 @@
+<div class="container">
+    <div class="col-md-12 title">
+        <h2 style="font-weight: 700; margin-top: 10px;">Cadastro de Grupo de Campo</h2>
+    </div>
+    <hr>
+    
+    <div class="col-md-12 sub-title">
+        <h2 style="font-weight: 100; margin-top: 10px;">Endereço</h2>
+    </div>
+    <hr>
+    <div class="col-md-12 inputs">
+        <label for="rua">Rua:</label>
+        <input type="text" class="col-md-4 mr-4 ml-1 form-control" name="rua" id="rua" [(ngModel)]="grupoCampo.rua">
+        <label for="nome">Bairro:</label>
+        <input type="text" class="col-md-4 form-control" style="margin-left: 2.1rem !important;" name="bairro" id="bairro" [(ngModel)]="grupoCampo.bairro">
+    </div>
+    <div class="col-md-12 inputs">
+        <label for="cep">CEP:</label>
+        <input type="number" class="form-control col-md-4 mr-4 ml-1" name="cep" id="cep" [(ngModel)]="grupoCampo.cep">
+        <label for="numero">Numero:</label>
+        <input class="form-control col-md-4 mr-2 ml-3" type="number" name="numero" id="numero" [(ngModel)]="grupoCampo.numero">
+    </div>
+    <hr>
+
+    <div class="col-md-12 sub-title">
+        <h4 style="font-weight: 100; margin-top: 10px;">Responsaveis</h4>
+    </div>
+    <hr>
+    <div class="col-md-12 inputs" style="display: flex; justify-content: flex-start; align-items: center;">
+        <label for="responsavel">Responsavel:</label>
+        <select class="col-md-4 ml-1 mr-2 form-control" name="responsavel" id="responsavel" [(ngModel)]="grupoCampo.responsavel">
+            <option value="1">Fernando Rezende</option>
+            <option value="1">Geraldo Magela</option>
+            <option value="1">Lucas</option>
+            <option value="1">Josue</option>
+            <option value="1">Mauro Lucio</option>
+        </select>
+        <label for="ajudante">Ajudante:</label>
+        <select class="col-md-4 ml-2 form-control"name="ajudante" id="ajudante" [(ngModel)]="grupoCampo.ajudante">
+            <option value="1">Fernando Rezende</option>
+            <option value="1">Geraldo Magela</option>
+            <option value="1">Lucas</option>
+            <option value="1">Josue</option>
+            <option value="1">Mauro Lucio</option>
+        </select>
+    </div>
+    <hr>
+    <div class="col-md-12" style="display: flex; justify-content: center; align-items: center;">
+        <button class="col-md-4 btn" type="submit" (click)="salvar()">Salvar</button>
+    </div>
+</div>
+<router-outlet></router-outlet>
+

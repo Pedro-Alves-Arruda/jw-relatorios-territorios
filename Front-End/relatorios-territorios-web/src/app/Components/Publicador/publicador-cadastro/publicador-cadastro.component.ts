@@ -2,10 +2,11 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CadastroService } from '../../../Services/Publicador/cadastro.service';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-publicador-cadastro',
-  imports: [FormsModule],
+  imports: [FormsModule, RouterOutlet],
   templateUrl: './publicador-cadastro.component.html',
   styleUrl: './publicador-cadastro.component.scss'
 })
