@@ -1,0 +1,61 @@
+<div class="container">
+    <div class="col-md-12 title">
+        <div>
+            <img src="assets/imagens/logo_sistema.png" style="width: 50px; height: 50px;" alt="">
+        </div>
+        <div>
+            <h2 style="font-weight: 700; margin-top: 10px; margin-left: 11.5rem;">Login</h2>
+        </div>
+    </div>
+    <hr>
+
+    <div class="col-md-12 inputs">
+        <label for="nome">Email:</label>
+        <input type="text" class="col-md-10 mr-4 form-control" style="margin-left: 1.4rem !important;" name="email" id="email" [(ngModel)]="usuario.email">
+    </div>
+    <div class="col-md-12 inputs">
+        <label for="nome">Senha:</label>
+        <input type="password" class="col-md-10 ml-3 form-control" name="password" id="password" [(ngModel)]="usuario.password">
+    </div>
+    <hr>
+    <p>Primeiro login? <a data-toggle="modal" data-target="#modalLinkCadastro" href="" style="cursor: pointer;"> clique aqui</a> e solicite um codigo de liberação para cadastro para seu Ancião</p>
+    <div class="col-md-12 ml-10" style="display: flex; justify-content: center; align-items: center;">
+        <button class="col-md-4 btn" type="submit" (click)="login()">Salvar</button>
+    </div>
+</div>
+
+
+<div class="modal" tabindex="-1" role="dialog" id="modalLinkCadastro">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12">
+                    <label for="nome">Digite seu nome:</label>
+                    <input type="text" name="nome" id="" class="form-control inputs" [(ngModel)]="usuario.nome">
+                </div>
+                
+                <label for="funcao">Selecione sua congregação:</label>
+                <div class="col-md-12 inputs" style="display: flex; justify-content: flex-start; align-items: center;">
+                    <select class="form-control"name="funcao" id="funcao" [(ngModel)]="usuario.congregacao">
+                        <option value="anciao">Niteroi</option>
+                        <option value="servo ministerial">Jardim Brasilia</option>
+                        <option value="publicador">Novo Horizonte</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="solicitarLink()" *ngIf="isEdicao">Solicitar</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            </div>
+          </div>
+        </div>
+    </div>
+
+
+<router-outlet></router-outlet>
+

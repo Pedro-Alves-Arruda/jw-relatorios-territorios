@@ -1,0 +1,116 @@
+<div class="container">
+    <h3 class="title" style="padding: 10px;">Lista de Revisitas</h3>
+    <hr>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+      <ng-container matColumnDef="Nome">
+        <th mat-header-cell *matHeaderCellDef> Nome </th>
+        <td mat-cell *matCellDef="let item"> {{item.nome}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Descricao">
+        <th mat-header-cell *matHeaderCellDef> Descrição </th>
+        <td mat-cell *matCellDef="let item"> {{item.descricao}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Endereço">
+        <th mat-header-cell *matHeaderCellDef> Endereço </th>
+        <td mat-cell *matCellDef="let item"> {{item.endereco}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="numeroVisitas">
+        <th mat-header-cell *matHeaderCellDef> N de Visitas </th>
+        <td mat-cell *matCellDef="let item"> {{item.numeroVisitas}} </td>
+      </ng-container>
+
+      <!-- Header e conteúdo -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns">
+        <td *matCellDef="let item"> 
+          <button type="button" class="btn btn-primary" style="width: 17%; padding: 0px;" data-toggle="modal" data-target="#modalEdicao"></button>
+          <button type="button" class="btn btn-danger" style="width: 17%; padding: 0px;" data-toggle="modal" data-target="#modalExclusão"></button>
+        </td>
+      </tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <!-- Paginação -->
+    <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+
+
+    <div class="modal" tabindex="-1" role="dialog" id="modalEdicao">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" *ngIf="isEdicao">Editar Gasto</h5>
+              <h5 class="modal-title" *ngIf="isSalvar">Salvar Gasto</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12 sub-title">
+                <h6 style="font-weight: 100; margin-top: 2px;">Endereço</h6>
+            </div>
+            <hr>
+            <div class="col-md-12 inputs">
+                <label for="rua">Rua:</label>
+                <input type="text" class="col-md-4 mr-4 ml-1 form-control" name="rua" id="rua" [(ngModel)]="revisita.rua">
+                <label for="nome">Bairro:</label>
+                <input type="text" class="col-md-4 form-control" style="margin-left: 2.1rem !important;" name="bairro" id="bairro" [(ngModel)]="revisita.bairro">
+            </div>
+            <div class="col-md-12 inputs">
+                <label for="cep">CEP:</label>
+                <input type="number" class="form-control col-md-4 mr-4 ml-1" name="cep" id="cep" [(ngModel)]="revisita.cep">
+                <label for="numero">Numero:</label>
+                <input class="form-control col-md-4 mr-2 ml-3" type="number" name="numero" id="numero" [(ngModel)]="revisita.numero">
+            </div>
+            <div class="col-md-12 inputs">
+                <label for="cep">Estado:</label>
+                <input type="number" class="form-control col-md-4 mr-4 ml-1" name="cep" id="cep" [(ngModel)]="revisita.estado">
+                <label for="numero">Cidade:</label>
+                <input class="form-control col-md-4 mr-2 ml-3" type="number" name="numero" id="numero" [(ngModel)]="revisita.cidade">
+            </div>
+    <hr>
+
+    <div class="col-md-12 sub-title">
+        <h6 style="font-weight: 100; margin-top: 2px;">Descrição</h6>
+    </div>
+    <hr>
+    <div class="col-md-12 inputs" style="display: flex; justify-content: flex-start; align-items: center; height: 50%;">
+       <textarea name="descricao" id="descricao" [(ngModel)]="revisita.descricao"></textarea>
+    </div>
+    <hr>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="isEdicao">Salvar</button>
+              <button type="button" class="btn btn-primary"  *ngIf="isSalvar">Salvar</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <div class="modal" tabindex="-1" role="dialog" id="modalExclusão">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" *ngIf="isEdicao">Excluir Gasto</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger" role="alert">
+                    Tem certeza que deseja excluir esse gasto? 
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal"  *ngIf="isEdicao">Excluir</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
+
+<router-outlet></router-outlet>
