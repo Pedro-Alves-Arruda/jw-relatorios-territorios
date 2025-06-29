@@ -18,9 +18,9 @@
         <input type="password" class="col-md-10 ml-3 form-control" name="password" id="password" [(ngModel)]="usuario.password">
     </div>
     <hr>
-    <p>Primeiro login? <a data-toggle="modal" data-target="#modalLinkCadastro" href="" style="cursor: pointer;"> clique aqui</a> e solicite um codigo de liberação para cadastro para seu Ancião</p>
-    <div class="col-md-12 ml-10" style="display: flex; justify-content: center; align-items: center;">
-        <button class="col-md-4 btn" type="submit" (click)="login()">Salvar</button>
+    <p>Primeiro login? <a data-toggle="modal" data-target="#modalLinkCadastro" href="" style="cursor: pointer;" (click)="preparaDadosModal()"> clique aqui</a> e solicite um codigo de liberação para cadastro para seu Ancião</p>
+     <div class="col-md-12 ml-10" style="display: flex; justify-content: center; align-items: center;">
+        <button class="col-md-4 btn" type="submit" (click)="verificarLogin()">Login</button>
     </div>
 </div>
 
@@ -38,18 +38,16 @@
                     <label for="nome">Digite seu nome:</label>
                     <input type="text" name="nome" id="" class="form-control inputs" [(ngModel)]="usuario.nome">
                 </div>
-                
+
                 <label for="funcao">Selecione sua congregação:</label>
                 <div class="col-md-12 inputs" style="display: flex; justify-content: flex-start; align-items: center;">
                     <select class="form-control"name="funcao" id="funcao" [(ngModel)]="usuario.congregacao">
-                        <option value="anciao">Niteroi</option>
-                        <option value="servo ministerial">Jardim Brasilia</option>
-                        <option value="publicador">Novo Horizonte</option>
+                        <option *ngFor="let congregacao of congregacoes" value="{{congregacao.id}}">{{congregacao.nome}}</option>
                     </select>
                 </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="solicitarLink()" *ngIf="isEdicao">Solicitar</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="solicitarLink()">Solicitar</button>
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
             </div>
           </div>

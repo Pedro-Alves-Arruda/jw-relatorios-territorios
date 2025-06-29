@@ -21,14 +21,20 @@ export class PublicadorCadastroComponent {
     email:null,
     congregacao:null,
     grupoCampo:null,
-    funcao:null
+    funcao:null,
+    password:null
   }
 
+  passwordCopy: any
+
   salvar(){
-    this.cadastroPublicador.salvar(this.publicador)
-    .subscribe(res => {
-      console.log(res)
-    })
+
+    if(this.publicador.password === this.passwordCopy){
+      this.cadastroPublicador.salvar(this.publicador)
+      .subscribe(res => {
+        console.log(res)
+      })
+    }
   }
 
 }

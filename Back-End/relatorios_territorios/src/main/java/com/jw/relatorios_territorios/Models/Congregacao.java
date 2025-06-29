@@ -23,12 +23,12 @@ public class Congregacao {
     private String estado;
     private String cep;
 
-    @OneToMany(mappedBy = "congregacao", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Publicador> anciaos;
-    @OneToMany(mappedBy = "congregacao", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Publicador> servosMinisteriais;
-    @OneToMany(mappedBy = "congregacao", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Publicador> publicadores;
+//    @OneToMany(mappedBy = "congregacao", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Publicador> anciaos;
+//    @OneToMany(mappedBy = "congregacao", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Publicador> servosMinisteriais;
+//    @OneToMany(mappedBy = "congregacao", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Publicador> publicadores;
 
     public Integer getId() {
         return id;
@@ -86,27 +86,27 @@ public class Congregacao {
         this.cep = cep;
     }
 
-    public List<Publicador> getAnciaos() {
-        return anciaos;
-    }
-
-    public void setAnciaos(List<Publicador> anciaos) {
-        this.anciaos = anciaos;
-    }
-
-    public List<Publicador> getServosMinisteriais() {
-        return servosMinisteriais;
-    }
-
-    public void setServosMinisteriais(List<Publicador> servosMinisteriais) {
-        this.servosMinisteriais = servosMinisteriais;
-    }
-
-    public List<Publicador> getPublicadores() {
-        return publicadores;
-    }
-
-    public void setPublicadores(List<Publicador> publicadores) {
-        this.publicadores = publicadores;
-    }
+//    public List<Publicador> getAnciaos() {
+//        return anciaos;
+//    }
+//
+//    public void setAnciaos(List<Publicador> anciaos) {
+//        this.anciaos = anciaos;
+//    }
+//
+//    public List<Publicador> getServosMinisteriais() {
+//        return servosMinisteriais;
+//    }
+//
+//    public void setServosMinisteriais(List<Publicador> servosMinisteriais) {
+//        this.servosMinisteriais = servosMinisteriais;
+//    }
+//
+//    public List<Publicador> getPublicadores() {
+//        return publicadores;
+//    }
+//
+//    public void setPublicadores(List<Publicador> publicadores) {
+//        this.publicadores = publicadores;
+//    }
 }

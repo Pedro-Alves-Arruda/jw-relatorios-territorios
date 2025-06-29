@@ -19,6 +19,7 @@ public class Publicador {
     private String cpf;
     private String email;
     private String telefone;
+    private String password;
 
     @ElementCollection
     private String[] roles;
@@ -30,6 +31,14 @@ public class Publicador {
     @ManyToOne
     @JoinColumn(name = "congregacao_id", nullable = false)
     private Congregacao congregacao;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public String getNome() {
         return nome;

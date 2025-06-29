@@ -9,6 +9,7 @@ import com.jw.relatorios_territorios.Repository.CongregacaoRepository;
 import com.jw.relatorios_territorios.Repository.GrupoCampoRepository;
 import com.jw.relatorios_territorios.Repository.PublicadorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -25,6 +26,9 @@ public class PublicadorServices {
     @Autowired
     private PublicadorRepository publicadorRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public void salvar(PublicadorDTO publicadorDTO){
         //buscar congregacao e grupo campo
         Optional<GrupoCampo> grupoCampo = grupoCampoRepository.findById(publicadorDTO.grupoCampo());
@@ -36,9 +40,11 @@ public class PublicadorServices {
         publicador.setCpf(publicadorDTO.cpf());
         publicador.setEmail(publicadorDTO.email());
         publicador.setGrupoCampo(grupoCampo.get());
+        publicador.setTelefone(publicadorDTO.telefone());
         String[] roles = {publicadorDTO.funcao()};
         publicador.setRoles(roles);
         publicador.setCongregacao(congregacao.get());
+        publicador.setPassword(passwordEncoder.encode(publicadorDTO.password()));
 
         //salvar
         publicadorRepository.save(publicador);
