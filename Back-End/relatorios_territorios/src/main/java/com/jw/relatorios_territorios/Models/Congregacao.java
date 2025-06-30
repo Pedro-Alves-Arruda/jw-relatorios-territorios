@@ -1,5 +1,7 @@
 package com.jw.relatorios_territorios.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,13 +24,8 @@ public class Congregacao {
     private String cidade;
     private String estado;
     private String cep;
-
-//    @OneToMany(mappedBy = "congregacao", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<Publicador> anciaos;
-//    @OneToMany(mappedBy = "congregacao", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<Publicador> servosMinisteriais;
-//    @OneToMany(mappedBy = "congregacao", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<Publicador> publicadores;
+    @OneToMany(mappedBy = "congregacao", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Publicador> publicadores;
 
     public Integer getId() {
         return id;
@@ -102,11 +99,11 @@ public class Congregacao {
 //        this.servosMinisteriais = servosMinisteriais;
 //    }
 //
-//    public List<Publicador> getPublicadores() {
-//        return publicadores;
-//    }
-//
-//    public void setPublicadores(List<Publicador> publicadores) {
-//        this.publicadores = publicadores;
-//    }
+    public List<Publicador> getPublicadores() {
+        return publicadores;
+    }
+
+    public void setPublicadores(List<Publicador> publicadores) {
+        this.publicadores = publicadores;
+    }
 }

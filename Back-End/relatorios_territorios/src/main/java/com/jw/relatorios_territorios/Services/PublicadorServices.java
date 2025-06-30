@@ -8,11 +8,15 @@ import com.jw.relatorios_territorios.Models.Publicador;
 import com.jw.relatorios_territorios.Repository.CongregacaoRepository;
 import com.jw.relatorios_territorios.Repository.GrupoCampoRepository;
 import com.jw.relatorios_territorios.Repository.PublicadorRepository;
+import org.hibernate.JDBCException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PublicadorServices {
@@ -48,5 +52,30 @@ public class PublicadorServices {
 
         //salvar
         publicadorRepository.save(publicador);
+    }
+
+    public List<Publicador> listar(){
+        try{
+            List<Publicador> publicadores = publicadorRepository.findAll();
+            return publicadores
+                    .stream()
+                    .map(publicador -> {
+                        publicador.getCongregacao().setPublicadores(null);
+                        return publicador;
+                    })
+                    .collect(Collectors.toCollection(ArrayList::new));
+        }catch (JDBCException ex){
+            throw new JDBCException(ex.getMessage(), ex.getSQLException());
+        }
+    }
+
+    public Publicador findById(Integer id){
+        try {
+            Publicador publicador = publicadorRepository.findById(id).get();
+            publicador.getCongregacao().setPublicadores(null);
+            return publicador;
+        }catch (JDBCException ex){
+            throw new JDBCException(ex.getMessage(), ex.getSQLException());
+        }
     }
 }

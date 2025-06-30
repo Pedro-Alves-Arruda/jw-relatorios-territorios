@@ -1,11 +1,14 @@
 package com.jw.relatorios_territorios.Models;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import net.minidev.json.annotate.JsonIgnore;
 
 @Entity
 @RequiredArgsConstructor
@@ -26,6 +29,7 @@ public class Publicador {
 
     @ManyToOne
     @JoinColumn(name = "grupo_campo_id", nullable = false)
+    @JsonBackReference
     private GrupoCampo grupoCampo;
 
     @ManyToOne

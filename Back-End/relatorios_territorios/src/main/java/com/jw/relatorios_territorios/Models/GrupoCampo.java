@@ -1,10 +1,12 @@
 package com.jw.relatorios_territorios.Models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import net.minidev.json.annotate.JsonIgnore;
 
 import java.util.List;
 
@@ -19,6 +21,7 @@ public class GrupoCampo {
     private Integer idAjudante;
 
     @OneToMany(mappedBy = "grupoCampo", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Publicador> publicadores;
 
     public Integer getId() {
