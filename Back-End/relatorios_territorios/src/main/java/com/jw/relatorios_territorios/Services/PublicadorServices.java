@@ -56,8 +56,8 @@ public class PublicadorServices {
 
     public List<Publicador> listar(){
         try{
-            List<Publicador> publicadores = publicadorRepository.findAll();
-            return publicadores
+                    return
+                    publicadorRepository.findAll()
                     .stream()
                     .map(publicador -> {
                         publicador.getCongregacao().setPublicadores(null);
