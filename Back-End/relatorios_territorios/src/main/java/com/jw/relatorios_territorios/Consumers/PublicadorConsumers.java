@@ -20,7 +20,7 @@ public class PublicadorConsumers {
 
     @KafkaListener(topics = "publicador-salvar", groupId = "relatorios_territorios")
     public void receberMensagemSalvar(PublicadorDTO publicadorDTO){
-        log.info("Recebendo mensagem de publicador-salvar, mensagem: {}", publicadorDTO);
+        //log.info("Recebendo mensagem de publicador-salvar, mensagem: {}", publicadorDTO);
         services.salvar(publicadorDTO);
     }
 }

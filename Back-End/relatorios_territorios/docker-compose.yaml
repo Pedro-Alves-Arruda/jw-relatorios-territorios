@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  pgadmin:
+    image: dpage/pgadmin4:9.4
+    container_name: pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "pedro.alves.arruda10@gmail.com"
+      PGADMIN_DEFAULT_PASSWORD: "#Pe553125237004"
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+
+  zookeeper:
+    image: bitnami/zookeeper:latest
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+
+
+  kafka:
+    image: kafka-certs-localhost
+    container_name: kafka
+    restart: always
+    ports:
+      - "9094:9094"
+    depends_on:
+      - zookeeper
+    volumes:
+      - C:/jw-relatorios-territorios/Back-End/relatorios_territorios/certs-localhost:/bitnami/kafka/config/certs:rw
+      - kafka_data:/bitnami/kafka/data
+    environment:
+      # Broker ID e ZooKeeper
+      - KAFKA_CFG_BROKER_ID=1
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+
+      # Listeners e protocolos
+      - KAFKA_CFG_LISTENERS=SSL://:9094
+      - KAFKA_CFG_ADVERTISED_LISTENERS=SSL://localhost:9094
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=SSL:SSL
+      - KAFKA_CFG_SECURITY_INTER_BROKER_PROTOCOL=SSL
+
+      # SSL
+      - KAFKA_CFG_SSL_KEYSTORE_TYPE=PKCS12
+      - KAFKA_CFG_SSL_KEYSTORE_LOCATION=/opt/bitnami/kafka/config/certs/kafka.server.keystore.p12
+      - KAFKA_CFG_SSL_KEYSTORE_PASSWORD=changeit
+      - KAFKA_CFG_SSL_KEY_PASSWORD=changeit
+
+      - KAFKA_CFG_SSL_TRUSTSTORE_TYPE=PKCS12
+      - KAFKA_CFG_SSL_TRUSTSTORE_LOCATION=/opt/bitnami/kafka/config/certs/kafka.server.truststore.p12
+      - KAFKA_CFG_SSL_TRUSTSTORE_PASSWORD=changeit
+
+      # Exige que o cliente apresente certificado
+      - KAFKA_CFG_SSL_CLIENT_AUTH=required
+
+volumes:
+  pgadmin_data:
+  kafka_data:
