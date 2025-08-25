@@ -22,7 +22,7 @@ import java.util.List;
 @EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true)
 public class SecurityConfig {
 
-    private static String[] rotas = {"/publicador/**", "congregacao/**", "/login/**"};
+    private static String[] rotas = {"/publicador/**", "congregacao/**", "/login/**", "/revisita/**"};
 
     @Bean
     public SecurityFilterChain seecurityFilterChain(HttpSecurity http) throws Exception {
@@ -40,7 +40,7 @@ public class SecurityConfig {
                 .configurationSource(request -> {
                     CorsConfiguration config = new CorsConfiguration();
                     config.setAllowedOrigins(List.of("http://localhost:4200"));
-                    config.setAllowedMethods(List.of("*"));
+                    config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
                     config.setAllowedHeaders(List.of("*"));
                     config.setAllowCredentials(true);
 

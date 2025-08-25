@@ -7,8 +7,13 @@ import org.springframework.kafka.config.TopicBuilder;
 @Configuration
 public class KafkaConfig {
 
+    //Publicador
     public NewTopic publicadorSalvar(){
         return TopicBuilder.name("publicador-salvar").build();
     }
 
-}
+
+
+    //Revisita
+    public NewTopic revisitaSalvar() { return TopicBuilder.name("revisita-salvar").build(); }
+ }
