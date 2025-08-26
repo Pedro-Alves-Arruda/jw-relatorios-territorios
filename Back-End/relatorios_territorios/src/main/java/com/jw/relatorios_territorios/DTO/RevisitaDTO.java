@@ -7,5 +7,6 @@ public record RevisitaDTO(  String rua,
          String estado,
          String cep,
          String descricao,
-        String telefone) {
+         String telefone,
+         String nome) {
 }

@@ -30,6 +30,7 @@ public class RevisitaServices {
         revisita.setTelefone(revisitaDTO.telefone());
         revisita.setRua(revisitaDTO.rua());
         revisita.setCreated_at(LocalDateTime.now());
+        revisita.setNome(revisitaDTO.nome());
 
         repository.save(revisita);
     }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
+import { CadastroService } from '../../../Services/Revisita/cadastro.service';
 
 @Component({
   selector: 'app-revisita-cadastro',
@@ -10,6 +11,8 @@ import { RouterOutlet } from '@angular/router';
 })
 export class RevisitaCadastroComponent {
 
+  constructor(private cadastroService: CadastroService){}
+
   revisita = {
     rua:null,
     bairro: null,
@@ -17,11 +20,16 @@ export class RevisitaCadastroComponent {
     cidade: null,
     estado: null,
     cep:null,
-    descricao: null
+    descricao: null,
+    nome:null,
+    telefone:null
   }
 
   salvar(){
-    
+    this.cadastroService.salvar(this.revisita)
+      .subscribe(res => {
+        
+      })
   }
 
 }

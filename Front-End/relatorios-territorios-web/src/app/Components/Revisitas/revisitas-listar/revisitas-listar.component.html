@@ -13,73 +13,130 @@
         <td mat-cell *matCellDef="let item"> {{item.descricao}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="Endereço">
-        <th mat-header-cell *matHeaderCellDef> Endereço </th>
-        <td mat-cell *matCellDef="let item"> {{item.endereco}} </td>
+      <ng-container matColumnDef="created_at">
+        <th mat-header-cell *matHeaderCellDef> Ultima Visita </th>
+        <td mat-cell *matCellDef="let item"> {{formataData(item.created_at)}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="numeroVisitas">
-        <th mat-header-cell *matHeaderCellDef> N de Visitas </th>
-        <td mat-cell *matCellDef="let item"> {{item.numeroVisitas}} </td>
+      <ng-container matColumnDef="Rua">
+        <th mat-header-cell *matHeaderCellDef> Rua </th>
+        <td mat-cell *matCellDef="let item"> {{item.rua}} </td>
       </ng-container>
 
+      <ng-container matColumnDef="Bairro">
+        <th mat-header-cell *matHeaderCellDef> Bairro </th>
+        <td mat-cell *matCellDef="let item"> {{item.bairro}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Numero">
+        <th mat-header-cell *matHeaderCellDef> Numero </th>
+        <td mat-cell *matCellDef="let item"> {{item.numero}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Cidade">
+        <th mat-header-cell *matHeaderCellDef> Cidade </th>
+        <td mat-cell *matCellDef="let item"> {{item.cidade}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Estado">
+        <th mat-header-cell *matHeaderCellDef> Estado </th>
+        <td mat-cell *matCellDef="let item"> {{item.estado}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="CEP">
+        <th mat-header-cell *matHeaderCellDef> CEP </th>
+        <td mat-cell *matCellDef="let item"> {{item.cep}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Telefone">
+        <th mat-header-cell *matHeaderCellDef> Telefone </th>
+        <td mat-cell *matCellDef="let item"> {{item.telefone}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Acoes">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let item" style="height: 79px;">
+          <button type="button" class="btn btn-primary" id="editar-excluir"  data-toggle="modal" data-target="#modalEdicao" (click)="carregaValor(item)"><mat-icon style="font-size: 17px; display: flex; align-items: center; justify-content: center;">edit</mat-icon></button>
+          <button type="button" class="btn btn-danger" id="editar-excluir" data-toggle="modal" data-target="#modalExclusão" (click)="carregaValor(item)"><mat-icon style="font-size: 17px; display: flex; align-items: center; justify-content: center;">delete</mat-icon></button>
+        </td>
+      </ng-container>
       <!-- Header e conteúdo -->
-      <tr mat-header-row *matHeaderRowDef="displayedColumns">
+       <tr mat-header-row *matHeaderRowDef="displayedColumns">
         <td *matCellDef="let item"> 
-          <button type="button" class="btn btn-primary" style="width: 17%; padding: 0px;" data-toggle="modal" data-target="#modalEdicao"></button>
-          <button type="button" class="btn btn-danger" style="width: 17%; padding: 0px;" data-toggle="modal" data-target="#modalExclusão"></button>
+          <button type="button" class="btn btn-primary" style="width: 17%; padding: 0px;" data-toggle="modal" data-target="#modalEdicao" (click)="carregaValor(item)"><mat-icon >edit</mat-icon></button>
+          <button type="button" class="btn btn-danger" style="width: 17%; padding: 0px;" data-toggle="modal" data-target="#modalExclusão" (click)="carregaValor(item)"><mat-icon >delete</mat-icon></button>
         </td>
       </tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 
     <!-- Paginação -->
-    <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    <mat-paginator [pageSize]="3" [pageSizeOptions]="[3, 6, 10]" showFirstLastButtons></mat-paginator>
 
 
     <div class="modal" tabindex="-1" role="dialog" id="modalEdicao">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" *ngIf="isEdicao">Editar Gasto</h5>
-              <h5 class="modal-title" *ngIf="isSalvar">Salvar Gasto</h5>
+              <h5 class="modal-title" *ngIf="isEdicao">Editar Revisita</h5>
+              <h5 class="modal-title" *ngIf="isSalvar">Salvar Revisita</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
-                <div class="col-md-12 sub-title">
-                <h6 style="font-weight: 100; margin-top: 2px;">Endereço</h6>
-            </div>
-            <hr>
-            <div class="col-md-12 inputs">
+              <div class="col-md-12">
+                <h6 style="margin-left: -12px;color: var(--color-principal);">Dados Pessoais</h6>
+              </div>
+              <hr>
+              <div class="col-md-12 inputs">
+                <label for="nome" class="mr-2">Nome:</label>
+                <input class="col-md-4 mr-2 form-control" type="text" name="nome" id="nome" [(ngModel)]="revisita.nome">
+                <label for="telefone" class="mr-2">Telefone:</label>
+                <input class="col-md-4 form-control" type="text" name="telefone" id="telefone" [(ngModel)]="revisita.telefone">
+              </div>
+              <hr>
+              <div class="col-md-12">
+                  <h6 style="margin-left: -12px;color: var(--color-principal);">Endereço</h6>
+              </div>
+              <hr>
+              <div class="col-md-12 inputs">
                 <label for="rua">Rua:</label>
                 <input type="text" class="col-md-4 mr-4 ml-1 form-control" name="rua" id="rua" [(ngModel)]="revisita.rua">
                 <label for="nome">Bairro:</label>
                 <input type="text" class="col-md-4 form-control" style="margin-left: 2.1rem !important;" name="bairro" id="bairro" [(ngModel)]="revisita.bairro">
             </div>
-            <div class="col-md-12 inputs">
+              <div class="col-md-12 inputs">
                 <label for="cep">CEP:</label>
                 <input type="number" class="form-control col-md-4 mr-4 ml-1" name="cep" id="cep" [(ngModel)]="revisita.cep">
                 <label for="numero">Numero:</label>
                 <input class="form-control col-md-4 mr-2 ml-3" type="number" name="numero" id="numero" [(ngModel)]="revisita.numero">
-            </div>
-            <div class="col-md-12 inputs">
-                <label for="cep">Estado:</label>
-                <input type="number" class="form-control col-md-4 mr-4 ml-1" name="cep" id="cep" [(ngModel)]="revisita.estado">
-                <label for="numero">Cidade:</label>
-                <input class="form-control col-md-4 mr-2 ml-3" type="number" name="numero" id="numero" [(ngModel)]="revisita.cidade">
-            </div>
-    <hr>
+              </div>
+              <div class="col-md-12 inputs">
+                  <label for="cep">Estado:</label>
+                  <input type="number" class="form-control col-md-4 mr-4 ml-1" name="cep" id="cep" [(ngModel)]="revisita.estado">
+                  <label for="numero">Cidade:</label>
+                  <input class="form-control col-md-4 mr-2 ml-3" type="number" name="numero" id="numero" [(ngModel)]="revisita.cidade">
+              </div>
+              <hr>
 
-    <div class="col-md-12 sub-title">
-        <h6 style="font-weight: 100; margin-top: 2px;">Descrição</h6>
-    </div>
-    <hr>
-    <div class="col-md-12 inputs" style="display: flex; justify-content: flex-start; align-items: center; height: 50%;">
-       <textarea name="descricao" id="descricao" [(ngModel)]="revisita.descricao"></textarea>
-    </div>
-    <hr>
+              <div class="col-md-12">
+                  <h6 style="margin-left: -12px;color: var(--color-principal);">Descrição</h6>
+              </div>
+              <hr>
+              <div class="col-md-12 inputs" style="display: flex; justify-content: flex-start; align-items: flex-start; height: 25%;">
+                <textarea name="descricao" id="descricao" [(ngModel)]="revisita.descricao"></textarea>
+              </div>
+              <hr>
+              <div class="adicionar-retorno">
+                <div class="col-md-12">
+                   <h6 style="margin-left: -12px;color: var(--color-principal);">Retorno</h6>
+                </div>
+                <hr>
+                <div class="col-md-12 inputs" style="display: flex; justify-content: flex-start; align-items: flex-start; height: 25%;">
+                  <textarea name="retorno" id="retorno" style="width: 100%;height: 105px;border-radius: 10px;" [(ngModel)]="revisita.retorno"></textarea>
+                </div>
+              </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="isEdicao">Salvar</button>
@@ -94,14 +151,14 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" *ngIf="isEdicao">Excluir Gasto</h5>
+              <h5 class="modal-title" *ngIf="isEdicao">Excluir Revisita</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
             <div class="modal-body">
                 <div class="alert alert-danger" role="alert">
-                    Tem certeza que deseja excluir esse gasto? 
+                    Tem certeza que deseja excluir essa revisita? 
                 </div>
             </div>
             <div class="modal-footer">

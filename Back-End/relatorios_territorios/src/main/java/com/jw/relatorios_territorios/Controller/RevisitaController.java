@@ -27,9 +27,9 @@ public class RevisitaController {
     private RevisitaServices services;
 
     @PostMapping("/salvar")
-    public HttpStatus salvar(@RequestBody RevisitaDTO revisitaDTO){
+    public ResponseEntity<String> salvar(@RequestBody RevisitaDTO revisitaDTO){
         revisitaProducers.sendMessage(revisitaDTO);
-        return HttpStatus.OK;
+        return ResponseEntity.ok("Objeto inserido com sucesso");
     }
 
     @GetMapping("/listar")

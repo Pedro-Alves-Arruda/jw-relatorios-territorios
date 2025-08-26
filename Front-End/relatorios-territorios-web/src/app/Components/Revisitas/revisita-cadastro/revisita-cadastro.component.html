@@ -3,7 +3,17 @@
         <h2 style="font-weight: 700; margin-top: 10px;">Cadastro de Revisita</h2>
     </div>
     <hr>
-    
+    <div class="col-md-12 sub-title">
+        <h6 style="font-weight: 100; margin-top: 2px;">Dados Pessoais</h6>
+    </div>
+    <hr>
+    <div class="col-md-12 inputs">
+        <label for="nome" class="mr-2">Nome:</label>
+        <input class="col-md-4 form-control mr-2" type="text" name="nome" id="nome" [(ngModel)]="revisita.nome">
+        <label for="telefone" class="mr-2">Telefone:</label>
+        <input class="col-md-4 form-control" type="text" name="telefone" id="telefone" [(ngModel)]="revisita.telefone">
+    </div>
+    <hr>
     <div class="col-md-12 sub-title">
         <h6 style="font-weight: 100; margin-top: 2px;">Endereço</h6>
     </div>
