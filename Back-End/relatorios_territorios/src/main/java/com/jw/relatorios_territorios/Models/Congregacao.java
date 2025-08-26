@@ -7,16 +7,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.apache.kafka.common.protocol.types.Field;
 
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @RequiredArgsConstructor
 public class Congregacao {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
 
     private String nome;
     private String rua;
@@ -27,11 +29,11 @@ public class Congregacao {
     @OneToMany(mappedBy = "congregacao", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Publicador> publicadores;
 
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

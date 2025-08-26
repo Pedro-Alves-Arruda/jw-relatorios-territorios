@@ -22,4 +22,10 @@ public class RevisitaConsumers {
         log.info("Enviando objeto para ser salvo.");
         revisitaServices.salvar(revisitaDTO);
     }
+
+    @KafkaListener(topics = "revisita-atualizar", groupId = "relatorios_territorios")
+    public void receberMensagemAtualizar(RevisitaDTO revisitaDTO){
+        log.info("Enviando objeto para ser salvo.");
+        revisitaServices.atualizar(revisitaDTO);
+    }
 }

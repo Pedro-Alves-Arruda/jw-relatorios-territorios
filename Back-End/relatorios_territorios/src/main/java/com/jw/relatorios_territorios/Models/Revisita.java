@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @RequiredArgsConstructor
@@ -17,8 +18,8 @@ public class Revisita {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
     private String nome;
     private String rua;
     private String bairro;
@@ -29,6 +30,7 @@ public class Revisita {
     private String descricao;
     private String telefone;
     private LocalDateTime created_at;
+    private UUID idPublicador;
 
     public String getNome() {
         return nome;
@@ -45,11 +47,12 @@ public class Revisita {
     public void setCreated_at(LocalDateTime created_at) {
         this.created_at = created_at;
     }
-    public Integer getId() {
+
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

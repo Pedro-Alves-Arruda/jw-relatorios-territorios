@@ -17,15 +17,22 @@ public class RevisitaProducers {
     private KafkaTemplate<String, RevisitaDTO> kafkaTemplate;
     private static final Logger log = LoggerFactory.getLogger(RevisitaProducers.class);
 
-    public void sendMessage(RevisitaDTO revisitaDTO){
+    public void enviarMessagem(RevisitaDTO revisitaDTO){
         try{
             log.info("Enviando mensagem para topico revisita-salvar, mensagem: {}", revisitaDTO);
             kafkaTemplate.send("revisita-salvar",revisitaDTO);
         }catch (KafkaProducerException ex){
-            log.error("Erro ao produzir topico. Erro: {}", ex.getMessage());
+            log.error("Erro ao produzir topico ou enviar mensagem. Erro: {}", ex.getMessage());
         }
+    }
 
-
+    public void enviarMessagemAtualizar(RevisitaDTO revisitaDTO){
+        try {
+            log.info("Enviando mensagem para topico revisita-atualizar, mensagem: {}", revisitaDTO);
+            kafkaTemplate.send("revisita-atualizar", revisitaDTO);
+        }catch (KafkaProducerException e){
+            log.error("Erro ao produir topico ou enviar mensagem. Erro: {}", e.getMessage());
+        }
     }
 
 }

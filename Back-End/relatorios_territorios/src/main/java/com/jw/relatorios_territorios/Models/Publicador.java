@@ -10,13 +10,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import net.minidev.json.annotate.JsonIgnore;
 
+import java.util.UUID;
+
 @Entity
 @RequiredArgsConstructor
 public class Publicador {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
     private String nome;
     @Column(unique = true)
     private String cpf;
@@ -52,11 +54,11 @@ public class Publicador {
         this.nome = nome;
     }
 
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

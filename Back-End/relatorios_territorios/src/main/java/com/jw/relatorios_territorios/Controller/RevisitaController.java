@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,13 +25,23 @@ public class RevisitaController {
 
     @PostMapping("/salvar")
     public ResponseEntity<String> salvar(@RequestBody RevisitaDTO revisitaDTO){
-        revisitaProducers.sendMessage(revisitaDTO);
+        revisitaProducers.enviarMessagem(revisitaDTO);
         return ResponseEntity.ok("Objeto inserido com sucesso");
     }
 
     @GetMapping("/listar")
     public ResponseEntity<List<Revisita>> listar(){
         return ResponseEntity.ok(services.listar());
+    }
+
+    @PutMapping("/atualizar")
+    public ResponseEntity<String> atualizar(@RequestBody RevisitaDTO revisitaDTO){
+        try{
+            revisitaProducers.enviarMessagemAtualizar(revisitaDTO);
+            return ResponseEntity.ok("Objeto atualizado com sucesso");
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
     }
 
 }

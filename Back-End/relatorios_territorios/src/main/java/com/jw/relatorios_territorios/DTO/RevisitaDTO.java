@@ -1,6 +1,10 @@
 package com.jw.relatorios_territorios.DTO;
 
-public record RevisitaDTO(  String rua,
+import java.util.UUID;
+
+public record RevisitaDTO(
+         UUID id,
+         String rua,
          String bairro,
          String numero,
          String cidade,
@@ -8,5 +12,6 @@ public record RevisitaDTO(  String rua,
          String cep,
          String descricao,
          String telefone,
-         String nome) {
+         String nome,
+         UUID idPublicador) {
 }

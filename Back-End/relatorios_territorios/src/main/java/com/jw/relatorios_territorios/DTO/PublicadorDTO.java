@@ -4,5 +4,7 @@ import com.jw.relatorios_territorios.Models.Congregacao;
 import com.jw.relatorios_territorios.Models.GrupoCampo;
 import jakarta.persistence.*;
 
-public record PublicadorDTO(Integer id,String nome,String cpf, String email, String telefone,String funcao, Integer grupoCampo,Integer congregacao, String password) {
+import java.util.UUID;
+
+public record PublicadorDTO(UUID id, String nome, String cpf, String email, String telefone, String funcao, UUID grupoCampo, UUID congregacao, String password) {
 }

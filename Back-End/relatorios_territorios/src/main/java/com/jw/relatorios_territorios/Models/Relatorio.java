@@ -9,19 +9,30 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 
 @Entity
 @RequiredArgsConstructor
 public class Relatorio {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
     private String horas;
     private String nome;
     private String publicacoes;
     private String revisitas;
     private String estudos;
     private String grupoCampo;
+    private UUID idPublicador;
+
+    public UUID getIdPublicador() {
+        return idPublicador;
+    }
+
+    public void setIdPublicador(UUID idPublicador) {
+        this.idPublicador = idPublicador;
+    }
 
     public String getNome() {
         return nome;
@@ -39,11 +50,11 @@ public class Relatorio {
         this.horas = horas;
     }
 
-    public Integer getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { ListarService } from '../../../Services/Revisita/listar.service';
 import { MatIconModule } from '@angular/material/icon';
 import $ from 'jquery';
+import { AtualizarService } from '../../../Services/Revisita/atualizar.service';
 
 @Component({
   selector: 'app-revisitas-listar',
@@ -16,7 +17,7 @@ import $ from 'jquery';
 })
 export class RevisitasListarComponent {
 
-  constructor(private listarServices:ListarService){}
+  constructor(private listarServices:ListarService, private atualizarServices:AtualizarService){}
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
     
@@ -70,7 +71,7 @@ export class RevisitasListarComponent {
     descricao:"",
     telefone:null,
     created_at:Date.now,
-    retorno:null
+    retorno:""
   }
 
   listar(){
@@ -116,10 +117,18 @@ export class RevisitasListarComponent {
     this.revisita.telefone = revisitaEditar.telefone
     this.revisita.rua = revisitaEditar.rua
     this.revisita.cidade = revisitaEditar.cidade
+  }
 
-    if(this.revisita.retorno != null && this.revisita.retorno == " "){
-      this.revisita.descricao = revisitaEditar.descricao + "\n" + "Retorno: " + this.revisita.retorno;
+  atualizarRevisita(){
+  
+    if(this.revisita.retorno != null && this.revisita.retorno != ""){
+      this.revisita.descricao = this.revisita.descricao + "\n" + "Retorno: " + this.revisita.retorno;
     }
+
+    this.atualizarServices.atualizar(this.revisita)
+      .subscribe(res => {
+
+      })
   }
 
 }

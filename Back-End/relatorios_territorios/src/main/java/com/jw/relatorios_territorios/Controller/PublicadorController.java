@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/publicador")
@@ -34,7 +35,7 @@ public class PublicadorController {
     }
 
     @GetMapping("/{id}")
-    public Publicador findById(@PathVariable Integer id){
+    public Publicador findById(@PathVariable UUID id){
         return publicadorServices.findById(id);
     }
 

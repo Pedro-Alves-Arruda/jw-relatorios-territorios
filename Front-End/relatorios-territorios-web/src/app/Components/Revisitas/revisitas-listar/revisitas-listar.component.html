@@ -139,7 +139,7 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="isEdicao">Salvar</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="isEdicao" (click)="atualizarRevisita()">Salvar</button>
               <button type="button" class="btn btn-primary"  *ngIf="isSalvar">Salvar</button>
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
             </div>
