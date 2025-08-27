@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-menu',
@@ -9,5 +9,9 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './menu.component.scss'
 })
 export class MenuComponent {
-
+    constructor(private router:Router){}
+  
+    login(){
+      this.router.navigate(["/login"])
+    }
 }

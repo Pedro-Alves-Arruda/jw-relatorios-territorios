@@ -5,6 +5,7 @@ import com.jw.relatorios_territorios.DTO.PublicadorDTO;
 import com.jw.relatorios_territorios.Models.Token;
 import com.jw.relatorios_territorios.Services.LoginServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,11 +22,11 @@ public class LoginController {
 
 
     @PostMapping
-    public Token login(@RequestBody PublicadorDTO publicadorDTO){
+    public ResponseEntity<Token> login(@RequestBody PublicadorDTO publicadorDTO){
 
         Token token = new Token();
         token.setToken(loginServices.verificarLogin(publicadorDTO));
-        return token;
+        return ResponseEntity.ok().body(token);
 
     }
 

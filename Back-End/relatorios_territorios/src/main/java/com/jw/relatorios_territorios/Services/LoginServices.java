@@ -29,7 +29,7 @@ public class LoginServices {
         Optional<Publicador> publicadorDesejado = publicadorRepository.findByEmail(publicadorDTO.email());
 
         if(publicadorDesejado.get() instanceof  Publicador &&
-                passwordEncoder.matches(publicadorDTO.password(), publicadorDesejado.get().getPassword())){
+            passwordEncoder.matches(publicadorDTO.password(), publicadorDesejado.get().getPassword())){
             return tokenServices.generateToken(publicadorDesejado.get());
         }
 

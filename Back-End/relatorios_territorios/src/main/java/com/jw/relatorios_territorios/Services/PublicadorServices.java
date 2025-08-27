@@ -8,6 +8,7 @@ import com.jw.relatorios_territorios.Models.Publicador;
 import com.jw.relatorios_territorios.Repository.CongregacaoRepository;
 import com.jw.relatorios_territorios.Repository.GrupoCampoRepository;
 import com.jw.relatorios_territorios.Repository.PublicadorRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.hibernate.JDBCException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -55,18 +56,44 @@ public class PublicadorServices {
         publicadorRepository.save(publicador);
     }
 
-    public List<Publicador> listar(){
+    public List<PublicadorDTO> listar(){
         try{
-                    return
-                    publicadorRepository.findAll()
+                    List<Publicador> publicadores = publicadorRepository.findAll()
                     .stream()
                     .map(publicador -> {
                         publicador.getCongregacao().setPublicadores(null);
                         return publicador;
                     })
                     .collect(Collectors.toCollection(ArrayList::new));
+
+                    return preparaListaRetorno(publicadores);
         }catch (JDBCException ex){
             throw new JDBCException(ex.getMessage(), ex.getSQLException());
+        }
+    }
+
+    private List<PublicadorDTO> preparaListaRetorno(List<Publicador> publicadores){
+        try{
+            List<PublicadorDTO> publicadoresDto = new ArrayList<>();
+            for(Publicador publicador : publicadores){
+                publicadoresDto.add(new PublicadorDTO(publicador.getId(), publicador.getNome(), publicador.getCpf(), publicador.getEmail(), publicador.getTelefone(),
+                        "", publicador.getGrupoCampo().getId(), publicador.getCongregacao().getId(), ""));
+            }
+            return publicadoresDto;
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao construir lista de publicadores. Erro: " + e.getMessage());
+        }
+    }
+
+    public Publicador findByEmail(String email){
+        try {
+            var publicador = publicadorRepository.findByEmail(email);
+            if(publicador.isPresent()){
+                return publicador.get();
+            }
+            throw new EntityNotFoundException("Nenhum usuario encontrado");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 

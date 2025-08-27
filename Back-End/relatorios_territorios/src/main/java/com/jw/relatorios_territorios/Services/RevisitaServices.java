@@ -6,16 +6,15 @@ import com.jw.relatorios_territorios.Models.Revisita;
 import com.jw.relatorios_territorios.Repository.RevisitaRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
-import static java.util.Optional.empty;
 
 @Service
 public class RevisitaServices {
@@ -40,7 +39,8 @@ public class RevisitaServices {
         repository.save(revisita);
     }
 
-    public List<Revisita> listar(){
+    @Cacheable("listaRevisitas")
+    public List<Revisita> listar(UUID id){
         try{
             return repository.findAll();
         } catch (Exception e) {

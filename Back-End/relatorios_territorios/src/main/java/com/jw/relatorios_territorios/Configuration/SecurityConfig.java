@@ -1,5 +1,6 @@
 package com.jw.relatorios_territorios.Configuration;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -11,6 +12,7 @@ import org.springframework.security.config.annotation.web.configurers.CorsConfig
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -24,6 +26,9 @@ public class SecurityConfig {
 
     private static String[] rotas = {"/publicador/**", "congregacao/**", "/login/**", "/revisita/**"};
 
+    @Autowired
+    private SecurityFilter securityFilter_;
+
     @Bean
     public SecurityFilterChain seecurityFilterChain(HttpSecurity http) throws Exception {
         return http.cors(corsConfigurationSource())
@@ -31,6 +36,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests( authorize -> {
                     authorize.requestMatchers(rotas).permitAll();
                 })
+                .addFilterBefore(securityFilter_, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 

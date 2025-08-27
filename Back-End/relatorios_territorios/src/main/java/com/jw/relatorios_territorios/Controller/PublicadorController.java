@@ -8,6 +8,7 @@ import com.jw.relatorios_territorios.Producers.PublicadorProducers;
 import com.jw.relatorios_territorios.Services.PublicadorServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,8 +31,8 @@ public class PublicadorController {
     }
 
     @GetMapping("/listar")
-    public List<Publicador> listar(){
-        return publicadorServices.listar();
+    public ResponseEntity<List<PublicadorDTO>> listar(){
+        return ResponseEntity.ok().body(publicadorServices.listar());
     }
 
     @GetMapping("/{id}")

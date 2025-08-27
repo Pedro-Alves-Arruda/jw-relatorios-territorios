@@ -1,10 +1,3 @@
-.menu{
-    background-color: var(--color-principal);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
 .menu-item{
     background-color: var(--color-principal);
     border: none;
@@ -43,6 +36,15 @@
         align-items: center;
         justify-content: center;
     }
+
+    .menu{
+        background-color: var(--color-principal);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 128vw;
+        height: 7vh;
+    }
 }
 
 
@@ -57,7 +59,22 @@
         font-weight: 100; 
         margin-right: 10px;
     }
+
+    .menu{
+        background-color: var(--color-principal);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 }
 
+mat-icon{
+    font-size: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    padding: 26px;
+}
 
 
