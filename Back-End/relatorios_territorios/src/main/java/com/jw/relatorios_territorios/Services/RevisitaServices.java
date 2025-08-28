@@ -2,11 +2,15 @@ package com.jw.relatorios_territorios.Services;
 
 
 import com.jw.relatorios_territorios.DTO.RevisitaDTO;
+import com.jw.relatorios_territorios.Models.Publicador;
 import com.jw.relatorios_territorios.Models.Revisita;
+import com.jw.relatorios_territorios.Repository.PublicadorRepository;
 import com.jw.relatorios_territorios.Repository.RevisitaRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.web.csrf.MissingCsrfTokenException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -22,6 +26,16 @@ public class RevisitaServices {
     @Autowired
     private RevisitaRepository repository;
 
+    @Autowired
+    private TokenServices tokenServices;
+
+    @Autowired
+    private PublicadorRepository publicadorRepository;
+
+    @Autowired
+    private HttpServletRequest request;
+
+
     public void salvar(RevisitaDTO revisitaDTO){
         //Montar obj para salvar
         Revisita revisita = new Revisita();
@@ -35,14 +49,17 @@ public class RevisitaServices {
         revisita.setRua(revisitaDTO.rua());
         revisita.setCreated_at(LocalDateTime.now());
         revisita.setNome(revisitaDTO.nome());
+        revisita.setIdPublicador(revisitaDTO.idPublicador());
 
         repository.save(revisita);
     }
 
     @Cacheable("listaRevisitas")
-    public List<Revisita> listar(UUID id){
+    public List<Revisita> listar(){
         try{
-            return repository.findAll();
+            //buscando id do usuario pelo token
+            UUID idPublicador = getIdPublicador();
+            return repository.findAllById(idPublicador);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -68,6 +85,7 @@ public class RevisitaServices {
         setIfNotNull(revisitaDTO.cep(), usuarioDesejado.get()::setCep);
         usuarioDesejado.get().setCreated_at(LocalDateTime.now());
 
+
         //atualizando usuario
         repository.save(usuarioDesejado.get());
 
@@ -75,6 +93,29 @@ public class RevisitaServices {
 
     private <T> void setIfNotNull(T value, Consumer<T> setter) {
         if (value != null) setter.accept(value);
+    }
+
+    private UUID getIdPublicador(){
+        String token = getToken();
+        String email = tokenServices.recoverToken(token);
+
+        if(email == null){
+            throw new MissingCsrfTokenException("Token invalido ou inexistente");
+        }
+        Publicador publicadorDesejado = new Publicador();
+
+        try {
+            publicadorDesejado = publicadorRepository.findByEmail(email).get();
+        }catch (EntityNotFoundException e){
+            throw new EntityNotFoundException("Usuario inexistente");
+        }
+        return publicadorDesejado.getId();
+    }
+
+    private String getToken(){
+        var authHeader = this.request.getHeader("Authorization");
+        if(authHeader == null) return null;
+        return authHeader.replace("Bearer ", "");
     }
 
 }

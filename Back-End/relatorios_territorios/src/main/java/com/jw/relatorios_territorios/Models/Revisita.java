@@ -32,6 +32,14 @@ public class Revisita {
     private LocalDateTime created_at;
     private UUID idPublicador;
 
+    public UUID getIdPublicador() {
+        return idPublicador;
+    }
+
+    public void setIdPublicador(UUID idPublicador) {
+        this.idPublicador = idPublicador;
+    }
+
     public String getNome() {
         return nome;
     }

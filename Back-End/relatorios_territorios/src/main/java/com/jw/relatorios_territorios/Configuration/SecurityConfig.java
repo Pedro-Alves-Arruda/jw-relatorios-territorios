@@ -34,7 +34,8 @@ public class SecurityConfig {
         return http.cors(corsConfigurationSource())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests( authorize -> {
-                    authorize.requestMatchers(rotas).permitAll();
+                    authorize.requestMatchers(rotas).permitAll()
+                            .anyRequest().permitAll();
                 })
                 .addFilterBefore(securityFilter_, UsernamePasswordAuthenticationFilter.class)
                 .build();

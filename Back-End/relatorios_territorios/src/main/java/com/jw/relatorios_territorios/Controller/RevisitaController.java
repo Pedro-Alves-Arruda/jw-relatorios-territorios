@@ -30,9 +30,9 @@ public class RevisitaController {
         return ResponseEntity.ok("Objeto inserido com sucesso");
     }
 
-    @GetMapping("/listar/{id}")
-    public ResponseEntity<List<Revisita>> listar(@PathVariable UUID id){
-        return ResponseEntity.ok(services.listar(id));
+    @GetMapping("/listar")
+    public ResponseEntity<List<Revisita>> listar(){
+        return ResponseEntity.ok(services.listar());
     }
 
     @PutMapping("/atualizar")

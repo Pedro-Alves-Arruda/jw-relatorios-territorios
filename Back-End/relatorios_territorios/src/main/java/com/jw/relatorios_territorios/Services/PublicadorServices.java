@@ -32,7 +32,6 @@ public class PublicadorServices {
     @Autowired
     private PublicadorRepository publicadorRepository;
 
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
     public void salvar(PublicadorDTO publicadorDTO){

@@ -15,10 +15,10 @@
     </div>
     <div class="col-md-12 inputs">
         <label for="password">Senha:</label>
-        <input type="password" class="col-md-10 ml-3 form-control" name="password" id="password" [(ngModel)]="usuario.password">
+        <input autocomplete="off" type="password" class="col-md-10 ml-3 form-control" name="password" id="password" [(ngModel)]="usuario.password">
     </div>
     <hr>
-    <p>Primeiro login? <a data-toggle="modal" data-target="#modalLinkCadastro" href="" style="cursor: pointer;" (click)="preparaDadosModal()"> clique aqui</a> e solicite um codigo de liberação para cadastro para seu Ancião</p>
+    <!-- <p>Primeiro login? <a data-toggle="modal" data-target="#modalLinkCadastro" href="" style="cursor: pointer;" (click)="preparaDadosModal()"> clique aqui</a> e solicite um codigo de liberação para cadastro para seu Ancião</p>!-->
      <div class="col-md-12 ml-10" style="display: flex; justify-content: center; align-items: center;">
         <button class="col-md-4 btn" type="submit" (click)="verificarLogin()">Login</button>
     </div>

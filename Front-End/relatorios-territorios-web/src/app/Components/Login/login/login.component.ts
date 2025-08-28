@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { ListarServiceService } from '../../../Services/Congregacao/listar-service.service';
 import { coerceStringArray } from '@angular/cdk/coercion';
 import { CommonModule } from '@angular/common';
@@ -16,7 +16,7 @@ import { AuthService } from '../../../AuthService';
 })
 export class LoginComponent {
 
-  constructor(private congregacaoService: ListarServiceService, private loginServices: LoginServicesService, private authService:AuthService){}
+  constructor(private router:Router, private congregacaoService: ListarServiceService, private loginServices: LoginServicesService, private authService:AuthService){}
 
   usuario = {
     email:null,
@@ -30,7 +30,10 @@ export class LoginComponent {
   verificarLogin(){
     this.loginServices.login(this.usuario)
     .subscribe(res => {
-      this.authService.login(res)
+      if(res.token != " " || res.token != null){
+        this.authService.login(res)
+        this.router.navigate(['/'])
+      }
     })
 
   }

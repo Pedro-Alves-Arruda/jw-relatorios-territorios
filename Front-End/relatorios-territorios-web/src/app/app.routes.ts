@@ -5,6 +5,7 @@ import { MenuComponent } from './Components/Menu/menu/menu.component';
 import { RevisitaCadastroComponent } from './Components/Revisitas/revisita-cadastro/revisita-cadastro.component';
 import { LoginComponent } from './Components/Login/login/login.component';
 import { RevisitasListarComponent } from './Components/Revisitas/revisitas-listar/revisitas-listar.component';
+import { CanGuard } from './CanGuard';
 
 export const routes: Routes = [
     {
@@ -13,16 +14,16 @@ export const routes: Routes = [
     {
         path:'', component: MenuComponent, children: [
             {
-               path: 'publicador-cadastro',  component: PublicadorCadastroComponent
+               path: 'publicador-cadastro',  component: PublicadorCadastroComponent, canActivate: [CanGuard]
             },
             {
-               path: 'grupo-campo-cadastro',  component: GrupoCampoCadastroComponent
+               path: 'grupo-campo-cadastro',  component: GrupoCampoCadastroComponent, canActivate: [CanGuard]
             },
             {
-                path: 'revisita-cadastro', component: RevisitaCadastroComponent
+                path: 'revisita-cadastro', component: RevisitaCadastroComponent, canActivate: [CanGuard]
             },
             {
-                path: 'revisita-listar', component: RevisitasListarComponent
+                path: 'revisita-listar', component: RevisitasListarComponent, canActivate: [CanGuard]
             }
         ]
     }

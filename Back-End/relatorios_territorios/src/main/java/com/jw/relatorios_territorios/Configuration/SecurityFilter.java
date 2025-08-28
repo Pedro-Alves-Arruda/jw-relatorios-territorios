@@ -30,6 +30,13 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        String path = request.getRequestURI();
+
+        if (path.startsWith("/login") || path.startsWith("/public")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         var token = getToken(request);
 
         if(token == null){
@@ -40,7 +47,7 @@ public class SecurityFilter extends OncePerRequestFilter {
         try{
             var publicador = publicadorServices.findByEmail(email);
             var authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USERE"));
-            var authentication = new UsernamePasswordAuthenticationToken(publicador, null, authorities);
+            var authentication = new UsernamePasswordAuthenticationToken(publicador, null,  Collections.emptyList());
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }catch (Exception e){
             throw new RuntimeException("Erro ao montar securityContext da requisição");
