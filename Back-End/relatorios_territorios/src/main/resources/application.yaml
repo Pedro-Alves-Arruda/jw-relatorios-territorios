@@ -4,11 +4,11 @@ spring:
     properties:
       security.protocol: SSL
 
-      ssl.truststore.location: C:/jw-relatorios-territorios/Back-End/relatorios_territorios/certs-localhost/client.truststore.p12
+      ssl.truststore.location: ${LOCATION}/client.truststore.p12
       ssl.truststore.password: changeit
       ssl.truststore.type: PKCS12
 
-      ssl.keystore.location: C:/jw-relatorios-territorios/Back-End/relatorios_territorios/certs-localhost/client.keystore.p12
+      ssl.keystore.location: ${LOCATION}/client.keystore.p12
       ssl.keystore.password: changeit
       ssl.key.password: changeit
       ssl.keystore.type: PKCS12

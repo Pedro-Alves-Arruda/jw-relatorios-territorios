@@ -5,8 +5,8 @@ PASSWORD=changeit
 DAYS=365
 
 # Diretório de saída
-mkdir -p certs-localhost
-cd certs-localhost
+mkdir -p certs-localhost-teste
+cd certs-localhost-teste
 
 echo "[1/9] Criando CA..."
 openssl req -new -x509 -keyout ca.key -out ca.crt -days $DAYS -nodes \
