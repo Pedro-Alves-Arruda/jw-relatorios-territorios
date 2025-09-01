@@ -17,4 +17,7 @@ public class KafkaConfig {
     //Revisita
     public NewTopic revisitaSalvar() { return TopicBuilder.name("revisita-salvar").build(); }
     public NewTopic revisitaAtualizar() { return TopicBuilder.name("revisita-atualizar").build(); }
+
+    //Relatorio
+    public NewTopic relatorioSalvar(){ return TopicBuilder.name("relatorio-salvar").build(); }
  }

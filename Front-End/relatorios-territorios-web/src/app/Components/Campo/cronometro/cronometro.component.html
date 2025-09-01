@@ -1,0 +1,33 @@
+
+<div class="container">
+    <div class="col-md-12 title" style="text-align: center;">
+        <h2 style="font-weight: 700; margin-top: 10px;">Cronômetro de Relatório</h2>
+    </div>
+    <hr>
+    <div class="cronometro" style="text-align: center;">
+        <h1 style="color: white;">{{ formatarTempo() }}</h1>
+        <button class="btn btn-primary mr-2" (click)="iniciar()" [disabled]="rodando">Iniciar</button>
+        <button class="btn btn-primary mr-2" (click)="pausar()" [disabled]="!rodando">Pausar</button>
+        <button class="btn btn-primary" (click)="resetar()">Resetar</button>
+    </div>
+    <hr>
+    <div class="col-md-12 inputs">
+        <label for="publicacao" class="mr-2" >Publicação:</label>
+        <select id="publicacao" class="form-control col-md-6" [(ngModel)]="publicacaoSelecionada">
+            <option value="">Selecione uma publicação</option>
+            <option *ngFor="let pub of publicacoes" [value]="pub">{{ pub }}</option>
+        </select>
+        <button class="btn btn-primary mr-2 ml-2" (click)="adicionar()" [disabled]="rodando">Adicionar</button>
+    </div>
+    <hr>
+    <div class="col-md-12 sub-title">
+        <h6 style="font-weight: 100; margin-top: 2px;">Descrição</h6>
+    </div>
+    <div class="col-md-12" style="display: flex; justify-content: flex-start; align-items: flex-start; height: 25%;">
+        <textarea style="height: 100%;" name="descricao" id="descricao" class="form-control col-md-12" [(ngModel)]="revisita.descricao"></textarea>
+    </div>
+    <div class="col-md-12" style="display: flex; justify-content: center; align-items: center; margin-top: 20px;">
+        <button class="col-md-6 btn btn-primary" type="button" (click)="salvar()">Adicionar Relatório</button>
+    </div>
+</div>
+ 

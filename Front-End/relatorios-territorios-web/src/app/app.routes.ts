@@ -6,6 +6,7 @@ import { RevisitaCadastroComponent } from './Components/Revisitas/revisita-cadas
 import { LoginComponent } from './Components/Login/login/login.component';
 import { RevisitasListarComponent } from './Components/Revisitas/revisitas-listar/revisitas-listar.component';
 import { CanGuard } from './CanGuard';
+import { CronometroComponent } from './Components/Campo/cronometro/cronometro.component';
 
 export const routes: Routes = [
     {
@@ -24,6 +25,9 @@ export const routes: Routes = [
             },
             {
                 path: 'revisita-listar', component: RevisitasListarComponent, canActivate: [CanGuard]
+            },
+            {
+                path: 'campo/cronometro', component: CronometroComponent, canActivate: [CanGuard]
             }
         ]
     }

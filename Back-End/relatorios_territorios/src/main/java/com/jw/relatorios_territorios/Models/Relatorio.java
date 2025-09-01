@@ -21,9 +21,9 @@ public class Relatorio {
     private String horas;
     private String nome;
     private String publicacoes;
-    private String revisitas;
-    private String estudos;
-    private String grupoCampo;
+    private Integer revisitas;
+    private Integer estudos;
+    private UUID grupoCampo;
     private UUID idPublicador;
 
     public UUID getIdPublicador() {
@@ -66,27 +66,27 @@ public class Relatorio {
         this.publicacoes = publicacoes;
     }
 
-    public String getRevisitas() {
+    public Integer getRevisitas() {
         return revisitas;
     }
 
-    public void setRevisitas(String revisitas) {
+    public void setRevisitas(Integer revisitas) {
         this.revisitas = revisitas;
     }
 
-    public String getEstudos() {
+    public Integer getEstudos() {
         return estudos;
     }
 
-    public void setEstudos(String estudos) {
+    public void setEstudos(Integer estudos) {
         this.estudos = estudos;
     }
 
-    public String getGrupoCampo() {
+    public UUID getGrupoCampo() {
         return grupoCampo;
     }
 
-    public void setGrupoCampo(String grupoCampo) {
+    public void setGrupoCampo(UUID grupoCampo) {
         this.grupoCampo = grupoCampo;
     }
 }
