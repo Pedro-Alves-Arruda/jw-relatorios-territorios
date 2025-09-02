@@ -1,4 +1,4 @@
-@media (max-width: 650px) {
+@media (max-width: 914px) {
     .container{
         margin-top: 3rem;
         background-color: black;
@@ -13,10 +13,43 @@
         height: 131vh;
         background-color: black;
     }
+
+    .inputs{
+        width: 94vw;
+    }
+
+    .btn{
+        background-color: grey;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        border: solid 2px var(--color-principal);
+        color: white;
+        display: flex; 
+        justify-content: center; 
+        align-items: center;
+        width: 88vw;
+    }
+    
+    .title{
+        color: rgb(205, 131, 246);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem;
+        width: 89vw;
+    }
+
+    .title-h2{
+        margin-left: 0.5rem;
+    }
+
+    .label-senha{
+        width: 11vw;
+    }
 }
 
 
-@media (min-width: 650px){
+@media (min-width: 914px){
     
     .container{
         margin-top: 3rem;
@@ -25,28 +58,38 @@
         width: 40%;
         height: 89vh;
     }
+    .btn{
+        background-color: grey;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        margin-left: 5rem;
+        border: solid 2px var(--color-principal);
+        color: white;
+        display: flex; 
+        justify-content: center; 
+        align-items: center;
+    }
+
+    .title{
+        color: rgb(205, 131, 246);
+        display: flex; 
+        justify-content: center; 
+        align-items: center;
+        padding: 1rem;
+    }
+
+     .title-h2{
+        margin-left: 0.5rem;
+    }
+
+     .label-senha{
+        width: 3vw;
+    }
 }
 
 .inputs{
     display: flex;
     padding: 5px;
-}
-
-
-.title{
-    color: rgb(205, 131, 246);
-    display: flex; 
-    justify-content: flex-start; 
-    align-items: center;
-    padding: 1rem;
-}
-
-.btn{
-    background-color: grey;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    border: solid 2px var(--color-principal);
-    color: white;
 }
 
 .btn:hover{

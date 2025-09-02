@@ -1,20 +1,28 @@
 :root{
     --color-principal: rgba(105, 36, 124, 0.735);
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+html, body { 
+    height: 100%;     
+}
+
+body { 
+    margin: 0; 
+    font-family: Roboto, "Helvetica Neue", sans-serif; 
+}
 
 
-@media (max-width: 650px) {
-   body {
+@media (max-width: 914px) {
+   .main {
         background-color: black;
-        width: 128%;height: 126%;
+        width: 128%;
+        height: 126%;
    }
 }
 
 
-@media (min-width: 650px){
-    body {
+@media (min-width: 914px){
+    .main {
         background-color: black;
    }
 }

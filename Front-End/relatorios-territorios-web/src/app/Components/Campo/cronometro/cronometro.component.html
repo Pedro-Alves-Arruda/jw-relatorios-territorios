@@ -5,19 +5,20 @@
     </div>
     <hr>
     <div class="cronometro" style="text-align: center;">
-        <h1 style="color: white;">{{ formatarTempo() }}</h1>
-        <button class="btn btn-primary mr-2" (click)="iniciar()" [disabled]="rodando">Iniciar</button>
-        <button class="btn btn-primary mr-2" (click)="pausar()" [disabled]="!rodando">Pausar</button>
-        <button class="btn btn-primary" (click)="resetar()">Resetar</button>
+        <h1 style="color: white;">{{ tempoFinal }}</h1>
+        <div class="col-md-12">
+            <button class="btn btn mr-2" (click)="iniciar()" [disabled]="rodando">Iniciar</button>
+            <button class="btn btn mr-2" (click)="pausar()" [disabled]="!rodando">Pausar</button>
+            <button class="btn btn mr-2" (click)="resetar()">Resetar</button>
+            <button class="btn btn" data-toggle="modal" data-target="#modalAdicionarManualmete">Adicionar Manualmente</button>
+        </div>
     </div>
     <hr>
+    <label for="publicacao" class="mr-2" style="display: flex; justify-content: center; align-items: center;">Ferramenta kit de Ensino:</label>
     <div class="col-md-12 inputs">
-        <label for="publicacao" class="mr-2" >Publicação:</label>
-        <select id="publicacao" class="form-control col-md-6" [(ngModel)]="publicacaoSelecionada">
-            <option value="">Selecione uma publicação</option>
-            <option *ngFor="let pub of publicacoes" [value]="pub">{{ pub }}</option>
+        <select #publicacao multiple="multiple" class="publicacao" class="form-control col-md-10" [(ngModel)]="listPublicacoesDeixadas">
+            <option *ngFor="let pub of publicacoes" [value]="pub" >{{ pub }}</option>
         </select>
-        <button class="btn btn-primary mr-2 ml-2" (click)="adicionar()" [disabled]="rodando">Adicionar</button>
     </div>
     <hr>
     <div class="col-md-12 sub-title">
@@ -30,4 +31,33 @@
         <button class="col-md-6 btn btn-primary" type="button" (click)="salvar()">Adicionar Relatório</button>
     </div>
 </div>
- 
+
+
+
+
+ <div class="modal" tabindex="-1" role="dialog" id="modalAdicionarManualmete">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12">
+                    <label for="horas">Horas:</label>
+                    <input type="number" class="form-control inputs" [(ngModel)]="hora">
+                </div>
+                <hr>
+                <div class="col-md-12">
+                    <label for="minutos">Minutos</label>
+                    <input type="number" class="form-control inputs" [(ngModel)]="minuto">
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="editarTempo(hora+':'+minuto)">Salvar</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            </div>
+          </div>
+        </div>
+    </div>

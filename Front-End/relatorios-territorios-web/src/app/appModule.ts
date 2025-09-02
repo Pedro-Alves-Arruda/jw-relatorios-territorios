@@ -5,8 +5,9 @@ import { authInterceptorInterceptor } from "./interceptor/auth-interceptor.inter
 
 
 
+
 @NgModule({
-    imports: [ FormsModule],
+    imports: [FormsModule],
     exports: [],
     providers:[
         provideHttpClient(withInterceptors([authInterceptorInterceptor])),
