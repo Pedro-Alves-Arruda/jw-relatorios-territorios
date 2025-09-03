@@ -14,4 +14,12 @@ export class LoginServicesService {
     return this.http.post(Enviroments.url+"/login", usurio)
   }
 
+  solicitarLinkRedefinicaoSenha(email:any):Observable<any>{
+    return this.http.get(Enviroments.url+"/login/solicitar-link-redefinicao-senha/"+email)
+  }
+
+  salvarSenhaNova(senhaNova:any):Observable<any>{
+    return this.http.post(Enviroments.url+"/login/redefinir-senha",senhaNova);
+  }
+
 }

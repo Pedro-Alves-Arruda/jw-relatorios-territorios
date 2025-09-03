@@ -7,10 +7,14 @@ import { LoginComponent } from './Components/Login/login/login.component';
 import { RevisitasListarComponent } from './Components/Revisitas/revisitas-listar/revisitas-listar.component';
 import { CanGuard } from './CanGuard';
 import { CronometroComponent } from './Components/Campo/cronometro/cronometro.component';
+import { FormularioRedefinicaoSenhaComponent } from './Components/Formularios/RedefinicaoSenha/formulario-redefinicao-senha/formulario-redefinicao-senha.component';
 
 export const routes: Routes = [
     {
         path:'login', component: LoginComponent
+    },
+    {
+        path: 'formulario-redefinicao-senha', component: FormularioRedefinicaoSenhaComponent
     },
     {
         path:'', component: MenuComponent, children: [
@@ -30,5 +34,5 @@ export const routes: Routes = [
                 path: 'campo/cronometro', component: CronometroComponent, canActivate: [CanGuard]
             }
         ]
-    }
+    },
 ];

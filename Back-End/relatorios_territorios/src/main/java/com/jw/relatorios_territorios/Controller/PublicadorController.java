@@ -27,7 +27,7 @@ public class PublicadorController {
     @PostMapping("/salvar")
     public HttpStatus salvar(@RequestBody PublicadorDTO publicadorDTO){
         producers.enviarMensagemSalvar(publicadorDTO);
-        return HttpStatus.OK;
+        return HttpStatus.CREATED;
     }
 
     @GetMapping("/listar")

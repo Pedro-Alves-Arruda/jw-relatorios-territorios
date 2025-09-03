@@ -5,8 +5,8 @@ PASSWORD=changeit
 DAYS=365
 
 # Diretório de saída
-mkdir -p certs-localhost-teste
-cd certs-localhost-teste
+mkdir -p certs-localhost
+cd certs-localhost
 
 echo "[1/9] Criando CA..."
 openssl req -new -x509 -keyout ca.key -out ca.crt -days $DAYS -nodes \
@@ -25,6 +25,8 @@ subjectAltName = @alt_names
 
 [alt_names]
 DNS.1 = localhost
+DNS.2 = kafka
+DNS.3 = kafka-2
 IP.1 = 127.0.0.1
 EOF
 
@@ -107,6 +109,10 @@ keytool -import -alias CARoot -file ca.crt -keystore client.truststore.jks \
 
 keytool -import -alias CARoot -file ca.crt -keystore client.truststore.p12 \
   -storetype PKCS12 -storepass $PASSWORD -noprompt
+
+echo "Importando meus subjects names para kafka-server para que ele reconheça eles"
+openssl x509 -req -in Kafka-server.csr -CA ca.crt -CAkey ca.key -CAcreateserial \
+  -out kafka.crt -days 365 -extfile san.cnf -extensions v3_req
 
 echo "[9/9] Finalizado!"
 echo "✅ Foram gerados certificados em JKS e PKCS12 (p12) no diretório ./certs-localhost"

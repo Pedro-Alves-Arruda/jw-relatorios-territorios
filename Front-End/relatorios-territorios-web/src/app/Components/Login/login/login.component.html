@@ -1,4 +1,6 @@
 <div class="container">
+    
+    <div class="mensagem-sucesso" *ngIf="mensagemSucesso">Link redefinição de senha enviado com sucesso</div>
     <div class="col-md-12 title">
         <div>
             <img src="assets/imagens/logo_sistema.png" style="width: 50px; height: 50px;" alt="">
@@ -22,6 +24,8 @@
      <div class="col-md-12 ml-10">
         <button class="col-md-8 btn" type="submit" (click)="verificarLogin()">Login</button>
     </div>
+    <hr>
+    <p style="display: flex;justify-content: center;align-items: center;">Esqueceu sua senha? <a data-toggle="modal" href="" style="cursor:pointer; margin-left:0.5rem" data-target="#modalLinkRedefinicaoSenha"> clique aqui</a></p>
 </div>
 
 
@@ -52,7 +56,34 @@
             </div>
           </div>
         </div>
-    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" id="modalLinkRedefinicaoSenha">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12">
+                    <p>Digite no campo abaixo o E-mail para onde o link de redefinição de senha 
+                        deve ser enviado, após isso abra o E-mail e siga as instruções. Não se 
+                        esqueça de verificar a caixa de spam. E-mail deve conter no nosso sistema.
+                        Caso não contenha o e-mail não será enviado.</p>
+
+                    <label for="nome">E-mail:</label>
+                    <input type="text" name="email" id="" class="form-control inputs" [(ngModel)]="usuario.emailRedefinicao">
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="solicitarLinkRedefinicaoSenha()">Solicitar Link</button>
+              <button type="button" style="margin-left: 0rem;" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            </div>
+          </div>
+        </div>
+</div>
 
 
 <router-outlet></router-outlet>

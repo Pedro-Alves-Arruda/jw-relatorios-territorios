@@ -1,0 +1,35 @@
+<div class="pos-f-t">
+    <nav class="navbar navbar bg menu">
+        <div style="display: flex; align-items: center; justify-content: center; height: 122%;">
+            <a href="/"> <img src="assets/imagens/logo_sistema.png"></a>
+        </div>
+    </nav>
+</div>
+
+<div class="container">
+
+    <div class="col-md-12 title">
+        <h2>Redefinição de Senha</h2>
+    </div>
+
+    <div class="col-md-12">
+        <p>A nova senha deve conter as seguintes regras: <br>
+            <li>Mínimo de 4 caracteres <br> </li>
+            <li>No mínimo 1 letra maiúscula</li>
+            <li>No mínimo 1 letra numero</li>
+            <li>No mínimo 1 caracter especial ( ! # $ % ^ & * )</li>
+        </p>
+        <div class="col-md-12 inputs">
+            <label for="senha" style="color: white;">Digite a senha nova:</label>
+            <input type="password" class="col-md-12 form-control" name="senha" [(ngModel)]="senhasNovas.password" (ngModelChange)="validarSenhas()">
+        </div>
+        <hr style="color: white;">
+        <div class="col-md-12 inputs">
+            <label for="senha2" style="color: white;">Digite a senha novamente:</label>
+            <input type="password" class="col-md-12 form-control" name="senha2" [(ngModel)]="senhasNovas.senha2" (ngModelChange)="validarSenhas()">
+        </div>
+    </div>
+    <button class="btn col-md-4" [disabled]="buttonAbilitado" (click)="salvarSenhaNova()">Salvar</button>
+
+</div>
+

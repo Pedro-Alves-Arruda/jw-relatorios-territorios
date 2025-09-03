@@ -15,7 +15,6 @@ export class CanGuard implements CanActivate {
 		if (usuario && usuario.token && !this.authService.isTokenExpired(usuario.token)) {
 			return true;
 		} else {
-			// Redireciona para /login se não autenticado ou token inválido
 			return this.router.parseUrl('/login');
 		}
 	}

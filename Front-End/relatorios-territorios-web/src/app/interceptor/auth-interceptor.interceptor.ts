@@ -6,7 +6,7 @@ export const authInterceptorInterceptor: HttpInterceptorFn = (req, next) => {
   
   const user = new AuthService(new Router).getUsuarioLogado();
     
-    if (user.token) {
+    if (user.token || !req.url.includes("/login") || !req.url.includes("/formulario-redefinicao-senha")) {
         const cloned = req.clone({
             headers: req.headers.set("Authorization", "Bearer " + user.token)
         });

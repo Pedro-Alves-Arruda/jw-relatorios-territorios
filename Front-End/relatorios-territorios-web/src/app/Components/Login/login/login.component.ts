@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { Congregacao } from '../../../Models/Congregacao';
 import { LoginServicesService } from '../../../Services/Login/login-services.service';
 import { AuthService } from '../../../AuthService';
+import { Subscription, interval } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -17,12 +18,15 @@ import { AuthService } from '../../../AuthService';
 export class LoginComponent {
 
   constructor(private router:Router, private congregacaoService: ListarServiceService, private loginServices: LoginServicesService, private authService:AuthService){}
+  private subscription!: Subscription;
+  mensagemSucesso: boolean = false;
 
   usuario = {
     email:null,
     password: null,
     nome:null,
-    congregacao:null
+    congregacao:null,
+    emailRedefinicao: null
   }
 
   congregacoes:Array<Congregacao> = []
@@ -46,6 +50,29 @@ export class LoginComponent {
     this.congregacaoService.listar()
     .subscribe(res => {
       if(res != null)this.congregacoes = res
+    })
+  }
+
+  solicitarLinkRedefinicaoSenha(){
+    
+    this.usuario.email = this.usuario.emailRedefinicao;
+    this.authService.login(this.usuario);
+    this.usuario.email = null;
+
+    this.loginServices.solicitarLinkRedefinicaoSenha(this.usuario.emailRedefinicao)
+    .subscribe({
+      next: (res:any)=> {
+        if(res){
+          this.subscription = interval(10000).subscribe(() => {
+              this.mensagemSucesso = true;
+              this.subscription.unsubscribe();
+              this.mensagemSucesso = false;
+          });
+        }
+      },
+      error: (erro:any) =>{
+
+      }
     })
   }
 
