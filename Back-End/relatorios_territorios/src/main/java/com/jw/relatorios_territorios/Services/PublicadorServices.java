@@ -88,6 +88,9 @@ public class PublicadorServices {
         try {
             var publicador = publicadorRepository.findByEmail(email);
             if(publicador.isPresent()){
+                publicador.get().getCongregacao().setPublicadores(null);
+                publicador.get().getGrupoCampo().setPublicadores(null);
+                publicador.get().setServicoCampo(null);
                 return publicador.get();
             }
             throw new EntityNotFoundException("Nenhum usuario encontrado");

@@ -26,6 +26,7 @@ public class Publicador {
     private String email;
     private String telefone;
     private String password;
+    private String endereco;
 
     @ElementCollection
     private String[] roles;
@@ -114,4 +115,19 @@ public class Publicador {
         this.congregacao = congregacao;
     }
 
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
+    }
+
+    public List<ServicoCampo> getServicoCampo() {
+        return servicoCampo;
+    }
+
+    public void setServicoCampo(List<ServicoCampo> servicoCampo) {
+        this.servicoCampo = servicoCampo;
+    }
 }

@@ -10,7 +10,7 @@ export class ListarService {
 
   constructor(private client:HttpClient) { }
 
-  listar():Observable<any>{
-    return this.client.get(Enviroments.url+"/revisita/listar");
+  listar(email:any):Observable<any>{
+    return this.client.get(Enviroments.url+"/revisita/listar/"+email);
   }
 }

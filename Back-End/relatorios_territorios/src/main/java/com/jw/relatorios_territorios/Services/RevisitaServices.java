@@ -27,13 +27,7 @@ public class RevisitaServices {
     private RevisitaRepository repository;
 
     @Autowired
-    private TokenServices tokenServices;
-
-    @Autowired
     private PublicadorRepository publicadorRepository;
-
-    @Autowired
-    private HttpServletRequest request;
 
 
     public void salvar(RevisitaDTO revisitaDTO){
@@ -49,16 +43,17 @@ public class RevisitaServices {
         revisita.setRua(revisitaDTO.rua());
         revisita.setCreated_at(LocalDateTime.now());
         revisita.setNome(revisitaDTO.nome());
-        revisita.setIdPublicador(revisitaDTO.idPublicador());
+        Publicador publicador = this.publicadorRepository.findByEmail(revisitaDTO.email()).get();
+        revisita.setIdPublicador(publicador.getId());
 
         repository.save(revisita);
     }
 
     @Cacheable("listaRevisitas")
-    public List<Revisita> listar(){
+    public List<Revisita> listar(String email){
         try{
             //buscando id do usuario pelo token
-            UUID idPublicador = getIdPublicador();
+            UUID idPublicador = getIdPublicador(email);
             return repository.findAllById(idPublicador);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -67,27 +62,26 @@ public class RevisitaServices {
 
     public void atualizar(RevisitaDTO revisitaDTO){
         //Buscando objeto que deve ser atualizado
-        Optional<Revisita> usuarioDesejado =  repository.findById(revisitaDTO.id());
+        Optional<Revisita> revisitaDesejada =  repository.findById(revisitaDTO.id());
 
-        if(!usuarioDesejado.isPresent()){
+        if(!revisitaDesejada.isPresent()){
             throw new EntityNotFoundException("Usuario com id"+revisitaDTO.id()+" não encontrado");
         }
 
         //atualizando os campos não nulos
-        setIfNotNull(revisitaDTO.estado(), usuarioDesejado.get()::setEstado);
-        setIfNotNull(revisitaDTO.numero(), usuarioDesejado.get()::setNumero);
-        setIfNotNull(revisitaDTO.rua(), usuarioDesejado.get()::setRua);
-        setIfNotNull(revisitaDTO.nome(), usuarioDesejado.get()::setNome);
-        setIfNotNull(revisitaDTO.telefone(), usuarioDesejado.get()::setTelefone);
-        setIfNotNull(revisitaDTO.cidade(), usuarioDesejado.get()::setCidade);
-        setIfNotNull(revisitaDTO.bairro(), usuarioDesejado.get()::setBairro);
-        setIfNotNull(revisitaDTO.descricao(), usuarioDesejado.get()::setDescricao);
-        setIfNotNull(revisitaDTO.cep(), usuarioDesejado.get()::setCep);
-        usuarioDesejado.get().setCreated_at(LocalDateTime.now());
-
+        setIfNotNull(revisitaDTO.estado(), revisitaDesejada.get()::setEstado);
+        setIfNotNull(revisitaDTO.numero(), revisitaDesejada.get()::setNumero);
+        setIfNotNull(revisitaDTO.rua(), revisitaDesejada.get()::setRua);
+        setIfNotNull(revisitaDTO.nome(), revisitaDesejada.get()::setNome);
+        setIfNotNull(revisitaDTO.telefone(), revisitaDesejada.get()::setTelefone);
+        setIfNotNull(revisitaDTO.cidade(), revisitaDesejada.get()::setCidade);
+        setIfNotNull(revisitaDTO.bairro(), revisitaDesejada.get()::setBairro);
+        setIfNotNull(revisitaDTO.descricao(), revisitaDesejada.get()::setDescricao);
+        setIfNotNull(revisitaDTO.cep(), revisitaDesejada.get()::setCep);
+        revisitaDesejada.get().setCreated_at(LocalDateTime.now());
 
         //atualizando usuario
-        repository.save(usuarioDesejado.get());
+        repository.save(revisitaDesejada.get());
 
     }
 
@@ -95,10 +89,7 @@ public class RevisitaServices {
         if (value != null) setter.accept(value);
     }
 
-    private UUID getIdPublicador(){
-
-        String email = this.tokenServices.tokenToEmail();
-
+    private UUID getIdPublicador(String email){
         if(email == null){
             throw new MissingCsrfTokenException("Token invalido ou inexistente");
         }

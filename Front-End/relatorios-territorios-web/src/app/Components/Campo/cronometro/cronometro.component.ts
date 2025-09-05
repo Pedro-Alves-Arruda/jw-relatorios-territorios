@@ -4,6 +4,7 @@ import { interval, Subscription } from 'rxjs';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ServicoCampoService } from '../../../Services/Campo/servico-campo.service';
 import { AuthService } from '../../../AuthService';
+import * as jwt from 'jwt-decode';
 declare var $: any;
 
 
@@ -89,18 +90,22 @@ export class CronometroComponent {
   }
 
   salvar() {
-    this.servicoCampo.tempo = this.tempoFinal;
-    this.servicoCampo['publicacoesDeixadas'] =  this.publicacaoControl.value;
-    this.servicoCampo['email'] = this.publicadorLogado.email;
-    this.servicesCampo.salvarServicoCampo(this.servicoCampo)
-      .subscribe({
-        next: (sucess) =>{
-
-        },
-        error: (error) => {
-
-        }
-      }) 
+    if(this.tempoFinal != "00:00:00"){
+      this.servicoCampo.tempo = this.tempoFinal;
+      this.servicoCampo['publicacoesDeixadas'] =  this.publicacaoControl.value;
+      this.servicoCampo['email'] = jwt.jwtDecode(this.publicadorLogado.token).sub;
+      this.servicesCampo.salvarServicoCampo(this.servicoCampo)
+        .subscribe({
+          next: (sucess) =>{
+  
+          },
+          error: (error) => {
+  
+          }
+        }) 
+    }else{
+      alert("Por favor, inicie o cronômetro ou edite o tempo antes de salvar.")
+    }
   }
 
   adicionar(value:any){

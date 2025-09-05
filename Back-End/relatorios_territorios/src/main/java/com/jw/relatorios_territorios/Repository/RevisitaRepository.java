@@ -16,7 +16,7 @@ public interface RevisitaRepository extends JpaRepository<Revisita, UUID> {
     @Query(value = "select * from revisita where id = :id", nativeQuery = true)
     List<Revisita> findAll(@Param("id") UUID id);
 
-    @Query(value = "select rv.* from revisita as rv join Publicador as pb on rv.id_publicador = pb.id where rv.id_publicador = :id", nativeQuery = true)
+    @Query(value = "select rv.* from revisita as rv join Publicador as pb on rv.id_publicador = pb.id where rv.id_publicador = :id order by rv.id desc", nativeQuery = true)
     List<Revisita> findAllById(@Param("id") UUID id);
 
     @Query(value = "select count(*) from revisita where id_publicador = :id", nativeQuery = true)

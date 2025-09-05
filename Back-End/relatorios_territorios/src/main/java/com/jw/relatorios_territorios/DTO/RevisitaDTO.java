@@ -13,5 +13,5 @@ public record RevisitaDTO(
          String descricao,
          String telefone,
          String nome,
-         UUID idPublicador) {
+         String email) {
 }

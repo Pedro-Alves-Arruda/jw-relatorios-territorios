@@ -1,0 +1,41 @@
+<div class="container">
+    <h2 class="title"> Dados Pessoais</h2>
+    <hr>
+    <div class="col-md-12">
+        <div class="col-md-12">
+            <label for="name">Nome:</label>
+            <input type="text" class="inputs col-md-12 form-control" [(ngModel)]="publicador.nome">
+            <label for="email">Email:</label>
+            <input type="text" class="inputs col-md-12 form-control" [(ngModel)]="publicador.email">
+        </div>
+        <div class="col-md-12">
+            <label for="cpf">CPF:</label>
+            <input type="text" class="inputs col-md-12 form-control" [(ngModel)]="publicador.cpf">
+            <label for="telefone">Telefone:</label>
+            <input type="text" class="inputs col-md-12 form-ccontrol" [(ngModel)]="publicador.telefone">
+        </div>
+    </div>
+    <hr>
+    <div class="col-md-12">
+        <div class="col-md-12">
+            <label for="endereco">Endereço:</label>
+            <input type="text" class="inputs col-md-12 form-control"  [(ngModel)]="publicador.endereco">
+        </div>
+    </div>
+    <hr>
+    <h2 class="title">Grupo de Campo</h2>
+    <div class="col-md-12">
+        <label for="nomeGrupoCampo">Nome:</label>
+        <input type="text" class="inputs col-md-12 form-control" [(ngModel)]="publicador.grupoCampo.nome">
+        <label for="endereco">Endereço:</label>
+        <input type="text" class="inputs col-md-12 form-control" [(ngModel)]="publicador.grupoCampo.endereco">
+    </div>
+    <hr>
+    <h2 class="title">Congregação</h2>
+    <div class="col-md-12">
+        <label for="nameCongregacao">Nome:</label>
+        <input type="text" class="inputs col-md-12 form-control" [(ngModel)]="publicador.congregacao.nome">
+        <label for="endereco">Endereço:</label>
+        <input type="text" class="inputs col-md-12 form-control" [(ngModel)]="publicador.congregacao.endereco">
+    </div>
+</div>

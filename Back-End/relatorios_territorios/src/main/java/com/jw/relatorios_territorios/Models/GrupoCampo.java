@@ -20,6 +20,8 @@ public class GrupoCampo {
     private UUID id;
     private Integer idResponsavel;
     private Integer idAjudante;
+    private String nome;
+    private String endereco;
 
     @OneToMany(mappedBy = "grupoCampo", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
@@ -55,5 +57,21 @@ public class GrupoCampo {
 
     public void setPublicadores(List<Publicador> publicadores) {
         this.publicadores = publicadores;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
     }
 }

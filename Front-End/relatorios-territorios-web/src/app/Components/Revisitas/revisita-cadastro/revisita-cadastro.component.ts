@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { CadastroService } from '../../../Services/Revisita/cadastro.service';
+import * as jwt from 'jwt-decode';
+import { AuthService } from '../../../AuthService';
 
 @Component({
   selector: 'app-revisita-cadastro',
@@ -11,9 +13,9 @@ import { CadastroService } from '../../../Services/Revisita/cadastro.service';
 })
 export class RevisitaCadastroComponent {
 
-  constructor(private cadastroService: CadastroService){}
+  constructor(private cadastroService: CadastroService, private authService:AuthService, private route:Router){}
 
-  revisita = {
+  revisita:any = {
     rua:null,
     bairro: null,
     numero: null,
@@ -22,13 +24,15 @@ export class RevisitaCadastroComponent {
     cep:null,
     descricao: null,
     nome:null,
-    telefone:null
+    telefone:null,
   }
 
   salvar(){
+    this.revisita['email'] = jwt.jwtDecode(this.authService.getUsuarioLogado().token).sub;
     this.cadastroService.salvar(this.revisita)
       .subscribe(res => {
-        
+        console.log(res)
+        this.route.navigate(['/revisita-listar'])
       })
   }
 

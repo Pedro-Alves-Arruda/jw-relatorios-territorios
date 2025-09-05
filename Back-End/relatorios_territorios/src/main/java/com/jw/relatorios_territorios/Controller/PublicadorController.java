@@ -35,9 +35,12 @@ public class PublicadorController {
         return ResponseEntity.ok().body(publicadorServices.listar());
     }
 
-    @GetMapping("/{id}")
-    public Publicador findById(@PathVariable UUID id){
-        return publicadorServices.findById(id);
+    @GetMapping("/{email}")
+    public ResponseEntity<Publicador> findByEmail(@PathVariable String email){
+        Publicador publicador = publicadorServices.findByEmail(email);
+        publicador.setPassword(null);
+        return ResponseEntity.ok().body(publicador);
     }
+
 
 }

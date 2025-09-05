@@ -8,6 +8,8 @@ import { ListarService } from '../../../Services/Revisita/listar.service';
 import { MatIconModule } from '@angular/material/icon';
 import $ from 'jquery';
 import { AtualizarService } from '../../../Services/Revisita/atualizar.service';
+import { AuthService } from '../../../AuthService';
+import * as jwt from 'jwt-decode';
 
 @Component({
   selector: 'app-revisitas-listar',
@@ -17,7 +19,7 @@ import { AtualizarService } from '../../../Services/Revisita/atualizar.service';
 })
 export class RevisitasListarComponent {
 
-  constructor(private listarServices:ListarService, private atualizarServices:AtualizarService){}
+  constructor(private authService: AuthService, private listarServices:ListarService, private atualizarServices:AtualizarService){}
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
     
@@ -75,7 +77,8 @@ export class RevisitasListarComponent {
   }
 
   listar(){
-    this.listarServices.listar()
+    let email = jwt.jwtDecode(this.authService.getUsuarioLogado().token).sub
+    this.listarServices.listar(email)
       .subscribe(res=>{
         this.dataSource.data = res
       })

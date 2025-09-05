@@ -8,6 +8,7 @@ import { RevisitasListarComponent } from './Components/Revisitas/revisitas-lista
 import { CanGuard } from './CanGuard';
 import { CronometroComponent } from './Components/Campo/cronometro/cronometro.component';
 import { FormularioRedefinicaoSenhaComponent } from './Components/Formularios/RedefinicaoSenha/formulario-redefinicao-senha/formulario-redefinicao-senha.component';
+import { PerfilComponent } from './Components/Perfil/perfil/perfil.component';
 
 export const routes: Routes = [
     {
@@ -18,6 +19,9 @@ export const routes: Routes = [
     },
     {
         path:'', component: MenuComponent, children: [
+            {
+                path: 'perfil', component: PerfilComponent
+            },
             {
                path: 'publicador-cadastro',  component: PublicadorCadastroComponent, canActivate: [CanGuard]
             },
