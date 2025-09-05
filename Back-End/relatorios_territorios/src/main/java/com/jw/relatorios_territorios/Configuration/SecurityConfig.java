@@ -24,13 +24,13 @@ import java.util.List;
 @EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true)
 public class SecurityConfig {
 
-    private static String[] rotas = {"/publicador/**", "congregacao/**", "/login/**", "/revisita/**"};
+    private static String[] rotas = {"/publicador/**", "congregacao/**", "/login/**", "/revisita/**", "/campo/**"};
 
     @Autowired
     private SecurityFilter securityFilter_;
 
     @Bean
-    public SecurityFilterChain seecurityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.cors(corsConfigurationSource())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests( authorize -> {

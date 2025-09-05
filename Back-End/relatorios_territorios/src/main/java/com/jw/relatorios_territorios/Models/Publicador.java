@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import net.minidev.json.annotate.JsonIgnore;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -37,6 +38,9 @@ public class Publicador {
     @ManyToOne
     @JoinColumn(name = "congregacao_id", nullable = false)
     private Congregacao congregacao;
+
+    @OneToMany(mappedBy = "publicador", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ServicoCampo> servicoCampo;
 
     public String getPassword() {
         return password;
@@ -109,4 +113,5 @@ public class Publicador {
     public void setCongregacao(Congregacao congregacao) {
         this.congregacao = congregacao;
     }
+
 }

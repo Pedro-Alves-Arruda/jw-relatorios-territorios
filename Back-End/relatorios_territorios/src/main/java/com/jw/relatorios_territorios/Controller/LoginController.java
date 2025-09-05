@@ -26,6 +26,7 @@ public class LoginController {
     @PostMapping
     public ResponseEntity<Token> login(@RequestBody PublicadorDTO publicadorDTO){
         Token token = new Token();
+        token.setEmail(publicadorDTO.email());
         token.setToken(loginServices.verificarLogin(publicadorDTO));
         return ResponseEntity.ok().body(token);
     }

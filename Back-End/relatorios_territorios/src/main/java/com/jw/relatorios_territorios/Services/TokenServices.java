@@ -5,6 +5,8 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.jw.relatorios_territorios.Models.Publicador;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,9 @@ public class TokenServices {
 
     @Value("${TOKEN_SECRET}")
     private String secret;
+
+    @Autowired
+    private HttpServletRequest request;
 
     public String generateToken(Publicador publicador){
 
@@ -45,5 +50,12 @@ public class TokenServices {
         }catch (JWTCreationException ex){
             throw new RuntimeException(ex.getMessage());
         }
+    }
+
+    public String tokenToEmail(){
+        String token = this.request.getHeader("Autorization");
+        token = token.replace("Bearer", "");
+        return this.recoverToken(token);
+
     }
 }

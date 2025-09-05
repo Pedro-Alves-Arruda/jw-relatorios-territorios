@@ -6,6 +6,7 @@ import org.apache.kafka.common.*;
 import org.apache.kafka.common.acl.AclBinding;
 import org.apache.kafka.common.acl.AclBindingFilter;
 import org.apache.kafka.common.config.ConfigResource;
+import org.apache.kafka.common.internals.Topic;
 import org.apache.kafka.common.quota.ClientQuotaAlteration;
 import org.apache.kafka.common.quota.ClientQuotaFilter;
 import org.springframework.context.annotation.Bean;
@@ -59,6 +60,8 @@ public class KafkaConfig {
             .replicas(2)
             .build(); }
 
+
+    //Bean para capturar as mensagens do topico kafka e apagar ela caso seja necessario
     @Bean
     public AdminClient adminClient(){
         return new AdminClient() {
@@ -312,5 +315,16 @@ public class KafkaConfig {
                 return Map.of();
             }
         };
+    }
+
+
+    //campo
+    @Bean
+    public NewTopic servicoCampo(){
+        return TopicBuilder
+                .name("servico-campo")
+                .replicas(2)
+                .partitions(1)
+                .build();
     }
  }

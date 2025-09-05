@@ -96,8 +96,8 @@ public class RevisitaServices {
     }
 
     private UUID getIdPublicador(){
-        String token = getToken();
-        String email = tokenServices.recoverToken(token);
+
+        String email = this.tokenServices.tokenToEmail();
 
         if(email == null){
             throw new MissingCsrfTokenException("Token invalido ou inexistente");
@@ -111,11 +111,4 @@ public class RevisitaServices {
         }
         return publicadorDesejado.getId();
     }
-
-    private String getToken(){
-        var authHeader = this.request.getHeader("Authorization");
-        if(authHeader == null) return null;
-        return authHeader.replace("Bearer ", "");
-    }
-
 }

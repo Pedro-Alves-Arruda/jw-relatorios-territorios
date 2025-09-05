@@ -16,8 +16,8 @@
     <hr>
     <label for="publicacao" class="mr-2" style="display: flex; justify-content: center; align-items: center;">Ferramenta kit de Ensino:</label>
     <div class="col-md-12 inputs">
-        <select #publicacao multiple="multiple" class="publicacao" class="form-control col-md-10" [(ngModel)]="listPublicacoesDeixadas">
-            <option *ngFor="let pub of publicacoes" [value]="pub" >{{ pub }}</option>
+        <select #publicacao name="listPublicacoesDeixadas" multiple="multiple" class="form-control col-md-10" [formControl]="publicacaoControl">
+            <option *ngFor="let pub of publicacoes" [ngValue]="pub">{{ pub }}</option>
         </select>
     </div>
     <hr>
@@ -25,7 +25,7 @@
         <h6 style="font-weight: 100; margin-top: 2px;">Descrição</h6>
     </div>
     <div class="col-md-12" style="display: flex; justify-content: flex-start; align-items: flex-start; height: 25%;">
-        <textarea style="height: 100%;" name="descricao" id="descricao" class="form-control col-md-12" [(ngModel)]="revisita.descricao"></textarea>
+        <textarea style="height: 100%;" name="descricao" id="descricao" class="form-control col-md-12" [(ngModel)]="servicoCampo.descricao"></textarea>
     </div>
     <div class="col-md-12" style="display: flex; justify-content: center; align-items: center; margin-top: 20px;">
         <button class="col-md-6 btn btn-primary" type="button" (click)="salvar()">Adicionar Relatório</button>

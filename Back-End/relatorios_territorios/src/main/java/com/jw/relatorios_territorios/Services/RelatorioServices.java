@@ -57,9 +57,7 @@ public class RelatorioServices {
     }
 
     private Publicador getPublicador(){
-        var token = this.request.getHeader("token");
-        token = token.replace("Bearer", "");
-        var email = this.tokenServices.recoverToken(token);
+        String email = this.tokenServices.tokenToEmail();
         try{
             return this.publicadorRepository.findByEmail(email).get();
         }catch (EntityNotFoundException e){
