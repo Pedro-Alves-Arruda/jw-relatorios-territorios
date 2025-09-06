@@ -33,7 +33,6 @@ public class Publicador {
 
     @ManyToOne
     @JoinColumn(name = "grupo_campo_id", nullable = false)
-    @JsonBackReference
     private GrupoCampo grupoCampo;
 
     @ManyToOne

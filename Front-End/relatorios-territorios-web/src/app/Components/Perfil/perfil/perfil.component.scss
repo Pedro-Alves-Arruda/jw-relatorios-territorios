@@ -48,3 +48,24 @@
     border: solid 2px black;
     color: black;
 }
+
+mat-icon{
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1.5px;
+    cursor: pointer;
+}
+
+hr{
+    color: white;
+    width: 28rem;
+    margin-right: 1rem;
+    border: solid 1px white;
+    opacity: initial;
+}
+
+#checkDadosPessoais,#checkGrupoCampo,#checkCongregacao{
+    display:none;
+}

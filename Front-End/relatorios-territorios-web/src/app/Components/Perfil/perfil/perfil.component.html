@@ -1,41 +1,52 @@
 <div class="container">
+    <div class="col-md-12" style="display: flex;margin-top: 2rem;">
+        <hr>
+        <mat-icon id="editDadosPessoais" (click)="habilitaEdicaoDadosPessoais()">edit</mat-icon>
+        <mat-icon id="checkDadosPessoais" (click)="atualizarDadosPessoais()">check</mat-icon>
+    </div>
     <h2 class="title"> Dados Pessoais</h2>
-    <hr>
     <div class="col-md-12">
         <div class="col-md-12">
             <label for="name">Nome:</label>
-            <input type="text" class="inputs col-md-12 form-control" [(ngModel)]="publicador.nome">
+            <input [disabled]="booleanDadosPessoais" type="text" class="inputs col-md-12 form-control" [(ngModel)]="publicador.nome">
             <label for="email">Email:</label>
-            <input type="text" class="inputs col-md-12 form-control" [(ngModel)]="publicador.email">
+            <input [disabled]="booleanDadosPessoais" type="text" class="inputs col-md-12 form-control" [(ngModel)]="publicador.email">
         </div>
         <div class="col-md-12">
             <label for="cpf">CPF:</label>
-            <input type="text" class="inputs col-md-12 form-control" [(ngModel)]="publicador.cpf">
+            <input [disabled]="booleanDadosPessoais" type="text" class="inputs col-md-12 form-control" [(ngModel)]="publicador.cpf">
             <label for="telefone">Telefone:</label>
-            <input type="text" class="inputs col-md-12 form-ccontrol" [(ngModel)]="publicador.telefone">
+            <input [disabled]="booleanDadosPessoais" type="text" class="inputs col-md-12 form-ccontrol" [(ngModel)]="publicador.telefone">
         </div>
     </div>
-    <hr>
     <div class="col-md-12">
         <div class="col-md-12">
             <label for="endereco">Endereço:</label>
-            <input type="text" class="inputs col-md-12 form-control"  [(ngModel)]="publicador.endereco">
+            <input [disabled]="booleanDadosPessoais" type="text" class="inputs col-md-12 form-control"  [(ngModel)]="publicador.endereco">
         </div>
     </div>
-    <hr>
+    <div class="col-md-12" style="display: flex;margin-top: 2rem;">
+        <hr>
+        <mat-icon id="editGrupoCampo" (click)="habilitaEdicaoGrupoCampo()">edit</mat-icon>
+        <mat-icon id="checkGrupoCampo" (click)="atualizarDadosPessoais()">check</mat-icon>
+    </div>
     <h2 class="title">Grupo de Campo</h2>
     <div class="col-md-12">
         <label for="nomeGrupoCampo">Nome:</label>
-        <input type="text" class="inputs col-md-12 form-control" [(ngModel)]="publicador.grupoCampo.nome">
+        <input [disabled]="booleanGrupoCampo" type="text" class="inputs col-md-12 form-control" [(ngModel)]="grupoCampo.nome">
         <label for="endereco">Endereço:</label>
-        <input type="text" class="inputs col-md-12 form-control" [(ngModel)]="publicador.grupoCampo.endereco">
+        <input [disabled]="booleanGrupoCampo" type="text" class="inputs col-md-12 form-control" [(ngModel)]="grupoCampo.endereco">
     </div>
-    <hr>
+    <div class="col-md-12" style="display: flex;margin-top: 2rem;">
+        <hr>
+        <mat-icon id="editCongregacao" (click)="habilitaEdicaoCongregacao()">edit</mat-icon>
+        <mat-icon id="checkCongregacao" (click)="atualizarDadosPessoais()">check</mat-icon>
+    </div>
     <h2 class="title">Congregação</h2>
     <div class="col-md-12">
         <label for="nameCongregacao">Nome:</label>
-        <input type="text" class="inputs col-md-12 form-control" [(ngModel)]="publicador.congregacao.nome">
+        <input [disabled]="booleanCongregacao" type="text" class="inputs col-md-12 form-control" [(ngModel)]="this.congregacao.nome">
         <label for="endereco">Endereço:</label>
-        <input type="text" class="inputs col-md-12 form-control" [(ngModel)]="publicador.congregacao.endereco">
+        <input [disabled]="booleanCongregacao" type="text" class="inputs col-md-12 form-control" [(ngModel)]="this.congregacao.endereco">
     </div>
 </div>

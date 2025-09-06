@@ -10,7 +10,11 @@ export class PerfilService {
 
   constructor(private client:HttpClient) { }
 
-  getPerfil(email:string):Observable<any>{
+  getPerfil(email:any):Observable<any>{
     return this.client.get(Enviroments.url+"/publicador/"+email);
+  }
+
+  atualizarPerfil(publicador:any):Observable<any>{
+    return this.client.put(Enviroments.url+"/publicador/"+publicador.email, publicador)
   }
 }

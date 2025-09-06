@@ -33,15 +33,10 @@ export class LoginComponent {
 
   verificarLogin(){
     this.loginServices.login(this.usuario)
-    .subscribe({
-      next : (res) => {
-        if(res.token != " " && res.token != null){
+    .subscribe(res =>{
+      if(res.token != " " && res.token != null){
         this.authService.login(res)
         this.router.navigate(['/'])
-        }
-      },
-      error : (err) => {
-
       }
     })
 

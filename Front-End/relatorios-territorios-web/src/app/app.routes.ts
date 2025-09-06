@@ -18,9 +18,9 @@ export const routes: Routes = [
         path: 'formulario-redefinicao-senha', component: FormularioRedefinicaoSenhaComponent
     },
     {
-        path:'', component: MenuComponent, children: [
+        path:'', component: MenuComponent, canActivate:[CanGuard] ,children: [
             {
-                path: 'perfil', component: PerfilComponent
+                path: 'perfil', component: PerfilComponent, canActivate: [CanGuard]
             },
             {
                path: 'publicador-cadastro',  component: PublicadorCadastroComponent, canActivate: [CanGuard]

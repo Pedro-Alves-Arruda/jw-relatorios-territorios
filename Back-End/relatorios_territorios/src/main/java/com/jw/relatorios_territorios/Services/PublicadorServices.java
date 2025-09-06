@@ -11,6 +11,7 @@ import com.jw.relatorios_territorios.Repository.PublicadorRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.hibernate.JDBCException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -84,6 +85,7 @@ public class PublicadorServices {
         }
     }
 
+    @Cacheable("usuario_por_email")
     public Publicador findByEmail(String email){
         try {
             var publicador = publicadorRepository.findByEmail(email);
