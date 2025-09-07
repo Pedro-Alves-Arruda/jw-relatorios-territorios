@@ -2,12 +2,7 @@ package com.jw.relatorios_territorios.Models;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import net.minidev.json.annotate.JsonIgnore;
-
 import java.util.List;
 import java.util.UUID;
 
@@ -18,8 +13,10 @@ public class GrupoCampo {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-    private Integer idResponsavel;
-    private Integer idAjudante;
+    @Column(name = "id_responsavel")
+    private UUID idResponsavel;
+    @Column(name = "id_ajudante")
+    private UUID idAjudante;
     private String nome;
     private String endereco;
 
@@ -33,22 +30,6 @@ public class GrupoCampo {
 
     public void setId(UUID id) {
         this.id = id;
-    }
-
-    public Integer getIdResponsavel() {
-        return idResponsavel;
-    }
-
-    public void setIdResponsavel(Integer idResponsavel) {
-        this.idResponsavel = idResponsavel;
-    }
-
-    public Integer getIdAjudante() {
-        return idAjudante;
-    }
-
-    public void setIdAjudante(Integer idAjudante) {
-        this.idAjudante = idAjudante;
     }
 
     public List<Publicador> getPublicadores() {
@@ -73,5 +54,21 @@ public class GrupoCampo {
 
     public void setEndereco(String endereco) {
         this.endereco = endereco;
+    }
+
+    public UUID getIdResponsavel() {
+        return idResponsavel;
+    }
+
+    public void setIdResponsavel(UUID idResponsavel) {
+        this.idResponsavel = idResponsavel;
+    }
+
+    public UUID getIdAjudante() {
+        return idAjudante;
+    }
+
+    public void setIdAjudante(UUID idAjudante) {
+        this.idAjudante = idAjudante;
     }
 }

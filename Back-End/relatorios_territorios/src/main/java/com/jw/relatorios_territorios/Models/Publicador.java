@@ -3,11 +3,9 @@ package com.jw.relatorios_territorios.Models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import net.minidev.json.annotate.JsonIgnore;
 
 import java.util.List;
@@ -27,6 +25,8 @@ public class Publicador {
     private String telefone;
     private String password;
     private String endereco;
+    @Column(nullable = true)
+    private boolean isPioneiro = false;
 
     @ElementCollection
     private String[] roles;
@@ -128,5 +128,13 @@ public class Publicador {
 
     public void setServicoCampo(List<ServicoCampo> servicoCampo) {
         this.servicoCampo = servicoCampo;
+    }
+
+    public boolean isPioneiro() {
+        return isPioneiro;
+    }
+
+    public void setPioneiro(boolean pioneiro) {
+        isPioneiro = pioneiro;
     }
 }

@@ -12,7 +12,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -32,6 +35,9 @@ public class RelatorioServices {
 
     @Autowired
     private RelatorioRepository relatorioRepository;
+
+    @Autowired
+    private EmailService emailService;
 
     public void salvar(RelatorioDTO relatorioDTO){
 
@@ -53,6 +59,18 @@ public class RelatorioServices {
             this.relatorioRepository.save(relatorio);
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public void verificarRelatorioParaEnvio(){
+        List<Object[]> listRelatorios = this.relatorioRepository.findByRelatoriosForSend();
+        if(!listRelatorios.isEmpty()){
+            listRelatorios.stream()
+                .map( a -> {
+                    this.emailService.enviarEmailRelatorioPublicador(a);
+                    return true;
+                })
+                .collect(Collectors.toCollection(ArrayList::new));
         }
     }
 
