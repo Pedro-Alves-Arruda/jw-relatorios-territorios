@@ -18,13 +18,14 @@ export class MenuComponent {
   constructor(private router:Router, private authService:AuthService, private webSocketServices:WebSocketService){}
 
   notificacoes:any[] = []
+  countNotificacoes = 0
   
   ngOnInit(){
-    this.webSocketServices.conectar("topic/notificacoes/relatorios")
     this.webSocketServices.notificacaoSubject
       .subscribe(msg => {
-        console.log(msg)
-        this.notificacoes.push(msg)
+        if(!this.notificacoes.some(m => m == msg))
+          this.notificacoes.push(msg)
+          this.countNotificacoes = this.notificacoes.length
       })
   }
 

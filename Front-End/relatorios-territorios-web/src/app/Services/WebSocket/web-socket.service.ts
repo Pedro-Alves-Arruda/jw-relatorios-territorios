@@ -19,16 +19,12 @@ export class WebSocketService {
     let usuarioLogado = new AuthService(new Router).getUsuarioLogado();
     const socket = `ws://localhost:8080/ws?token=${usuarioLogado.token}`;
     this.client = new Client({
-      brokerURL: undefined,
-      webSocketFactory: () => socket,
+      brokerURL: `ws://localhost:8080/ws?token=${usuarioLogado.token}`,
       connectHeaders: {},
-      reconnectDelay: 100
-    })
-
-    this.client = new Client({
+      reconnectDelay: 100,
       onConnect: () => {
-        this.client.subscribe("topic/notificacoes/relatorios", (msg) => {
-          this.notificacaoSubject.next(JSON.parse(msg.body))
+        this.client.subscribe("/topic/notificacoes/relatorios", (msg) => {
+          this.notificacaoSubject.next(msg.body)
         })
       }
     });

@@ -38,7 +38,6 @@ public class RevisitaController {
 
     @GetMapping("/listar/{email}")
     public ResponseEntity<List<Revisita>> listar(@PathVariable String email){
-        this.relatorioSockets.enviarNotificacaoRelatorio();
         return ResponseEntity.ok(services.listar(email));
     }
 
