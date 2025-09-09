@@ -1,6 +1,9 @@
 import { Component, HostListener } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MenuComponent } from "./Components/Menu/menu/menu.component";
+import { WebSocketService } from './Services/WebSocket/web-socket.service';
+import { NotificacoesService } from './Services/Notificacoes/notificacoes.service';
+import { AuthService } from './AuthService';
 
 @Component({
   selector: 'app-root',
@@ -16,4 +19,8 @@ export class AppComponent {
     this.isMobile = window.innerWidth <= 768;
   }
   title = 'relatorios-territorios-web';
+
+  constructor(){}
+  ngOnInit(){}
+
 }

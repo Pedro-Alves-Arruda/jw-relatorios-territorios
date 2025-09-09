@@ -41,7 +41,8 @@
             </div>
             <div class="modal-body">
                 <div *ngFor="let notificacao of notificacoes">
-                    <p style="cursor: pointer;">{{notificacao}}</p>
+                    <p>{{formataDataHora(notificacao.createdAt)}}</p>
+                    <p style="cursor: pointer;">{{notificacao.message}}</p>
                     <hr>
                 </div>
             </div>

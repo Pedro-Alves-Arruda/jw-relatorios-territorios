@@ -21,7 +21,7 @@ public class RelatorioConfig {
 
     private static final Logger log = LoggerFactory.getLogger(RelatorioConfig.class);
 
-    @Scheduled(cron = "0 0 12 1 * * ?")
+    @Scheduled(cron = "0 0 12 1 * ?")
     public void verificarEnvioRelatorio(){
         try{
             this.relatorioServices.verificarRelatorioParaEnvio();
@@ -30,7 +30,7 @@ public class RelatorioConfig {
         }
     }
 
-    @Scheduled(cron = "0 0 12 1 * * ?")
+    @Scheduled(cron = "0 36 10 9 * ?")
     public void EnvioNotificacaoRelatorio(){
         try{
             this.relatorioSockets.enviarNotificacaoRelatorio();
