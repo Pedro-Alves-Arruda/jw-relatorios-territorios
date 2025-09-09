@@ -4,8 +4,10 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public record NotificacaoDTO(
+        UUID id,
         String topic,
         String message,
         UUID idPublicador,
-        LocalDateTime createdAt) {
+        LocalDateTime createdAt,
+        boolean lida) {
 }

@@ -4,6 +4,7 @@ package com.jw.relatorios_territorios.Services;
 import com.jw.relatorios_territorios.DTO.NotificacaoDTO;
 import com.jw.relatorios_territorios.Models.Notificacao;
 import com.jw.relatorios_territorios.Repository.NotificacaoRepository;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class NotificacaoServices {
@@ -49,14 +51,26 @@ public class NotificacaoServices {
         }
     }
 
+    @Transactional
+    public List<NotificacaoDTO> marcarComoLidas(List<NotificacaoDTO> notificacoes){
+        List<UUID> ids = new ArrayList<>();
+        for(NotificacaoDTO notificacao : notificacoes){
+            ids.add(notificacao.id());
+        }
+        this.notificacaoRepository.marcarComoLidas(ids);
+        return this.buscarNotificacoesComuns();
+    }
+
     private List<NotificacaoDTO> convertModelToDTO(List<Notificacao> notificacoes){
         List<NotificacaoDTO> notificacoesDTO = new ArrayList<>();
         for(Notificacao notificacao : notificacoes){
             NotificacaoDTO notificacaoDTO = new NotificacaoDTO(
+                    notificacao.getId(),
                     notificacao.getTopic(),
                     notificacao.getMessage(),
                     null,
-                    notificacao.getCreatedAt()
+                    notificacao.getCreatedAt(),
+                    notificacao.isLida()
             );
 
             notificacoesDTO.add(notificacaoDTO);

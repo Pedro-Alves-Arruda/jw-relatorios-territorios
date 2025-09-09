@@ -1,9 +1,6 @@
 package com.jw.relatorios_territorios.Models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -18,6 +15,8 @@ public class Notificacao {
     private String message;
     private UUID idPublicador;
     private LocalDateTime createdAt;
+    @Column(nullable = false)
+    private boolean lida = false;
 
     public UUID getId() {
         return id;
@@ -57,5 +56,13 @@ public class Notificacao {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public boolean isLida() {
+        return lida;
+    }
+
+    public void setLida(boolean lida) {
+        this.lida = lida;
     }
 }

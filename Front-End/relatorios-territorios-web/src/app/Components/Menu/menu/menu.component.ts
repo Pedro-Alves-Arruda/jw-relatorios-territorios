@@ -25,22 +25,31 @@ export class MenuComponent {
   notificacoes:any[] = []
   private subscription!: Subscription;
   countNotificacoes = 0
+  notificacoesLidas:any[] = []
   
   ngOnInit(){
+    this.buscarNotificacoes();
     this.buscaNotificacaoInterval()
   
       this.webSocketServices.notificacaoSubject
         .subscribe(notificacao => {
-          console.log(notificacao)
           if(!this.notificacoes.some(m => m.message == notificacao.message))
             this.notificacoes.push(notificacao)
             this.countNotificacoes = this.notificacoes.length
         })
+      
+      this.webSocketServices.notificacaoPessoalSubject
+        .subscribe(notificacao => {
+          this.notificacoes.push(notificacao)
+        })
+
+
   }
 
   buscaNotificacaoInterval(){
     this.subscription = interval(300000).subscribe(() => {
-        this.buscarNotificacoes();
+      this.salvarComolidas(this.notificacoesLidas)  
+      this.buscarNotificacoes();
     });
   }
 
@@ -78,6 +87,32 @@ export class MenuComponent {
         if(res)
           this.notificacoes.push(res)
           this.notificacoes = this.notificacoes[0]
+          this.countNotificacoes = this.notificacoes.length
+      })
+  }
+
+  marcarComoLida(notificacao:any){
+    $(`.${notificacao.id}`).css("background-color", "white")
+    
+    this.notificacoes.some(nt => {
+        if(nt.id == notificacao.id)
+          nt.lida = true
+    })
+    
+    let notificacaoLida = {
+      id: notificacao.id,
+      lida: true
+    }
+    this.notificacoesLidas.push(notificacaoLida)
+  }
+
+  salvarComolidas(notificacoes:any){
+    this.notificacaoServices.salvarComoLidas(notificacoes)
+      .subscribe(res => {
+        if(res)
+          this.notificacoes.push(res)
+          this.notificacoes = this.notificacoes[0]
+          console.log(this.notificacoes.length)
           this.countNotificacoes = this.notificacoes.length
       })
   }

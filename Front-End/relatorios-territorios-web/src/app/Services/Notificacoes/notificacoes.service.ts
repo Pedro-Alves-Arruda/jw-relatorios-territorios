@@ -13,4 +13,8 @@ export class NotificacoesService {
   buscarNotificacoes():Observable<any>{
     return this.client.get(Enviroments.url+`/notificacoes`)
   }
+
+  salvarComoLidas(notificacoes:any):Observable<any>{
+    return this.client.put(Enviroments.url+`/notificacoes/lidas`, notificacoes)
+  }
 }
