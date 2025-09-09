@@ -69,12 +69,23 @@
 }
 
 mat-icon{
-    font-size: 36px;
+    font-size: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
-    padding: 26px;
+    padding: 18px;
 }
+
+.notification{
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    padding: 8px;
+}
+
+
 
 

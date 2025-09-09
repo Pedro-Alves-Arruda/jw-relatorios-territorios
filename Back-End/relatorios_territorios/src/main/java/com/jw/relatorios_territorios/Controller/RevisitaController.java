@@ -6,6 +6,7 @@ import com.jw.relatorios_territorios.DTO.RevisitaDTO;
 import com.jw.relatorios_territorios.Models.Revisita;
 import com.jw.relatorios_territorios.Producers.RevisitaProducers;
 import com.jw.relatorios_territorios.Services.RevisitaServices;
+import com.jw.relatorios_territorios.WebSockets.RelatorioSockets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -26,6 +27,9 @@ public class RevisitaController {
     @Autowired
     private RevisitaServices services;
 
+    @Autowired
+    private RelatorioSockets relatorioSockets;
+
     @PostMapping("/salvar")
     public ResponseEntity<String> salvar(@RequestBody RevisitaDTO revisitaDTO){
         revisitaProducers.enviarMessagem(revisitaDTO);
@@ -34,6 +38,7 @@ public class RevisitaController {
 
     @GetMapping("/listar/{email}")
     public ResponseEntity<List<Revisita>> listar(@PathVariable String email){
+        this.relatorioSockets.enviarNotificacaoRelatorio();
         return ResponseEntity.ok(services.listar(email));
     }
 

@@ -1,5 +1,7 @@
 package com.jw.relatorios_territorios.Configuration;
 
+import jakarta.servlet.Filter;
+import org.apache.tomcat.websocket.server.WsFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,12 +31,15 @@ public class SecurityConfig {
     @Autowired
     private SecurityFilter securityFilter_;
 
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.cors(corsConfigurationSource())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests( authorize -> {
-                    authorize.requestMatchers(rotas).permitAll()
+                    authorize
+                            .requestMatchers("/ws/**").permitAll()
+                            .requestMatchers(rotas).permitAll()
                             .anyRequest().permitAll();
                 })
                 .addFilterBefore(securityFilter_, UsernamePasswordAuthenticationFilter.class)

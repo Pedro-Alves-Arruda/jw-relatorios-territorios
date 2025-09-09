@@ -10,6 +10,7 @@ import com.jw.relatorios_territorios.Repository.RevisitaRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ public class RelatorioServices {
 
     @Autowired
     private EmailService emailService;
+
 
     public void salvar(RelatorioDTO relatorioDTO){
 

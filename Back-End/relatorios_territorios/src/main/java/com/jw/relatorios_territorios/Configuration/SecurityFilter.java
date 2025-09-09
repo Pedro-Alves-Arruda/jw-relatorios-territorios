@@ -31,13 +31,17 @@ public class SecurityFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String path = request.getRequestURI();
-
+        var token = "";
         if (path.startsWith("/login") || path.startsWith("/public")) {
             filterChain.doFilter(request, response);
             return;
         }
+        token = request.getParameter("token");
 
-        var token = getToken(request);
+        if(token == null || token == ""){
+            token = getToken(request);
+        }
+
 
         if(token == null){
             throw new InvalidBearerTokenException("Token não pode ser nulo");
@@ -46,7 +50,7 @@ public class SecurityFilter extends OncePerRequestFilter {
 
         try{
             var publicador = publicadorServices.findByEmail(email);
-            var authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USERE"));
+            var authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
             var authentication = new UsernamePasswordAuthenticationToken(publicador, null,  Collections.emptyList());
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }catch (Exception e){

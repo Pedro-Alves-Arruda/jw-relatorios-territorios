@@ -23,9 +23,35 @@
         </div>
         <div style="display: flex; align-items: center; justify-content: center; height: 122%;">
             <h4>JW Relatorios e Revisitas</h4>
+           <mat-icon class="notification" data-toggle="modal" data-target="#modalNotificacao" style="cursor: pointer;">notifications</mat-icon><div style="color: white;display: flex;align-items: baseline;justify-content: center;font-size: 11px;height: 37px;">{{this.notificacoes.length > 0 ? this.notificacoes.length : 0}}</div>
             <mat-icon (click)="redireciona()" style="cursor: pointer;">person</mat-icon>
             <mat-icon (click)="logout()" style="cursor: pointer;">logout</mat-icon>
         </div>
     </nav>
 </div>
+
+<div class="modal" tabindex="-1" role="dialog" id="modalNotificacao">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" >Notificações</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <div *ngFor="let notificacao of notificacoes">
+                    <p>{{notificacao.mensagem}}</p>
+                    <hr>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+          </div>
+        </div>
+    </div>
+
+
+
+
 <router-outlet></router-outlet>
