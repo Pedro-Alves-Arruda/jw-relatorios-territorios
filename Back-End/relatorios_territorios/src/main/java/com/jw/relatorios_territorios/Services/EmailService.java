@@ -67,6 +67,22 @@ public class EmailService {
             throw new RuntimeException(e.getMessage());
         }
     }
+
+    public void enviarEmailRelatorioPessoal(Object[] relatorio){
+        try{
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setTo(relatorio[5].toString());
+            message.setSubject("Relatorio referente ao mês de "+ this.mesAtual);
+            message.setText("Não se esqueça de enviar seu relatorio");
+            message.setFrom(this.emailFrom);
+
+
+            this.mailSender.send(message);
+        } catch (MailSendException e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
     public void enviarEmailRelatorioPioneiro(Object[] relatorio){
         try{
             SimpleMailMessage message = new SimpleMailMessage();

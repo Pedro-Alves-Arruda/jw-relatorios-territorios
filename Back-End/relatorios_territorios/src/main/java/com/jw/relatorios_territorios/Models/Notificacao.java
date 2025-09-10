@@ -13,7 +13,8 @@ public class Notificacao {
     private UUID id;
     private String topic;
     private String message;
-    private UUID idPublicador;
+    private UUID idPublicadorEmissor;
+    private UUID idPublicadorRemetente;
     private LocalDateTime createdAt;
     @Column(nullable = false)
     private boolean lida = false;
@@ -42,14 +43,6 @@ public class Notificacao {
         this.message = message;
     }
 
-    public UUID getIdPublicador() {
-        return idPublicador;
-    }
-
-    public void setIdPublicador(UUID idPublicador) {
-        this.idPublicador = idPublicador;
-    }
-
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
@@ -64,5 +57,21 @@ public class Notificacao {
 
     public void setLida(boolean lida) {
         this.lida = lida;
+    }
+
+    public UUID getIdPublicadorEmissor() {
+        return idPublicadorEmissor;
+    }
+
+    public void setIdPublicadorEmissor(UUID idPublicadorEmissor) {
+        this.idPublicadorEmissor = idPublicadorEmissor;
+    }
+
+    public UUID getIdPublicadorRemetente() {
+        return idPublicadorRemetente;
+    }
+
+    public void setIdPublicadorRemetente(UUID idPublicadorRemetente) {
+        this.idPublicadorRemetente = idPublicadorRemetente;
     }
 }

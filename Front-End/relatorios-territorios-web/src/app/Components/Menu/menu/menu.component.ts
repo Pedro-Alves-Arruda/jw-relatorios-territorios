@@ -7,6 +7,7 @@ import { WebSocketService } from '../../../Services/WebSocket/web-socket.service
 import { CommonModule } from '@angular/common';
 import { NotificacoesService } from '../../../Services/Notificacoes/notificacoes.service';
 import { interval, Subscription } from 'rxjs';
+import * as jwt from 'jwt-decode'
 
 
 
@@ -23,24 +24,37 @@ export class MenuComponent {
     private notificacaoServices:NotificacoesService){}
 
   notificacoes:any[] = []
+  notificacoesPessoais:any[] = []
   private subscription!: Subscription;
-  countNotificacoes = 0
-  notificacoesLidas:any[] = []
+  countTotalNotificacoes:any = 0
+  countNotificacoes:any = 0
+  countNotificacoesPessoais:any = 0
+  notificacoesLidas: any[] = []
+  usuarioLogado:any
   
   ngOnInit(){
+    this.usuarioLogado = this.authService.getUsuarioLogado();
     this.buscarNotificacoes();
+    this.buscarNotificacoesPessoais();
     this.buscaNotificacaoInterval()
-  
+    this.marcarComoLidaInterval()
+
+    this.countNotificacoes = this.notificacoes[0].filter((a: { lida: boolean; }) => a.lida==false).length;
+    this.countNotificacoesPessoais = this.notificacoesPessoais[0].filter((a: { lida: boolean; }) => a.lida==false).length 
+    this.countTotalNotificacoes = this.countNotificacoes + this.countNotificacoesPessoais;
+
       this.webSocketServices.notificacaoSubject
         .subscribe(notificacao => {
-          if(!this.notificacoes.some(m => m.message == notificacao.message))
-            this.notificacoes.push(notificacao)
-            this.countNotificacoes = this.notificacoes.length
+          console.log("recebendo notificacao geral")
+          this.notificacoes[0].push(notificacao)
+          this.countNotificacoes = this.countNotificacoes + 1
         })
-      
-      this.webSocketServices.notificacaoPessoalSubject
+        
+        this.webSocketServices.notificacaoPessoalSubject
         .subscribe(notificacao => {
-          this.notificacoes.push(notificacao)
+          console.log("recebendo notificacao especifica")
+          this.notificacoes[0].push(notificacao)
+          this.countNotificacoes = this.countNotificacoes + 1
         })
 
 
@@ -48,8 +62,14 @@ export class MenuComponent {
 
   buscaNotificacaoInterval(){
     this.subscription = interval(300000).subscribe(() => {
-      this.salvarComolidas(this.notificacoesLidas)  
       this.buscarNotificacoes();
+      this.buscarNotificacoesPessoais();
+    });
+  }
+
+  marcarComoLidaInterval(){
+    this.subscription = interval(30000).subscribe(() => {
+      this.salvarComolidas()  
     });
   }
 
@@ -86,19 +106,33 @@ export class MenuComponent {
       .subscribe(res => {
         if(res)
           this.notificacoes.push(res)
-          this.notificacoes = this.notificacoes[0]
-          this.countNotificacoes = this.notificacoes.length
+          let length = this.notificacoes.filter((a: { lida: boolean; }) => a.lida==false).length
+          if(this.countNotificacoes != length
+            && length > this.countNotificacoes){
+              this.countNotificacoes = this.countNotificacoes + (length - this.countNotificacoes)
+          }
+      })
+  }
+
+  buscarNotificacoesPessoais(){
+    let email = jwt.jwtDecode(this.usuarioLogado.token).sub;
+    this.notificacaoServices.buscarNotificacoesPessoais(email)
+      .subscribe(res => {
+        if(res){
+          this.notificacoes.push(res)
+          this.notificacoesPessoais.push(res)
+
+          let length = this.notificacoesPessoais.filter((a: { lida: boolean; }) => a.lida==false).length
+          if(this.countNotificacoesPessoais != length 
+            && length > this.countNotificacoesPessoais){
+              this.countNotificacoesPessoais = this.countNotificacoesPessoais + (length - this.countNotificacoesPessoais)
+          }
+        }
       })
   }
 
   marcarComoLida(notificacao:any){
     $(`.${notificacao.id}`).css("background-color", "white")
-    
-    this.notificacoes.some(nt => {
-        if(nt.id == notificacao.id)
-          nt.lida = true
-    })
-    
     let notificacaoLida = {
       id: notificacao.id,
       lida: true
@@ -106,14 +140,16 @@ export class MenuComponent {
     this.notificacoesLidas.push(notificacaoLida)
   }
 
-  salvarComolidas(notificacoes:any){
-    this.notificacaoServices.salvarComoLidas(notificacoes)
-      .subscribe(res => {
-        if(res)
-          this.notificacoes.push(res)
-          this.notificacoes = this.notificacoes[0]
-          console.log(this.notificacoes.length)
-          this.countNotificacoes = this.notificacoes.length
-      })
+  salvarComolidas(){
+    if(this.notificacoesLidas.length > 0){
+      console.log(this.notificacoesLidas)
+      this.notificacaoServices.salvarComoLidas(this.notificacoesLidas)
+        .subscribe(res => {
+          if(res)
+            this.notificacoes.push(res)
+            this.notificacoes = this.notificacoes[0]
+            this.countNotificacoes = this.notificacoes.length
+        })
+    }
   }
 }

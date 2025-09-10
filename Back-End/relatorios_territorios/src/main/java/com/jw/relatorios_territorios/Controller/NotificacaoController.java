@@ -4,6 +4,7 @@ package com.jw.relatorios_territorios.Controller;
 import com.jw.relatorios_territorios.DTO.NotificacaoDTO;
 import com.jw.relatorios_territorios.Models.Notificacao;
 import com.jw.relatorios_territorios.Services.NotificacaoServices;
+import com.sun.jdi.event.ExceptionEvent;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,15 @@ public class NotificacaoController {
             List<NotificacaoDTO> notificacoes = this.notificacaoServices.buscarNotificacoesComuns();
             return ResponseEntity.ok().body(notificacoes);
         } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(new ArrayList<>());
+        }
+    }
+
+    @GetMapping("/pessoais")
+    public ResponseEntity<List<NotificacaoDTO>> buscarNotificacoesPeessoais(@RequestParam String email){
+        try{
+            return ResponseEntity.ok().body(this.notificacaoServices.buscarNotificacoesPessoais(email));
+        }catch (Exception e){
             return ResponseEntity.internalServerError().body(new ArrayList<>());
         }
     }

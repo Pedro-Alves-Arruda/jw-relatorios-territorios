@@ -85,9 +85,16 @@ public class RelatorioServices {
         if(!listRelatorios.isEmpty()){
             listRelatorios.stream()
                 .map( a -> {
-                    this.emailService.enviarEmailRelatorioPublicador(a);
-                    Notificacao notificacao = this.notificacaoRepository.save(getNotificacao(a));
+                    Notificacao notificacao = getNotificacao(a);
+                    if(!a[5].equals(a[7])){
+                        this.emailService.enviarEmailRelatorioPublicador(a);
+                    }else{
+                        this.emailService.enviarEmailRelatorioPessoal(a);
+                        notificacao.setMessage("Não se esqueça de enviar seu relatorio");
+                    }
+                    notificacaoRepository.save(notificacao);
                     this.relatorioSockets.enviarNotificacaoRelatorioResponsavel(a[5], getNotificacaoDTO(notificacao));
+
                     return true;
                 })
                 .collect(Collectors.toCollection(ArrayList::new));
@@ -117,7 +124,8 @@ public class RelatorioServices {
         notificacao.setTopic("/topic/notificacoes/"+relatorio[5]);
         notificacao.setLida(false);
         notificacao.setCreatedAt(LocalDateTime.now());
-        notificacao.setIdPublicador(UUID.fromString(relatorio[6].toString()));
+        notificacao.setIdPublicadorEmissor(UUID.fromString(relatorio[6].toString()));
+        notificacao.setIdPublicadorRemetente(UUID.fromString(relatorio[3].toString()));
         return notificacao;
     }
     private NotificacaoDTO getNotificacaoDTO(Notificacao notificacao){
@@ -125,7 +133,7 @@ public class RelatorioServices {
                 notificacao.getId(),
                 notificacao.getTopic(),
                 notificacao.getMessage(),
-                notificacao.getIdPublicador(),
+                null,
                 notificacao.getCreatedAt(),
                 notificacao.isLida()
        );

@@ -3,7 +3,11 @@ package com.jw.relatorios_territorios.Services;
 
 import com.jw.relatorios_territorios.DTO.NotificacaoDTO;
 import com.jw.relatorios_territorios.Models.Notificacao;
+import com.jw.relatorios_territorios.Models.Publicador;
+import com.jw.relatorios_territorios.Models.Token;
 import com.jw.relatorios_territorios.Repository.NotificacaoRepository;
+import com.jw.relatorios_territorios.Repository.PublicadorRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -20,6 +25,9 @@ public class NotificacaoServices {
 
     @Autowired
     private NotificacaoRepository notificacaoRepository;
+
+    @Autowired
+    private PublicadorRepository publicadorRepository;
 
     private static final Logger log = LoggerFactory.getLogger(NotificacaoServices.class);
 
@@ -51,6 +59,16 @@ public class NotificacaoServices {
         }
     }
 
+    public List<NotificacaoDTO> buscarNotificacoesPessoais(String email){
+        try{
+            UUID id = getIdRemetente(email);
+            List<Notificacao> notificacoes = this.notificacaoRepository.findAllPersonal(id);
+            return this.convertModelToDTO(notificacoes);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Transactional
     public List<NotificacaoDTO> marcarComoLidas(List<NotificacaoDTO> notificacoes){
         List<UUID> ids = new ArrayList<>();
@@ -77,5 +95,16 @@ public class NotificacaoServices {
 
         }
         return notificacoesDTO;
+    }
+
+
+    private UUID getIdRemetente(String email){
+        Optional<Publicador> publicador = this.publicadorRepository.findByEmail(email);
+
+        if(publicador.isPresent()){
+            return publicador.get().getId();
+        }else{
+            throw new EntityNotFoundException();
+        }
     }
 }

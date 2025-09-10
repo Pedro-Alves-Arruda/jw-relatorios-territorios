@@ -20,20 +20,21 @@ export class WebSocketService {
   constructor() { 
     let usuarioLogado = new AuthService(new Router);
     
-    if(usuarioLogado.getUsuarioLogado().token == null || usuarioLogado.isAutheticated()){
+    if(usuarioLogado.getUsuarioLogado().token != null || usuarioLogado.isAutheticated()){
       let token = usuarioLogado.getUsuarioLogado().token;
-      let email = jwt.jwtDecode(token)
+      let email = jwt.jwtDecode(token).sub
       this.client = new Client({
         brokerURL: `ws://localhost:8080/ws?token=${token}`,
         connectHeaders: {},
         reconnectDelay: 500,
         onConnect: () => {
-          
+
           this.client.subscribe("/topic/notificacoes/relatorios", (msg) => {
             this.notificacaoSubject.next(msg.body)
           })
 
           this.client.subscribe(`/topic/notificacoes/${email}`, (msg) => {
+            console.log(`recebendo mensagem no topico /topic/notificacoes/${email}`)
             this.notificacaoPessoalSubject.next(msg.body)
           })
 

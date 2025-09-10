@@ -14,6 +14,10 @@ export class NotificacoesService {
     return this.client.get(Enviroments.url+`/notificacoes`)
   }
 
+  buscarNotificacoesPessoais(email:any):Observable<any>{
+    return this.client.get(Enviroments.url+`/notificacoes/pessoais?email=${email}`)
+  }
+
   salvarComoLidas(notificacoes:any):Observable<any>{
     return this.client.put(Enviroments.url+`/notificacoes/lidas`, notificacoes)
   }

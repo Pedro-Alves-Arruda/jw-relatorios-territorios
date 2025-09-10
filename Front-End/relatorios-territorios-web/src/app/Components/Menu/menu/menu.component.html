@@ -23,7 +23,7 @@
         </div>
         <div style="display: flex; align-items: center; justify-content: center; height: 122%;">
             <h4>JW Relatorios e Revisitas</h4>
-           <mat-icon class="notification" data-toggle="modal" data-target="#modalNotificacao" style="cursor: pointer;">notifications</mat-icon><div style="color: white;display: flex;align-items: baseline;justify-content: center;font-size: 11px;height: 37px;" >{{this.countNotificacoes}}</div>
+           <mat-icon class="notification" data-toggle="modal" data-target="#modalNotificacao" style="cursor: pointer;">notifications</mat-icon><div style="color: white;display: flex;align-items: baseline;justify-content: center;font-size: 11px;height: 37px;" >{{countNotificacoes}}</div>
             <mat-icon (click)="redireciona()" style="cursor: pointer;">person</mat-icon>
             <mat-icon (click)="logout()" style="cursor: pointer;">logout</mat-icon>
         </div>
@@ -40,7 +40,7 @@
               </button>
             </div>
             <div class="modal-body">
-                <div [class]="notificacao.id"  [style]="notificacao.lida==false? 'background-color: lightgrey; border-radius: 8px;cursor:pointer;':'background-color: white; border-radius: 8px;cursor:pointer;'" *ngFor="let notificacao of notificacoes">
+                <div [class]="notificacao.id"  *ngFor="let notificacao of notificacoes[0]" [style]="notificacao.lida==false? 'background-color: lightgrey; border-radius: 8px;cursor:pointer;':'background-color: white; border-radius: 8px;cursor:pointer;'">
                     <p style="font-size: 15px;padding: 6px;">{{formataDataHora(notificacao.createdAt)}}</p>
                     <p style="font-size: 15px;cursor: pointer;padding: 7px;" (click)="marcarComoLida(notificacao)">{{notificacao.message}}</p>
                     <hr>
