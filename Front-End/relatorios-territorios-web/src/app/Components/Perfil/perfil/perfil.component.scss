@@ -12,11 +12,11 @@
 @media (min-width: 650px){
     
     .container{
-        margin: 0 auto;
         background-color: black;
         color: white;
-        width: 40%;
-        height: 89vh;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
     }
 }
 
@@ -32,6 +32,7 @@
     justify-content: center; 
     align-items: center;
 }
+
 
 .btn{
     background-color: grey;
@@ -60,7 +61,7 @@ mat-icon{
 
 hr{
     color: white;
-    width: 28rem;
+    width: 40rem;
     margin-right: 1rem;
     border: solid 1px white;
     opacity: initial;
@@ -68,4 +69,24 @@ hr{
 
 #checkDadosPessoais,#checkGrupoCampo,#checkCongregacao{
     display:none;
+}
+
+.sub-container-um, .sub-container-dois{
+    height: 100%;
+    width: 50%;
+}
+
+.foto-perfil{
+    display: flex;
+    height: 30%;
+    align-items: flex-start;
+    justify-content: space-around;
+}
+
+.mat-foto-perfil{
+    width: 100vw;
+    height: 18vh;
+    font-size: 93px;
+    display: block;
+    padding: 25px;
 }

@@ -6,10 +6,7 @@ import com.jw.relatorios_territorios.DTO.RelatorioDTO;
 import com.jw.relatorios_territorios.Models.Notificacao;
 import com.jw.relatorios_territorios.Models.Publicador;
 import com.jw.relatorios_territorios.Models.Relatorio;
-import com.jw.relatorios_territorios.Repository.NotificacaoRepository;
-import com.jw.relatorios_territorios.Repository.PublicadorRepository;
-import com.jw.relatorios_territorios.Repository.RelatorioRepository;
-import com.jw.relatorios_territorios.Repository.RevisitaRepository;
+import com.jw.relatorios_territorios.Repository.*;
 import com.jw.relatorios_territorios.WebSockets.RelatorioSockets;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -54,6 +51,9 @@ public class RelatorioServices {
     @Autowired
     private NotificacaoRepository notificacaoRepository;
 
+    @Autowired
+    private CampoRepository campoRepository;
+
     private String mesAtual = LocalDate.now().getMonth().getDisplayName(TextStyle.FULL, new Locale("pt", "BR"));
 
 
@@ -86,8 +86,18 @@ public class RelatorioServices {
             listRelatorios.stream()
                 .map( a -> {
                     Notificacao notificacao = getNotificacao(a);
+
                     if(!a[5].equals(a[7])){
-                        this.emailService.enviarEmailRelatorioPublicador(a);
+                        if(a[8].equals(true)){
+                            List<String> publicacoesDeixadas = this.campoRepository.buscarPublicacoesDeixadas(UUID.fromString(a[6].toString()));
+                            var msg = montarMensagemEmail(a, publicacoesDeixadas);
+                            this.emailService.enviarEmailRelatorioPioneiro(a, msg);
+                            notificacao.setMessage(msg.toString());
+                        }else{
+                            this.emailService.enviarEmailRelatorioPublicador(a);
+                            notificacao.setMessage("Nome: "+ a[0]+", Grupo de campo: "+a[1]+ ", trabalhou no campo? sim");
+                        }
+
                     }else{
                         this.emailService.enviarEmailRelatorioPessoal(a);
                         notificacao.setMessage("Não se esqueça de enviar seu relatorio");
@@ -99,6 +109,24 @@ public class RelatorioServices {
                 })
                 .collect(Collectors.toCollection(ArrayList::new));
         }
+    }
+
+    private static StringBuilder montarMensagemEmail(Object[] a, List<String> publicacoesDeixadas) {
+        StringBuilder msg = new StringBuilder();
+        msg.append("Segue relatorio abaixo:\n");
+        msg.append("Nome: ").append(a[0]).append("\nGrupo de Campo: ").append(a[1])
+                .append("\nHoras: ").append(a[2].toString().split(" ")[6]).append(" Horas")
+                .append("\nPublicações: ");
+        Integer qtdPublicacoes = 0;
+        for(String obj: publicacoesDeixadas.toString().split("'")){
+            if(obj.startsWith("Video") || obj.startsWith("Brochura") || obj.startsWith("Sentinela")){
+                msg.append(obj).append("\n");
+                qtdPublicacoes++;
+            }
+        }
+        msg.append("Quantidade de publicações deixadas: ").append(qtdPublicacoes).append("\n")
+                .append("Desde já agradeço.");
+        return msg;
     }
 
     private Publicador getPublicador(){

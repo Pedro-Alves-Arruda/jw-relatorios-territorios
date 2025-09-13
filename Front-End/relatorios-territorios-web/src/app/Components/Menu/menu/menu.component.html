@@ -40,7 +40,7 @@
               </button>
             </div>
             <div class="modal-body">
-                <div [class]="notificacao.id"  *ngFor="let notificacao of notificacoes[0]" [style]="notificacao.lida==false? 'background-color: lightgrey; border-radius: 8px;cursor:pointer;':'background-color: white; border-radius: 8px;cursor:pointer;'">
+                <div [class]="notificacao.id"  *ngFor="let notificacao of notificacoes" [style]="notificacao.lida==false? 'background-color: lightgrey; border-radius: 8px;cursor:pointer;':'background-color: white; border-radius: 8px;cursor:pointer;'">
                     <p style="font-size: 15px;padding: 6px;">{{formataDataHora(notificacao.createdAt)}}</p>
                     <p style="font-size: 15px;cursor: pointer;padding: 7px;" (click)="marcarComoLida(notificacao)">{{notificacao.message}}</p>
                     <hr>

@@ -5,23 +5,29 @@ import { AuthService } from '../../../AuthService';
 import * as jwt from 'jwt-decode';
 import { MatIconModule } from '@angular/material/icon';
 import $ from 'jquery';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-perfil',
-  imports: [FormsModule, MatIconModule],
+  imports: [FormsModule, MatIconModule, CommonModule],
   templateUrl: './perfil.component.html',
   styleUrl: './perfil.component.scss'
 })
 export class PerfilComponent {
   
   constructor(private perfilServices:PerfilService, private authService:AuthService){
-    this.email = jwt.jwtDecode(this.authService.getUsuarioLogado().token).sub;
+    
   }
   
   email?:any;
   booleanDadosPessoais:boolean = true;
   booleanGrupoCampo:boolean = true;
   booleanCongregacao:boolean = true;
+  mostraImagem:boolean = false
+  imagePreview:any
+  fotoPerfil:any = {
+    imagem:'',
+  }
 
   publicador:any = {
     nome:'',
@@ -41,6 +47,12 @@ export class PerfilComponent {
   }
 
   ngOnInit(){
+    this.email = jwt.jwtDecode(this.authService.getUsuarioLogado().token).sub;
+    this.getPerfil();
+    this.getFotoPerfil();
+  }
+  
+  getPerfil(){
     this.perfilServices.getPerfil(this.email)
     .subscribe(res => {
         this.publicador = res;
@@ -49,6 +61,17 @@ export class PerfilComponent {
         res.grupoCampo != null? this.grupoCampo.nome = res.grupoCampo.nome : '';
         res.grupoCampo != null? this.grupoCampo.endereco = res.grupoCampo.endereco: '';
     })
+  }
+  
+  getFotoPerfil(){
+    this.perfilServices.getFotoPerfil(this.email)
+      .subscribe(res => {
+        if(res.imagem != "" || res.imagem != null){
+          $(".mat-foto-perfil").css("display", "none")
+          this.imagePreview = res.imagem
+          this.mostraImagem = true
+        }
+      })
   }
 
   habilitaEdicaoDadosPessoais(){
@@ -75,5 +98,25 @@ export class PerfilComponent {
       .subscribe(res => {
 
       })
+  }
+
+  onFileSelected(event:any){
+    const file: File = event.target.files[0];
+    if (file) {
+      $(".mat-foto-perfil").css("display", "none")
+      
+      const reader = new FileReader();
+      
+      reader.onload = () => {
+        const base64String = reader.result as string;
+        this.imagePreview = reader.result as string
+        this.mostraImagem = true
+        this.fotoPerfil.imagem = base64String
+        this.fotoPerfil['email'] = this.email
+        this.perfilServices.salvarImagemPerfil(this.fotoPerfil)
+          .subscribe(res => {})
+      };
+      reader.readAsDataURL(file);
+    }
   }
 }

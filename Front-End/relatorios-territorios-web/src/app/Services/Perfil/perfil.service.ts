@@ -17,4 +17,12 @@ export class PerfilService {
   atualizarPerfil(publicador:any):Observable<any>{
     return this.client.put(Enviroments.url+"/publicador/"+publicador.email, publicador)
   }
+
+  salvarImagemPerfil(fotoPerfil:any):Observable<any>{
+    return this.client.post(Enviroments.url+"/publicador/foto-perfil/nova", fotoPerfil)
+  }
+
+  getFotoPerfil(email:any):Observable<any>{
+    return this.client.get(Enviroments.url+"/publicador/foto-perfil/buscar?email="+email)
+  }
 }

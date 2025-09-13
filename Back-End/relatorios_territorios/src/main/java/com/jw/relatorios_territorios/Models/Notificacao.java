@@ -12,6 +12,7 @@ public class Notificacao {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     private String topic;
+    @Column(columnDefinition = "TEXT")
     private String message;
     private UUID idPublicadorEmissor;
     private UUID idPublicadorRemetente;

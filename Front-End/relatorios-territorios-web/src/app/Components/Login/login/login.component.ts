@@ -20,6 +20,7 @@ export class LoginComponent {
   constructor(private router:Router, private congregacaoService: ListarServiceService, private loginServices: LoginServicesService, private authService:AuthService){}
   private subscription!: Subscription;
   mensagemSucesso: boolean = false;
+  mensagemErro: boolean = false;
 
   usuario = {
     email:null,
@@ -34,10 +35,16 @@ export class LoginComponent {
   verificarLogin(){
     this.loginServices.login(this.usuario)
     .subscribe(res =>{
-      if(res.token != " " && res.token != null){
+      if(res.token != " " && res.token != null && res.token!=""){
         this.authService.login(res)
         this.router.navigate(['/'])
+      }else{
+        this.mensagemErro = true;
+        setTimeout(() => {
+          this.mensagemErro = false;
+        }, 10000);
       }
+
     })
 
   }
@@ -63,11 +70,10 @@ export class LoginComponent {
     .subscribe({
       next: (res:any)=> {
         if(res){
-          this.subscription = interval(10000).subscribe(() => {
-              this.mensagemSucesso = true;
-              this.subscription.unsubscribe();
-              this.mensagemSucesso = false;
-          });
+          this.mensagemSucesso = true;
+          setTimeout(() => {
+            this.mensagemSucesso = false;
+          }, 10000);
         }
       },
       error: (erro:any) =>{

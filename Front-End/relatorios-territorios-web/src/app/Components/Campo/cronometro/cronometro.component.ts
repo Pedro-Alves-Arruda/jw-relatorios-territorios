@@ -46,7 +46,7 @@ export class CronometroComponent {
 
   ngOnInit(){
     this.publicacaoControl.valueChanges.subscribe(val => {
-      console.log('Selecionados:', val);
+      
     });
     this.publicadorLogado = this.authService.getUsuarioLogado();
   }

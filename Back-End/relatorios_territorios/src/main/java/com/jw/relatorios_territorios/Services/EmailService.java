@@ -83,12 +83,12 @@ public class EmailService {
         }
     }
 
-    public void enviarEmailRelatorioPioneiro(Object[] relatorio){
+    public void enviarEmailRelatorioPioneiro(Object[] relatorio, StringBuilder msg){
         try{
             SimpleMailMessage message = new SimpleMailMessage();
             message.setTo(relatorio[5].toString());
             message.setSubject("Relatorio referente ao mês de "+ this.mesAtual);
-            message.setText("Nome: "+relatorio[0]+"\nGrupo de campo: "+relatorio[1]+"\nTrabalhou no campo? sim\nHoras trabalhadas: "+relatorio[2]);
+            message.setText(msg.toString());
             message.setFrom(this.emailFrom);
 
 

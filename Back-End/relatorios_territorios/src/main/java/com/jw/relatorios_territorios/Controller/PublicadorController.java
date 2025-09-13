@@ -2,10 +2,13 @@ package com.jw.relatorios_territorios.Controller;
 
 
 
+import com.jw.relatorios_territorios.DTO.FotoPerfilDTO;
 import com.jw.relatorios_territorios.DTO.PublicadorDTO;
 import com.jw.relatorios_territorios.Models.Publicador;
 import com.jw.relatorios_territorios.Producers.PublicadorProducers;
 import com.jw.relatorios_territorios.Services.PublicadorServices;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +21,7 @@ import java.util.UUID;
 @RequestMapping("/publicador")
 public class PublicadorController {
 
+    private static final Logger log = LoggerFactory.getLogger(PublicadorController.class);
     @Autowired
     private PublicadorProducers producers;
 
@@ -41,6 +45,26 @@ public class PublicadorController {
         publicador.setPassword(null);
         return ResponseEntity.ok().body(publicador);
     }
+
+    @PostMapping("/foto-perfil/nova")
+    public ResponseEntity<String> salvarImagemPerfil(@RequestBody FotoPerfilDTO fotoPerfilDTO){
+        try{
+            this.producers.enviarMensagemSalvarFotoPerfil(fotoPerfilDTO);
+            return ResponseEntity.ok().body("");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @GetMapping("/foto-perfil/buscar")
+    public ResponseEntity<FotoPerfilDTO> buscarImagemPerfil(@RequestParam String email){
+        try{
+            return ResponseEntity.ok().body(this.publicadorServices.getFotoPerfil(email));
+        }catch (Exception e){
+            return ResponseEntity.internalServerError().body(new FotoPerfilDTO(null, null));
+        }
+    }
+
 
 
 }

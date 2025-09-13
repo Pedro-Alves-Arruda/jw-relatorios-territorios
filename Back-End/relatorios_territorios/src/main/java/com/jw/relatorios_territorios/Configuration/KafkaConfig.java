@@ -26,6 +26,14 @@ public class KafkaConfig {
             .replicas(2)
             .build();}
 
+    @Bean
+    public NewTopic publicadorSalvarFotoPerfil(){
+        return TopicBuilder. name("publicador-salvar-foto-perfil")
+                .partitions(1)
+                .replicas(2)
+                .build();
+    }
+
 
     //Revisita
     @Bean

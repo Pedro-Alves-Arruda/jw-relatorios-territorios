@@ -32,7 +32,6 @@ export class PublicadorCadastroComponent {
     if(this.publicador.password === this.passwordCopy){
       this.cadastroPublicador.salvar(this.publicador)
       .subscribe(res => {
-        console.log(res)
       })
     }
   }

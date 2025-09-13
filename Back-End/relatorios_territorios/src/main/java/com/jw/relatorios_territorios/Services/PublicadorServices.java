@@ -1,6 +1,7 @@
 package com.jw.relatorios_territorios.Services;
 
 
+import com.jw.relatorios_territorios.DTO.FotoPerfilDTO;
 import com.jw.relatorios_territorios.DTO.PublicadorDTO;
 import com.jw.relatorios_territorios.Models.Congregacao;
 import com.jw.relatorios_territorios.Models.GrupoCampo;
@@ -8,6 +9,7 @@ import com.jw.relatorios_territorios.Models.Publicador;
 import com.jw.relatorios_territorios.Repository.CongregacaoRepository;
 import com.jw.relatorios_territorios.Repository.GrupoCampoRepository;
 import com.jw.relatorios_territorios.Repository.PublicadorRepository;
+import com.jw.relatorios_territorios.S3.PublicadorS3;
 import jakarta.persistence.EntityNotFoundException;
 import org.hibernate.JDBCException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,9 @@ public class PublicadorServices {
 
     @Autowired
     private PublicadorRepository publicadorRepository;
+
+    @Autowired
+    private PublicadorS3 publicadorS3;
 
     private PasswordEncoder passwordEncoder;
 
@@ -69,6 +74,25 @@ public class PublicadorServices {
                     return preparaListaRetorno(publicadores);
         }catch (JDBCException ex){
             throw new JDBCException(ex.getMessage(), ex.getSQLException());
+        }
+    }
+
+    public void salvarFotoPerfil(FotoPerfilDTO fotoPerfilDTO) {
+        try {
+            Publicador publicador = this.findByEmail(fotoPerfilDTO.email());
+            this.publicadorS3.salvarFotoPerfil(fotoPerfilDTO.imagem(), fotoPerfilDTO.email(), publicador.getId());
+        } catch (Exception e) {
+
+        }
+    }
+
+    public FotoPerfilDTO getFotoPerfil(String email){
+        try{
+            Publicador publicador = findByEmail(email);
+            var imagem = this.publicadorS3.getFotoPerfil(email, publicador.getId());
+            return new FotoPerfilDTO(imagem, null);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 

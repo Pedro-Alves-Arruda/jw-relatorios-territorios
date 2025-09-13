@@ -30,6 +30,7 @@ export class WebSocketService {
         onConnect: () => {
 
           this.client.subscribe("/topic/notificacoes/relatorios", (msg) => {
+            console.log(`recebendo mensagem no topico /topic/notificacoes/relatorios`)
             this.notificacaoSubject.next(msg.body)
           })
 

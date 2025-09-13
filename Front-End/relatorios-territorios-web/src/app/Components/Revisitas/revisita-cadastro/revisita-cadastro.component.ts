@@ -31,7 +31,6 @@ export class RevisitaCadastroComponent {
     this.revisita['email'] = jwt.jwtDecode(this.authService.getUsuarioLogado().token).sub;
     this.cadastroService.salvar(this.revisita)
       .subscribe(res => {
-        console.log(res)
         this.route.navigate(['/revisita-listar'])
       })
   }

@@ -1,6 +1,7 @@
 package com.jw.relatorios_territorios.Consumers;
 
 
+import com.jw.relatorios_territorios.DTO.FotoPerfilDTO;
 import com.jw.relatorios_territorios.DTO.PublicadorDTO;
 import com.jw.relatorios_territorios.Services.PublicadorServices;
 import lombok.extern.slf4j.Slf4j;
@@ -22,5 +23,11 @@ public class PublicadorConsumers {
     public void receberMensagemSalvar(PublicadorDTO publicadorDTO){
         log.info("Recebendo mensagem de publicador-salvar, mensagem: {}", publicadorDTO);
         services.salvar(publicadorDTO);
+    }
+
+    @KafkaListener(topics = "publicador-salvar-foto-perfil", groupId = "relatorios_territorios")
+    public void receberMensagemSalvarFotoPerfil(FotoPerfilDTO fotoPerfil){
+        log.info("recebendo mensagem topico publicador-salvar-foto-perfil");
+        services.salvarFotoPerfil(fotoPerfil);
     }
 }

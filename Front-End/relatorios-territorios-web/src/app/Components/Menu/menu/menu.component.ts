@@ -1,4 +1,4 @@
-import { Component, Input, input } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterOutlet } from '@angular/router';
 import { AuthService } from '../../../AuthService';
@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { NotificacoesService } from '../../../Services/Notificacoes/notificacoes.service';
 import { interval, Subscription } from 'rxjs';
 import * as jwt from 'jwt-decode'
+import { Notificacao } from '../../../Models/Notificacao';
 
 
 
@@ -21,9 +22,10 @@ export class MenuComponent {
   constructor(private router:Router, 
     private authService:AuthService, 
     private webSocketServices:WebSocketService,
-    private notificacaoServices:NotificacoesService){}
+    private notificacaoServices:NotificacoesService,
+    private cdr:ChangeDetectorRef){}
 
-  notificacoes:any[] = []
+  notificacoes:Notificacao[] = []
   notificacoesPessoais:any[] = []
   private subscription!: Subscription;
   countTotalNotificacoes:any = 0
@@ -39,21 +41,17 @@ export class MenuComponent {
     this.buscaNotificacaoInterval()
     this.marcarComoLidaInterval()
 
-    this.countNotificacoes = this.notificacoes[0].filter((a: { lida: boolean; }) => a.lida==false).length;
-    this.countNotificacoesPessoais = this.notificacoesPessoais[0].filter((a: { lida: boolean; }) => a.lida==false).length 
-    this.countTotalNotificacoes = this.countNotificacoes + this.countNotificacoesPessoais;
-
       this.webSocketServices.notificacaoSubject
         .subscribe(notificacao => {
-          console.log("recebendo notificacao geral")
-          this.notificacoes[0].push(notificacao)
+          
+          this.notificacoes.push(notificacao)
           this.countNotificacoes = this.countNotificacoes + 1
         })
         
         this.webSocketServices.notificacaoPessoalSubject
         .subscribe(notificacao => {
-          console.log("recebendo notificacao especifica")
-          this.notificacoes[0].push(notificacao)
+        
+          this.notificacoes.push(notificacao)
           this.countNotificacoes = this.countNotificacoes + 1
         })
 
@@ -103,13 +101,18 @@ export class MenuComponent {
 
   buscarNotificacoes(){
     this.notificacaoServices.buscarNotificacoes()
-      .subscribe(res => {
-        if(res)
-          this.notificacoes.push(res)
-          let length = this.notificacoes.filter((a: { lida: boolean; }) => a.lida==false).length
-          if(this.countNotificacoes != length
+    .subscribe(res => {
+      if(res)
+        res.forEach(not => {
+          this.notificacoes.push(not)
+        })
+        
+        let length = this.notificacoes.filter((a: { lida: boolean; }) => a.lida == false).length
+
+        if(this.countNotificacoes != length
             && length > this.countNotificacoes){
-              this.countNotificacoes = this.countNotificacoes + (length - this.countNotificacoes)
+              this.countNotificacoes = length
+              this.cdr.detectChanges();
           }
       })
   }
@@ -119,13 +122,16 @@ export class MenuComponent {
     this.notificacaoServices.buscarNotificacoesPessoais(email)
       .subscribe(res => {
         if(res){
-          this.notificacoes.push(res)
-          this.notificacoesPessoais.push(res)
+          res.forEach(not => {
+            this.notificacoes.push(not)
+          })
+         
+          let length = this.notificacoes.filter((a: { lida: boolean; }) => a.lida == false).length
 
-          let length = this.notificacoesPessoais.filter((a: { lida: boolean; }) => a.lida==false).length
-          if(this.countNotificacoesPessoais != length 
-            && length > this.countNotificacoesPessoais){
-              this.countNotificacoesPessoais = this.countNotificacoesPessoais + (length - this.countNotificacoesPessoais)
+          if(this.countNotificacoes != length
+            && length > this.countNotificacoes){
+            this.countNotificacoes = length
+            this.cdr.detectChanges();
           }
         }
       })
@@ -142,13 +148,20 @@ export class MenuComponent {
 
   salvarComolidas(){
     if(this.notificacoesLidas.length > 0){
-      console.log(this.notificacoesLidas)
       this.notificacaoServices.salvarComoLidas(this.notificacoesLidas)
         .subscribe(res => {
           if(res)
-            this.notificacoes.push(res)
-            this.notificacoes = this.notificacoes[0]
-            this.countNotificacoes = this.notificacoes.length
+            res.forEach(not => {
+              this.notificacoes.push(not)
+            })
+        
+            let length = this.notificacoes.filter((a: { lida: boolean; }) => a.lida == false).length
+
+            if(this.countNotificacoes != length
+                && length > this.countNotificacoes){
+                  this.countNotificacoes = length
+                  this.cdr.detectChanges();
+              }
         })
     }
   }

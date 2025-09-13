@@ -15,13 +15,14 @@ public interface RelatorioRepository extends JpaRepository<Relatorio, UUID> {
             "grc.id_responsavel, grc.id_ajudante,\n" +
             "(select pb.email from publicador as pb where pb.id = grc.id_responsavel) as email_responsavel,\n" +
             "pb.id as id_publicador, \n"+
-            "pb.email as email_publicador \n"+
+            "pb.email as email_publicador, \n"+
+            "pb.is_pioneiro \n"+
             "from publicador as pb \n" +
             "join servico_campo as sc on pb.id = sc.publicador\n" +
             "join grupo_campo as grc on pb.grupo_campo_id = grc.id\n" +
             "where sc.created_at between date_trunc('month', current_date) ::timestamp\n" +
             "and (date_trunc('month', current_date)+ interval '1 month - 1 day') ::timestamp\n" +
-            "group by pb.nome, grc.nome, grc.id_responsavel, grc.id_ajudante, pb.id, pb.email", nativeQuery = true)
+            "group by pb.nome, grc.nome, grc.id_responsavel, grc.id_ajudante, pb.id, pb.email, pb.is_pioneiro", nativeQuery = true)
     public List<Object[]> findByRelatoriosForSend();
 
 }
