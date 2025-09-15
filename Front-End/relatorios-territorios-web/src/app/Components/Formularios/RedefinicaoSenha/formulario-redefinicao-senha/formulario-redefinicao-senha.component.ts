@@ -2,18 +2,21 @@ import { Component } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginServicesService } from '../../../../Services/Login/login-services.service';
 import { AuthService } from '../../../../AuthService';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-formulario-redefinicao-senha',
-  imports: [FormsModule, ReactiveFormsModule],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule],
   templateUrl: './formulario-redefinicao-senha.component.html',
   styleUrl: './formulario-redefinicao-senha.component.scss'
 })
 export class FormularioRedefinicaoSenhaComponent {
 
-  constructor(private loginServices:LoginServicesService, private authsService:AuthService){}
+  constructor(private loginServices:LoginServicesService){}
 
   buttonAbilitado:boolean = false
+  mensagemSucesso:boolean = false
+  mensagemErro:boolean = false
   
   senhasNovas = {
     password:"",
@@ -23,17 +26,18 @@ export class FormularioRedefinicaoSenhaComponent {
 
     salvarSenhaNova(){
     if(this.validarSenhas()){
-
-      let usuario =  this.authsService.getUsuarioLogado();
-      this.senhasNovas.email = usuario.email;
-
       this.loginServices.salvarSenhaNova(this.senhasNovas)
-        .subscribe({
-          next: (sucess) => {
-            alert("Senha alterada com sucesso!")
-          },
-          error: (err) =>{
-            alert("Erro ao alterar senha, tente novamente mais tarde.")
+        .subscribe(res => {
+          if(res.toString()){
+            this.mensagemSucesso = true;
+            setTimeout(() => {
+              this.mensagemSucesso = false;
+            }, 10000);
+          }else{
+            this.mensagemErro = true;
+            setTimeout(() => {
+              this.mensagemErro = false;
+            }, 10000);
           }
         })
     }else{

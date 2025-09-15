@@ -86,6 +86,40 @@ mat-icon{
     padding: 8px;
 }
 
+.container{
+   display: block;
+}
 
+.graficos{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tabela{
+    color:white
+}
+
+.sub-container-um{
+    width: 40%;
+}
+
+.sub-container-dois{
+    width: 60%;
+}
+
+.mat-mdc-cell{
+    background: var(--color-principal);
+    color:white
+}
+
+.mat-mdc-table .mat-mdc-header-cell, .mat-paginator .mat-mdc-paginator-container{
+    background: grey;
+    color: white;
+}
+
+.mat-mdc-paginator-touch-target{
+    color:white
+}
 
 

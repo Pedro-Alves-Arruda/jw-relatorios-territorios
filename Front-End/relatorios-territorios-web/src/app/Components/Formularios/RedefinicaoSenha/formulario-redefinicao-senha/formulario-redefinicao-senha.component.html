@@ -7,9 +7,16 @@
 </div>
 
 <div class="container">
+    <div class="mensagem-sucesso" *ngIf="mensagemSucesso">Senha alterada com sucesso</div>
+    <div class="mensagem-erro" *ngIf="mensagemErro">Erro ao alterar a senha</div>
 
     <div class="col-md-12 title">
         <h2>Redefinição de Senha</h2>
+    </div>
+    <div class="col-md-12">
+        <span style="color:white">Digite seu email cadastrado no sistema para que possamos vincular ao seu usuario</span>
+        <label for="email">Email:</label>
+        <input type="text" class="col-md-12 form-control" [(ngModel)]="senhasNovas.email">
     </div>
 
     <div class="col-md-12">

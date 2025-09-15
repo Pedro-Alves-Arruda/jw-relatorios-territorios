@@ -19,7 +19,7 @@ export class LoginServicesService {
   }
 
   salvarSenhaNova(senhaNova:any):Observable<any>{
-    return this.http.post(Enviroments.url+"/login/redefinir-senha",senhaNova);
+    return this.http.post(Enviroments.url+"/login/redefinir-senha",senhaNova, { responseType: 'text' });
   }
 
 }

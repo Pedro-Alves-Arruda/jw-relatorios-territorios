@@ -13,4 +13,8 @@ export class CadastroService {
   salvar(publicador:any):Observable<any>{
     return this.http.post(Enviroments.url + "/publicador/salvar", publicador)
   }
+
+  buscarDadosGrafico(email:any):Observable<any>{
+    return this.http.get(Enviroments.url+"/publicador/dados-grafico?email="+email)
+  }
 }

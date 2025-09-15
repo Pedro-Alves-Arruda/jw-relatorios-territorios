@@ -2,6 +2,7 @@ package com.jw.relatorios_territorios.Controller;
 
 
 
+import com.jw.relatorios_territorios.DTO.DadosGraficoDTO;
 import com.jw.relatorios_territorios.DTO.FotoPerfilDTO;
 import com.jw.relatorios_territorios.DTO.PublicadorDTO;
 import com.jw.relatorios_territorios.Models.Publicador;
@@ -62,6 +63,15 @@ public class PublicadorController {
             return ResponseEntity.ok().body(this.publicadorServices.getFotoPerfil(email));
         }catch (Exception e){
             return ResponseEntity.internalServerError().body(new FotoPerfilDTO(null, null));
+        }
+    }
+
+    @GetMapping("/dados-grafico")
+    public ResponseEntity<DadosGraficoDTO> buscarDadosGrafico(@RequestParam String email){
+        try{
+            return ResponseEntity.ok().body(publicadorServices.buscarDadosGrafico(email));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 

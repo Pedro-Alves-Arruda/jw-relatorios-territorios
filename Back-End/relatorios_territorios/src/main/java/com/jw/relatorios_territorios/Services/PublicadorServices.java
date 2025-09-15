@@ -1,8 +1,7 @@
 package com.jw.relatorios_territorios.Services;
 
 
-import com.jw.relatorios_territorios.DTO.FotoPerfilDTO;
-import com.jw.relatorios_territorios.DTO.PublicadorDTO;
+import com.jw.relatorios_territorios.DTO.*;
 import com.jw.relatorios_territorios.Models.Congregacao;
 import com.jw.relatorios_territorios.Models.GrupoCampo;
 import com.jw.relatorios_territorios.Models.Publicador;
@@ -17,10 +16,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -94,6 +90,37 @@ public class PublicadorServices {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public DadosGraficoDTO buscarDadosGrafico(String email){
+        try{
+            Publicador publicador = publicadorRepository.findByEmail(email).get();
+            //buscando dados para grafico de pizza
+            var obj = getDadosGraficoPizza(publicador);
+            //buscando dadoss para grafico de linha
+            var objGraficoLinha = getDadosGraficoLinha(publicador);
+            return new DadosGraficoDTO(
+                    new GraficoPizzaDTO(Integer.valueOf(obj[0].toString()), Integer.valueOf(obj[1].toString()), Integer.valueOf(obj[2].toString())),
+                    objGraficoLinha
+            );
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private Object[] getDadosGraficoPizza(Publicador publicador) {
+        List<Object[]> dadosGrafico = publicadorRepository.buscarDadosGrafico(publicador.getId());
+        var obj = dadosGrafico.get(0);
+        return obj;
+    }
+
+    private List<GraficoLinhaDTO> getDadosGraficoLinha(Publicador publicador){
+        List<Object[]> dadosGrafico = publicadorRepository.buscarDadosGraficoLinha(publicador.getId());
+        List<GraficoLinhaDTO> graficoLinha = new ArrayList<>();
+        for(Object[] obj: dadosGrafico){
+            graficoLinha.add(new GraficoLinhaDTO(obj[0].toString(), Integer.valueOf(obj[1].toString())));
+        }
+        return graficoLinha;
     }
 
     private List<PublicadorDTO> preparaListaRetorno(List<Publicador> publicadores){
