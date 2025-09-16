@@ -1,0 +1,22 @@
+<div class="container">
+    <h3 class="title">Cadastrar Nova Designação</h3>
+    <div class="col-md-12">
+        <hr>
+        <label for="">Publicadores:</label>
+        <select #publicacao name="listPublicadores" class="form-control col-md-12" [(ngModel)]="designacao.idPublicador">
+            <option *ngFor="let pub of publicadores" [ngValue]="pub.id">{{ pub.nome }}</option>
+        </select>
+        <hr>
+        <label for="">Tipo de Designação:</label>
+        <select #publicacao name="listDesignacoes" class="form-control col-md-12" [(ngModel)]="designacao.designacao">
+            <option *ngFor="let designacao of designacoes" [ngValue]="designacao.nome">{{ designacao.nome }}</option>
+        </select>
+        <hr>
+        <label for="dia">Data da Designação</label>
+        <input type="datetime-local"  class="inputs form-control col-md-12" name="dia" id="" [(ngModel)]="designacao.dia">
+    </div>
+    <hr>
+    <div class="col-md-12" style="display: flex; justify-content: center; align-items: center;">
+        <button class="col-md-4 btn" type="submit" (click)="salvar()">Salvar</button>
+    </div>
+</div>

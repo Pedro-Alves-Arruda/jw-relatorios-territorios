@@ -9,6 +9,7 @@ import { CanGuard } from './CanGuard';
 import { CronometroComponent } from './Components/Campo/cronometro/cronometro.component';
 import { FormularioRedefinicaoSenhaComponent } from './Components/Formularios/RedefinicaoSenha/formulario-redefinicao-senha/formulario-redefinicao-senha.component';
 import { PerfilComponent } from './Components/Perfil/perfil/perfil.component';
+import { DesignacaoCadastroComponent } from './Components/Designacao/designacao-cadastro/designacao-cadastro.component';
 
 export const routes: Routes = [
     {
@@ -36,6 +37,9 @@ export const routes: Routes = [
             },
             {
                 path: 'campo/cronometro', component: CronometroComponent, canActivate: [CanGuard]
+            },
+            {
+                path:'designacao-cadastro', component:DesignacaoCadastroComponent, canActivate: [CanGuard]
             }
         ]
     },

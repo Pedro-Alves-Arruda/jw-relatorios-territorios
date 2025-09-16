@@ -15,6 +15,8 @@ import { CadastroService } from '../../../Services/Publicador/cadastro.service';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator'; 
 import { ListarService } from '../../../Services/Revisita/listar.service';
+import { DesignacaoServicesService } from '../../../Services/Designacao/designacao-services.service';
+import { Token } from '../../../Models/Token';
 
 
 
@@ -31,9 +33,11 @@ export class MenuComponent implements AfterViewInit{
     private notificacaoServices:NotificacoesService,
     private cdr:ChangeDetectorRef,
     private publicadorServices:CadastroService,
-    private listarServices:ListarService){}
+    private listarServices:ListarService,
+    private designacaoServices:DesignacaoServicesService){}
   
   email?:any
+  anciao:boolean = false
   notificacoes:Notificacao[] = []
   notificacoesPessoais:any[] = []
   private subscription!: Subscription;
@@ -46,13 +50,19 @@ export class MenuComponent implements AfterViewInit{
   mostraGraficos:boolean = false
   revisitas?:any
   dataSource = new MatTableDataSource<any>();
+  dataSourceDesignacoes = new MatTableDataSource<any>();
   dataSourceEstudos = new MatTableDataSource<any>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;  
+  @ViewChild(MatPaginator) paginatorDesignacoes!: MatPaginator;  
   @ViewChild(MatPaginator) paginatorEstudos!: MatPaginator;  
   displayedColumns:any = [
         'Nome',
         'Descricao',
         'created_at'];
+  
+  displayedColumnsDesignacoes:any = [
+      'nome',
+      'dia'];
   
   displayedColumnsEstudos:any = [
         'nome',
@@ -155,11 +165,13 @@ export class MenuComponent implements AfterViewInit{
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSourceEstudos.paginator = this.paginatorEstudos;
+    this.dataSourceDesignacoes.paginator = this.paginatorDesignacoes;
   }
 
   ngOnInit(){
     this.usuarioLogado = this.authService.getUsuarioLogado();
-    this.email = jwt.jwtDecode(this.usuarioLogado.token).sub
+    this.anciao = jwt.jwtDecode<Token>(this.usuarioLogado.token).isAnciao
+    this.email = jwt.jwtDecode<Token>(this.usuarioLogado.token).sub
     this.buscarNotificacoes();
     this.buscarNotificacoesPessoais();
     this.buscaNotificacaoInterval()
@@ -170,6 +182,7 @@ export class MenuComponent implements AfterViewInit{
       this.listar();
       this.listarEstudosBiblicos();
       this.buscarDadosGraficoPublicacoesDeixadas();
+      this.buscarDesignacoes();
     }
 
       this.webSocketServices.notificacaoSubject
@@ -192,6 +205,16 @@ export class MenuComponent implements AfterViewInit{
       .subscribe(res=>{
         this.dataSource.data = res
         this.dataSource.paginator = this.paginator;
+      })
+  }
+
+  buscarDesignacoes(){
+    this.designacaoServices.buscarDesignacoes(this.email)
+      .subscribe(res => {
+        if(res){
+          this.dataSourceDesignacoes.data = res
+          this.dataSourceDesignacoes.paginator = this.paginatorDesignacoes
+        }
       })
   }
 
@@ -357,7 +380,7 @@ export class MenuComponent implements AfterViewInit{
   }
 
   buscarNotificacoesPessoais(){
-    let email = jwt.jwtDecode(this.usuarioLogado.token).sub;
+    let email = jwt.jwtDecode<Token>(this.usuarioLogado.token).sub;
     this.notificacaoServices.buscarNotificacoesPessoais(email)
       .subscribe(res => {
         if(res){

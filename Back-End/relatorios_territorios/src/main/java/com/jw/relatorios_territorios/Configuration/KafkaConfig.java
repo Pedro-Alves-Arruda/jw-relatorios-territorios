@@ -335,4 +335,12 @@ public class KafkaConfig {
                 .partitions(1)
                 .build();
     }
+
+    //designacao
+    public NewTopic designacaoSalvar(){
+        return TopicBuilder.name("designacao-salvar")
+                .partitions(1)
+                .replicas(2)
+                .build();
+    }
  }

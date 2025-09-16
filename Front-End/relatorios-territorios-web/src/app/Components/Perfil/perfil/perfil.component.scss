@@ -67,8 +67,14 @@ hr{
     opacity: initial;
 }
 
-#checkDadosPessoais,#checkGrupoCampo,#checkCongregacao{
+#checkDadosPessoais,#checkGrupoCampo,#checkCongregacao,#checkNomeCpf{
     display:none;
+}
+
+.sub-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .sub-container-um, .sub-container-dois{
@@ -89,4 +95,18 @@ hr{
     font-size: 93px;
     display: block;
     padding: 25px;
+}
+
+.sub-div-topo{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title-perfil{
+    color: rgb(205, 131, 246);
+    display: flex; 
+    justify-content: left; 
+    align-items: center;   
+    margin-left: 1rem;
 }

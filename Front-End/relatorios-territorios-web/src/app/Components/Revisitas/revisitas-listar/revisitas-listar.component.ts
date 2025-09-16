@@ -10,6 +10,7 @@ import $ from 'jquery';
 import { AtualizarService } from '../../../Services/Revisita/atualizar.service';
 import { AuthService } from '../../../AuthService';
 import * as jwt from 'jwt-decode';
+import { Token } from '../../../Models/Token';
 
 @Component({
   selector: 'app-revisitas-listar',
@@ -77,7 +78,7 @@ export class RevisitasListarComponent {
   }
 
   listar(){
-    let email = jwt.jwtDecode(this.authService.getUsuarioLogado().token).sub
+    let email = jwt.jwtDecode<Token>(this.authService.getUsuarioLogado().token).sub
     this.listarServices.listar(email)
       .subscribe(res=>{
         this.dataSource.data = res

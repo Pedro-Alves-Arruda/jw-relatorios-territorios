@@ -6,6 +6,7 @@ import * as jwt from 'jwt-decode';
 import { MatIconModule } from '@angular/material/icon';
 import $ from 'jquery';
 import { CommonModule } from '@angular/common';
+import { Token } from '../../../Models/Token';
 
 @Component({
   selector: 'app-perfil',
@@ -23,6 +24,7 @@ export class PerfilComponent {
   booleanDadosPessoais:boolean = true;
   booleanGrupoCampo:boolean = true;
   booleanCongregacao:boolean = true;
+  booleanNomeCpf:boolean = true;
   mostraImagem:boolean = false
   imagePreview:any
   fotoPerfil:any = {
@@ -47,7 +49,7 @@ export class PerfilComponent {
   }
 
   ngOnInit(){
-    this.email = jwt.jwtDecode(this.authService.getUsuarioLogado().token).sub;
+    this.email = jwt.jwtDecode<Token>(this.authService.getUsuarioLogado().token).sub;
     this.getPerfil();
     this.getFotoPerfil();
   }
@@ -87,6 +89,11 @@ export class PerfilComponent {
   habilitaEdicaoGrupoCampo(){
     this.booleanGrupoCampo = false;
     $('#checkGrupoCampo').attr('style','display:flex;');
+  }
+
+  habilitaEdicaoNomeCpf(){
+    $('#checkNomeCpf').attr('style','display:flex;'); 
+    this.booleanNomeCpf = false
   }
 
   atualizarDadosPessoais(){

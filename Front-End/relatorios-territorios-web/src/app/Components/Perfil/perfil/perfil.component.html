@@ -1,35 +1,45 @@
 
-<div class="container" style="display:flex">
-    
+<div class="container" style="display:flex">    
     <div class="sub-container-um">
-        <h4 class="title">Foto de Perfil</h4>
-        <div class="foto-perfil">
-            <div *ngIf="mostraImagem" style="margin-top: 15px;">
-                <img [src]="imagePreview" alt="Foto capturada" style="max-width: 120px; border-radius: 100px;" />
+        <div class="div-topo">
+            <div class="col-md-12" style="display: flex;margin-top: 2rem;">
+                <hr>
+                <mat-icon id="editDadosPessoais" (click)="habilitaEdicaoNomeCpf()">edit</mat-icon>
+                <mat-icon id="checkNomeCpf" (click)="atualizarDadosPessoais()">check</mat-icon>
             </div>
-            <input type="file" #fileInput accept="image/*" capture="environment" style="display: none;" (change)="onFileSelected($event)"/>
-            <mat-icon type="file" class="mat-foto-perfil" (click)="fileInput.click()">photo_camera</mat-icon>
-        </div>
-        <div class="col-md-12" style="display: flex;margin-top: 2rem;">
-            <hr>
-            <mat-icon id="editDadosPessoais" (click)="habilitaEdicaoDadosPessoais()">edit</mat-icon>
-            <mat-icon id="checkDadosPessoais" (click)="atualizarDadosPessoais()">check</mat-icon>
-        </div>
-        <h4 class="title"> Dados Pessoais</h4>
-        <div class="col-md-12">
-            <div class="col-md-12" style="display: flex; align-items: center; justify-content: space-between;">
-                <label for="name">Nome:</label>
-                <input [disabled]="booleanDadosPessoais" type="text" class="inputs col-md-4 form-control" [(ngModel)]="publicador.nome">
-                <label for="cpf">CPF:</label>
-                <input [disabled]="booleanDadosPessoais" type="text" class="inputs col-md-4 form-control" [(ngModel)]="publicador.cpf">
+            <h4 class="title-perfil">Foto de Perfil</h4>
+            <div class="sub-div-topo">
+                <div class="foto-perfil">
+                    <div *ngIf="mostraImagem" style="margin-top: 15px;">
+                        <img [src]="imagePreview" alt="Foto capturada" style="max-width: 180px;border-radius: 100px;margin-right: 50px;" />
+                    </div>
+                    <input type="file" #fileInput accept="image/*" capture="environment" style="display: none;" (change)="onFileSelected($event)"/>
+                    <mat-icon type="file" class="mat-foto-perfil" (click)="fileInput.click()">photo_camera</mat-icon>
+                </div>
+                <div class="col-md-12" style="margin:0 auto">
+                    <label for="name">Nome:</label>
+                    <input [disabled]="booleanNomeCpf" type="text" class="inputs col-md-6 form-control" [(ngModel)]="publicador.nome">
+                    <label for="cpf">CPF:</label>
+                    <input [disabled]="booleanNomeCpf" type="text" class="inputs col-md-6 form-control" [(ngModel)]="publicador.cpf">
+                </div>
             </div>
+        </div>
+        <div class="base">
+            <div class="col-md-12" style="display: flex;margin-top: 2rem;">
+                <hr>
+                <mat-icon id="editDadosPessoais" (click)="habilitaEdicaoDadosPessoais()">edit</mat-icon>
+                <mat-icon id="checkDadosPessoais" (click)="atualizarDadosPessoais()">check</mat-icon>
+            </div>
+            <h4 class="title"> Dados Pessoais</h4>
             <div class="col-md-12">
-                <label for="email">Email:</label>
-                <input [disabled]="booleanDadosPessoais" type="text" class="inputs col-md-12 form-control" [(ngModel)]="publicador.email">
-                <label for="telefone">Telefone:</label>
-                <input [disabled]="booleanDadosPessoais" type="text" class="inputs col-md-12 form-ccontrol" [(ngModel)]="publicador.telefone">
-                <label for="endereco">Endereço:</label>
-                <input [disabled]="booleanDadosPessoais" type="text" class="inputs col-md-12 form-control"  [(ngModel)]="publicador.endereco">
+                <div class="col-md-12">
+                    <label for="email">Email:</label>
+                    <input [disabled]="booleanDadosPessoais" type="text" class="inputs col-md-12 form-control" [(ngModel)]="publicador.email">
+                    <label for="telefone">Telefone:</label>
+                    <input [disabled]="booleanDadosPessoais" type="text" class="inputs col-md-12 form-ccontrol" [(ngModel)]="publicador.telefone">
+                    <label for="endereco">Endereço:</label>
+                    <input [disabled]="booleanDadosPessoais" type="text" class="inputs col-md-12 form-control"  [(ngModel)]="publicador.endereco">
+                </div>
             </div>
         </div>
     </div>

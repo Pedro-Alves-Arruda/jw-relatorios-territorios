@@ -29,6 +29,7 @@ public class TokenServices {
         try{
             return JWT.create()
                     .withIssuer("relatorios-territorios")
+                    .withClaim("isAnciao", publicador.isAnciao())
                     .withSubject(publicador.getEmail())
                     .withExpiresAt(LocalDateTime.now().plusHours((2)).toInstant(ZoneOffset.of("-03:00")))
                     .sign(algorithm);

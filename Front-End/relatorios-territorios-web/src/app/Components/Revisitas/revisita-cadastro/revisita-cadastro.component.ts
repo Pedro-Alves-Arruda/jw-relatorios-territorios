@@ -4,6 +4,7 @@ import { Router, RouterOutlet } from '@angular/router';
 import { CadastroService } from '../../../Services/Revisita/cadastro.service';
 import * as jwt from 'jwt-decode';
 import { AuthService } from '../../../AuthService';
+import { Token } from '../../../Models/Token';
 
 @Component({
   selector: 'app-revisita-cadastro',
@@ -28,7 +29,7 @@ export class RevisitaCadastroComponent {
   }
 
   salvar(){
-    this.revisita['email'] = jwt.jwtDecode(this.authService.getUsuarioLogado().token).sub;
+    this.revisita['email'] = jwt.jwtDecode<Token>(this.authService.getUsuarioLogado().token).sub;
     this.cadastroService.salvar(this.revisita)
       .subscribe(res => {
         this.route.navigate(['/revisita-listar'])

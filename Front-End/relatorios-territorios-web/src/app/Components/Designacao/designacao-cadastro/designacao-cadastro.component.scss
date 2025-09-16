@@ -1,0 +1,52 @@
+@media (max-width: 650px) {
+    .container{
+        margin: 0 auto;
+        background-color: black;
+        color: white;
+        width: 100%;
+        height: 107vh;
+    }
+}
+
+
+@media (min-width: 650px){
+    
+    .container{
+        margin: 0 auto;
+        background-color: black;
+        color: white;
+        width: 40%;
+        height: 133vh;
+    }
+}
+
+
+.inputs{
+    display: flex;
+    padding: 5px;
+}
+
+
+.title{
+    color: rgb(205, 131, 246);
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    padding: 30px;
+}
+
+.btn{
+    background-color: grey;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: solid 2px var(--color-principal);
+    color: white;
+}
+
+.btn:hover{
+    background-color: rgb(205, 131, 246);
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: solid 2px black;
+    color: black;
+}

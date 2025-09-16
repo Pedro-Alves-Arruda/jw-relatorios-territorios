@@ -27,6 +27,9 @@ public class Publicador {
     private String endereco;
     @Column(nullable = true)
     private boolean isPioneiro = false;
+    @Column(nullable = true)
+    private boolean isAnciao = false;
+
 
     @ElementCollection
     private String[] roles;
@@ -137,4 +140,14 @@ public class Publicador {
     public void setPioneiro(boolean pioneiro) {
         isPioneiro = pioneiro;
     }
+
+    public boolean isAnciao() {
+        return isAnciao;
+    }
+
+    public void setAnciao(boolean anciao) {
+        isAnciao = anciao;
+    }
 }
+
+

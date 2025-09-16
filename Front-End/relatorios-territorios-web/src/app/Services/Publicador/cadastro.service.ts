@@ -8,7 +8,15 @@ import { Enviroments } from '../../Enviroments/Enviroments';
 })
 export class CadastroService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
+
+  listarDesignacoes():Observable<any>{
+    return this.http.get(Enviroments.url+"/tipo-designacao")
+  }
+
+  listar():Observable<any>{
+    return this.http.get(Enviroments.url+"/publicador/listar")
+  }
 
   salvar(publicador:any):Observable<any>{
     return this.http.post(Enviroments.url + "/publicador/salvar", publicador)

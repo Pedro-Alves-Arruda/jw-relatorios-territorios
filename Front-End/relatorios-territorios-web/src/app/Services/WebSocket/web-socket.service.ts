@@ -6,6 +6,7 @@ import { Subject } from 'rxjs';
 import { AuthService } from '../../AuthService';
 import { Router } from '@angular/router';
 import * as jwt from 'jwt-decode';
+import { Token } from '../../Models/Token';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,7 @@ export class WebSocketService {
     
     if(usuarioLogado.getUsuarioLogado().token != null || usuarioLogado.isAutheticated()){
       let token = usuarioLogado.getUsuarioLogado().token;
-      let email = jwt.jwtDecode(token).sub
+      let email = jwt.jwtDecode<Token>(token).sub
       this.client = new Client({
         brokerURL: `ws://localhost:8080/ws?token=${token}`,
         connectHeaders: {},
