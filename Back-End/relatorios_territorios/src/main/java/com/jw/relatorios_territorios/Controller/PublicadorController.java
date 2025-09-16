@@ -2,9 +2,7 @@ package com.jw.relatorios_territorios.Controller;
 
 
 
-import com.jw.relatorios_territorios.DTO.DadosGraficoDTO;
-import com.jw.relatorios_territorios.DTO.FotoPerfilDTO;
-import com.jw.relatorios_territorios.DTO.PublicadorDTO;
+import com.jw.relatorios_territorios.DTO.*;
 import com.jw.relatorios_territorios.Models.Publicador;
 import com.jw.relatorios_territorios.Producers.PublicadorProducers;
 import com.jw.relatorios_territorios.Services.PublicadorServices;
@@ -16,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -70,6 +69,24 @@ public class PublicadorController {
     public ResponseEntity<DadosGraficoDTO> buscarDadosGrafico(@RequestParam String email){
         try{
             return ResponseEntity.ok().body(publicadorServices.buscarDadosGrafico(email));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @GetMapping("listar-estudos")
+    public ResponseEntity<List<EstudoBiblicoDTO>> listarEstudosBiblicos(@RequestParam String email){
+        try{
+            return ResponseEntity.ok().body(publicadorServices.listarEstudosBiblicos(email));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @GetMapping("lista-publicacoes-deixadas")
+    public ResponseEntity<List<PublicacoesDeixadasDTO>> listarPublicacoesDeixadas(@RequestParam String email){
+        try{
+            return ResponseEntity.ok().body(publicadorServices.listarPublicacoesDeixadas(email));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

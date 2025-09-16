@@ -96,7 +96,7 @@ mat-icon{
     justify-content: center;
 }
 
-.tabela{
+.tabela_revisitas{
     color:white
 }
 
@@ -122,4 +122,36 @@ mat-icon{
     color:white
 }
 
+.tabela_estudos_informacoes{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tabela_estudos_informacoes .mat-mdc-cell{
+    background: grey;
+    color:white
+}
+
+.tabela_estudos_informacoes .mat-mdc-table .mat-mdc-header-cell, .mat-paginator .mat-mdc-paginator-container{
+    background: var(--color-principal);
+    color: white;
+}
+
+.tabela_estudos_informacoes .mat-mdc-paginator-touch-target{
+    color:white
+}
+
+.title{
+    color: white;
+}
+
+.table-estudos, .table-designacoes{
+    width: 50%;
+    padding: 26px;
+}
+
+.grafico-publicacoes-deixadas{
+    width: 100%;
+}
 

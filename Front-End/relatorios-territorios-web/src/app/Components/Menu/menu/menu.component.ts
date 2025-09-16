@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, input, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild, AfterViewInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterOutlet } from '@angular/router';
 import { AuthService } from '../../../AuthService';
@@ -24,7 +24,7 @@ import { ListarService } from '../../../Services/Revisita/listar.service';
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.scss'
 })
-export class MenuComponent {
+export class MenuComponent implements AfterViewInit{
   constructor(private router:Router, 
     private authService:AuthService, 
     private webSocketServices:WebSocketService,
@@ -32,7 +32,8 @@ export class MenuComponent {
     private cdr:ChangeDetectorRef,
     private publicadorServices:CadastroService,
     private listarServices:ListarService){}
-
+  
+  email?:any
   notificacoes:Notificacao[] = []
   notificacoesPessoais:any[] = []
   private subscription!: Subscription;
@@ -42,26 +43,29 @@ export class MenuComponent {
   notificacoesLidas: any[] = []
   usuarioLogado:any
   dadosGraficoPizza:any
-  data?:any
   mostraGraficos:boolean = false
   revisitas?:any
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-    
   dataSource = new MatTableDataSource<any>();
-    
+  dataSourceEstudos = new MatTableDataSource<any>();
+  @ViewChild(MatPaginator) paginator!: MatPaginator;  
+  @ViewChild(MatPaginator) paginatorEstudos!: MatPaginator;  
   displayedColumns:any = [
         'Nome',
         'Descricao',
-        'created_at',
-        'Rua',
-        'Bairro',
-        'Numero',
-        'Cidade',
-        'Estado',
-        'CEP',
-        'Telefone'];
+        'created_at'];
+  
+  displayedColumnsEstudos:any = [
+        'nome',
+        'publicacao',
+        'capitulo'];
 
   pieChartOptions:any = {
+      title:{
+        text:'Dados do Ultimo Mês',
+        textStyle:{
+          color:'white'
+        }
+      },
       tooltip: {
         trigger: 'item'
       },
@@ -74,7 +78,7 @@ export class MenuComponent {
         {
           type: 'pie',
           radius: '60%',
-          data: this.data,
+          data: [],
            label: {
             show: false 
           },
@@ -119,12 +123,43 @@ export class MenuComponent {
       },
     ]
   };
+
+  lineChartOptionsPublicacoesDeixadas: any = {
+    title: {
+      text: 'Publicações Deixadas',
+      textStyle: {
+        color: 'white'
+      }
+    },
+    tooltip: {
+      trigger: 'axis'
+    },
+    xAxis: {
+      type: 'category',
+      data: []
+    },
+    yAxis: {
+      type: 'value'
+    },
+    series: [
+      {
+        name: '',
+        type: 'line',
+        smooth: true,
+        data: [],
+        color:['rgba(105, 36, 124, 0.735)'] 
+      },
+    ]
+  };
   
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
+    this.dataSourceEstudos.paginator = this.paginatorEstudos;
   }
+
   ngOnInit(){
     this.usuarioLogado = this.authService.getUsuarioLogado();
+    this.email = jwt.jwtDecode(this.usuarioLogado.token).sub
     this.buscarNotificacoes();
     this.buscarNotificacoesPessoais();
     this.buscaNotificacaoInterval()
@@ -133,6 +168,8 @@ export class MenuComponent {
     if(this.router.url == '/'){
       this.buscarDadosGrafico();
       this.listar();
+      this.listarEstudosBiblicos();
+      this.buscarDadosGraficoPublicacoesDeixadas();
     }
 
       this.webSocketServices.notificacaoSubject
@@ -150,22 +187,35 @@ export class MenuComponent {
         })
   }
 
-
-
-
-
   listar(){
-    let email = jwt.jwtDecode(this.authService.getUsuarioLogado().token).sub
-    this.listarServices.listar(email)
+    this.listarServices.listar(this.email)
       .subscribe(res=>{
         this.dataSource.data = res
+        this.dataSource.paginator = this.paginator;
+      })
+  }
+
+  listarEstudosBiblicos(){
+    this.publicadorServices.listarEstudosBiblicos(this.email)
+      .subscribe(res => {
+          if(res){
+            this.dataSourceEstudos.data = res
+            this.dataSourceEstudos.paginator = this.paginatorEstudos
+          }
+      })
+  }
+
+  buscarDadosGraficoPublicacoesDeixadas(){
+    this.publicadorServices.listarPublicacoesDeixadas(this.email)
+      .subscribe(res => {
+        if(res){
+          this.montarGraficoLinhaPublicacoesDeixadas(res);
+        }
       })
   }
 
   buscarDadosGrafico(){
-    let email = jwt.jwtDecode(this.usuarioLogado.token).sub
-
-    this.publicadorServices.buscarDadosGrafico(email)
+    this.publicadorServices.buscarDadosGrafico(this.email)
       .subscribe(res => {
         if(res){
           this.montaGraficoPizza(res)
@@ -211,6 +261,34 @@ export class MenuComponent {
         series: [
         {
           name: 'Revisitas',
+          type: 'line',
+          smooth: true,
+          data: data
+        },
+      ]
+    }
+  }
+
+  montarGraficoLinhaPublicacoesDeixadas(res:any){
+    let publicacao: any[] = [];
+    let data: any[] = []
+
+    res.forEach((a: { nome: any; quantidade:any}) => {
+      publicacao.push(a.nome)
+      data.push(a.quantidade)
+    })
+
+    this.lineChartOptionsPublicacoesDeixadas = {
+      ...this.lineChartOptionsPublicacoesDeixadas,
+      ...(this.lineChartOptionsPublicacoesDeixadas.xAxis?.[0] || {}),
+      xAxis:{
+        type: 'category',
+        data: publicacao
+      },
+      ...(this.lineChartOptionsPublicacoesDeixadas.series?.[0] || {}),
+        series: [
+        {
+          name: 'Publicações Deixadas',
           type: 'line',
           smooth: true,
           data: data

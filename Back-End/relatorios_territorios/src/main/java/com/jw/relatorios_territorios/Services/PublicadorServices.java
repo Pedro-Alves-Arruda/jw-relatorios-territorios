@@ -3,11 +3,10 @@ package com.jw.relatorios_territorios.Services;
 
 import com.jw.relatorios_territorios.DTO.*;
 import com.jw.relatorios_territorios.Models.Congregacao;
+import com.jw.relatorios_territorios.Models.EstudoBiblico;
 import com.jw.relatorios_territorios.Models.GrupoCampo;
 import com.jw.relatorios_territorios.Models.Publicador;
-import com.jw.relatorios_territorios.Repository.CongregacaoRepository;
-import com.jw.relatorios_territorios.Repository.GrupoCampoRepository;
-import com.jw.relatorios_territorios.Repository.PublicadorRepository;
+import com.jw.relatorios_territorios.Repository.*;
 import com.jw.relatorios_territorios.S3.PublicadorS3;
 import jakarta.persistence.EntityNotFoundException;
 import org.hibernate.JDBCException;
@@ -33,6 +32,13 @@ public class PublicadorServices {
 
     @Autowired
     private PublicadorS3 publicadorS3;
+
+    @Autowired
+    private EstudoBiblicoRepository estudoBiblicoRepository;
+
+    @Autowired
+    private CampoRepository campoRepository;
+
 
     private PasswordEncoder passwordEncoder;
 
@@ -121,6 +127,49 @@ public class PublicadorServices {
             graficoLinha.add(new GraficoLinhaDTO(obj[0].toString(), Integer.valueOf(obj[1].toString())));
         }
         return graficoLinha;
+    }
+
+    public List<EstudoBiblicoDTO> listarEstudosBiblicos(String email){
+        try{
+            Publicador publicador = publicadorRepository.findByEmail(email).get();
+            List<EstudoBiblico> listEstudoBiblico = estudoBiblicoRepository.findByIdPublicador(publicador.getId());
+            List<EstudoBiblicoDTO> listRetorno = new ArrayList<>();
+            listEstudoBiblico.stream()
+                    .map(a -> {
+                        listRetorno.add(new EstudoBiblicoDTO(a.getNomeEstudante(), null, null, a.getPublicacao(), a.getCapitulo(), null));
+                        return true;
+                    })
+                    .collect(Collectors.toCollection(ArrayList::new));
+            return listRetorno;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<PublicacoesDeixadasDTO> listarPublicacoesDeixadas(String email){
+        try{
+            Publicador publicador = publicadorRepository.findByEmail(email).get();
+            List<String> publicacoesDeixadas = this.campoRepository.buscarPublicacoesDeixadas(publicador.getId());
+
+            if(publicacoesDeixadas.isEmpty()){
+                return new ArrayList<>();
+            }
+            String[] publicacoes =  publicacoesDeixadas.toString().split("'");
+
+            return Arrays.stream(publicacoes).toList().stream()
+                    .filter(pub -> pub.startsWith("Video") || pub.startsWith("Brochura") || pub.startsWith("Sentinela"))
+                    .collect(Collectors.toMap(
+                            pub -> pub,
+                            pub -> 1,
+                            Integer::sum
+                    ))
+                    .entrySet().stream()
+                    .map(e -> new PublicacoesDeixadasDTO(e.getKey(), e.getValue()))
+                    .toList();
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private List<PublicadorDTO> preparaListaRetorno(List<Publicador> publicadores){

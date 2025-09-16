@@ -28,7 +28,20 @@ public interface PublicadorRepository extends JpaRepository<Publicador, UUID> {
     public List<Object[]> buscarDadosGrafico(@Param("id") UUID id);
 
     @Query(value = "SELECT \n" +
-            "TO_CHAR(created_at, 'TMMonth') AS mes, \n" +
+            "CASE EXTRACT(MONTH FROM created_at)\n" +
+            "  WHEN 1 THEN 'Janeiro'\n" +
+            "  WHEN 2 THEN 'Fevereiro'\n" +
+            "  WHEN 3 THEN 'Março'\n" +
+            "  WHEN 4 THEN 'Abril'\n" +
+            "  WHEN 5 THEN 'Maio'\n" +
+            "  WHEN 6 THEN 'Junho'\n" +
+            "  WHEN 7 THEN 'Julho'\n" +
+            "  WHEN 8 THEN 'Agosto'\n" +
+            "  WHEN 9 THEN 'Setembro'\n" +
+            "  WHEN 10 THEN 'Outubro'\n" +
+            "  WHEN 11 THEN 'Novembro'\n" +
+            "  WHEN 12 THEN 'Dezembro'\n" +
+            "END AS mes, \n" +
             "COUNT(*) AS quantidade\n" +
             "FROM revisita\n" +
             "WHERE id_publicador = :id \n" +

@@ -11,8 +11,6 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Getter
-@Setter
 public class EstudoBiblico {
 
     @Id
@@ -24,4 +22,60 @@ public class EstudoBiblico {
     private String publicacao;
     private String capitulo;
     private LocalDateTime createdAt;
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public String getNomeEstudante() {
+        return nomeEstudante;
+    }
+
+    public void setNomeEstudante(String nomeEstudante) {
+        this.nomeEstudante = nomeEstudante;
+    }
+
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
+    }
+
+    public UUID getIdPublicador() {
+        return idPublicador;
+    }
+
+    public void setIdPublicador(UUID idPublicador) {
+        this.idPublicador = idPublicador;
+    }
+
+    public String getPublicacao() {
+        return publicacao;
+    }
+
+    public void setPublicacao(String publicacao) {
+        this.publicacao = publicacao;
+    }
+
+    public String getCapitulo() {
+        return capitulo;
+    }
+
+    public void setCapitulo(String capitulo) {
+        this.capitulo = capitulo;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
 }

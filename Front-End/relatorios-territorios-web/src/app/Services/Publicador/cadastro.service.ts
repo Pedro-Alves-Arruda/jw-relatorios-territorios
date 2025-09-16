@@ -17,4 +17,12 @@ export class CadastroService {
   buscarDadosGrafico(email:any):Observable<any>{
     return this.http.get(Enviroments.url+"/publicador/dados-grafico?email="+email)
   }
+
+  listarEstudosBiblicos(email:any):Observable<any>{
+    return this.http.get(Enviroments.url+"/publicador/listar-estudos?email="+email)
+  }
+
+  listarPublicacoesDeixadas(email:any):Observable<any>{
+    return this.http.get(Enviroments.url+"/publicador/lista-publicacoes-deixadas?email="+email)
+  }
 }
