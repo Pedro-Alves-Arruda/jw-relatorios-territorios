@@ -9,6 +9,7 @@ import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.service.annotation.GetExchange;
 
 import java.util.Optional;
 
@@ -46,6 +47,12 @@ public class LoginController {
         }catch (Exception e){
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
+    }
+
+    @GetMapping("status-redefinir-senha")
+    public ResponseEntity<String> mudarStatusRedefinicaoSenha(@RequestParam String email){
+        System.out.println(email);
+        return ResponseEntity.ok().body("Ok");
     }
 
 

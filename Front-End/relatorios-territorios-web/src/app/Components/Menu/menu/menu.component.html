@@ -32,6 +32,10 @@
 </div>
 
 <div class="container" *ngIf="mostraGraficos">
+    <div class="total-horas">
+        <h6>Total Horas no mês: {{totalHorasMes}} Horas</h6>
+        <h6>Total Horas no ano: {{totalHorasAno}} Horas</h6>
+    </div>
     <div class="graficos">
         <div class="sub-container-um">
             <div echarts [options]="pieChartOptions" class="demo-chart"></div>

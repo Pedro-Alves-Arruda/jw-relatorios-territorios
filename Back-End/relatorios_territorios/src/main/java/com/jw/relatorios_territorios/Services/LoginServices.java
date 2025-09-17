@@ -51,10 +51,12 @@ public class LoginServices {
         return "";
     }
 
-    public void enviarLinkRedefinicaoSenha(String email ) throws ExecutionException, InterruptedException {
+    public void enviarLinkRedefinicaoSenha(String email) throws ExecutionException, InterruptedException {
         try{
-            if(this.publicadorRepository.findByEmail(email).isPresent()) {
-                this.emailService.send(email);
+            Publicador publicador = publicadorRepository.findByEmail(email).get();
+            String token = tokenServices.gerarTokenPersonalizado(publicador, 5);
+            if(!token.isEmpty()) {
+                this.emailService.send(email, token);
             }else{
                 this.kafkaServices.deletarUltimaMensagem("redefinicao-senha");
                 throw new EntityNotFoundException("Email não existe no sistema");

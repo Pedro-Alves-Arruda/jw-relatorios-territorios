@@ -51,5 +51,12 @@ public interface PublicadorRepository extends JpaRepository<Publicador, UUID> {
     public List<Object[]> buscarDadosGraficoLinha(@Param("id") UUID id);
 
 
+    @Query(value = "select distinct SUM(sc.tempo::interval) as tempo_trabalhado_ano,\n" +
+            "(select distinct SUM(tempo::interval) from servico_campo where created_at between date_trunc('month', current_date) ::timestamp\n" +
+            "and (date_trunc('month', current_date)+ interval '1 month - 1 day') ::timestamp and publicador = :id) as tempo_trabalhado_mes\n" +
+            "from servico_campo as sc \n" +
+            "where publicador = :id", nativeQuery = true)
+    public List<Object[]> getTotalHoras(@Param("id") UUID id);
+
 
 }

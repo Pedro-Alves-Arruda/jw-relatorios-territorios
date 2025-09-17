@@ -3,6 +3,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginServicesService } from '../../../../Services/Login/login-services.service';
 import { AuthService } from '../../../../AuthService';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
+import * as jwt from 'jwt-decode'
 
 @Component({
   selector: 'app-formulario-redefinicao-senha',
@@ -12,19 +14,39 @@ import { CommonModule } from '@angular/common';
 })
 export class FormularioRedefinicaoSenhaComponent {
 
-  constructor(private loginServices:LoginServicesService){}
+  constructor(private loginServices:LoginServicesService, private route: ActivatedRoute){}
 
   buttonAbilitado:boolean = false
   mensagemSucesso:boolean = false
   mensagemErro:boolean = false
+  mostraFormulario:boolean = true;
   
-  senhasNovas = {
+  senhasNovas:any = {
     password:"",
-    senha2:"",
-    email:null
+    senha2:""
   }
 
-    salvarSenhaNova(){
+  ngOnInit(){
+    let token = this.route.snapshot.queryParamMap.get("char");
+    if(!this.isTokenExpired(token) && token){
+      this.senhasNovas['email'] = jwt.jwtDecode(token).sub
+    }else{
+      this.mostraFormulario=false;
+      alert("Formulario para redefinição de senha expirado, por favor solicite um novo")
+    }
+  }
+
+  isTokenExpired(token:any){
+    try{
+        const decode: any = jwt.jwtDecode(token)
+        const now = Date.now().valueOf() / 1000;
+        return decode.exp < now
+    }catch (err){
+        return true;
+    }
+  }
+
+  salvarSenhaNova(){
     if(this.validarSenhas()){
       this.loginServices.salvarSenhaNova(this.senhasNovas)
         .subscribe(res => {

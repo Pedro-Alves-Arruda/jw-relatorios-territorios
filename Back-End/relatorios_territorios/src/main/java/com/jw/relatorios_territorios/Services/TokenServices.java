@@ -39,6 +39,22 @@ public class TokenServices {
 
     }
 
+    public String gerarTokenPersonalizado(Publicador publicador, Integer duracao){
+
+        Algorithm algorithm = Algorithm.HMAC256(secret);
+
+        try{
+            return JWT.create()
+                    .withIssuer("relatorios-territorios")
+                    .withSubject(publicador.getEmail())
+                    .withExpiresAt(LocalDateTime.now().plusMinutes(duracao).toInstant(ZoneOffset.of("-03:00")))
+                    .sign(algorithm);
+        }catch (JWTCreationException ex){
+            throw new RuntimeException(ex.getMessage());
+        }
+
+    }
+
     public String recoverToken(String token){
         Algorithm algorithm = Algorithm.HMAC256(secret);
 

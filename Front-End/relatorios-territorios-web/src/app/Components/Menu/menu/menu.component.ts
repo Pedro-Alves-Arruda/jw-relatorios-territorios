@@ -49,6 +49,8 @@ export class MenuComponent implements AfterViewInit{
   dadosGraficoPizza:any
   mostraGraficos:boolean = false
   revisitas?:any
+  totalHorasMes:any
+  totalHorasAno:any
   dataSource = new MatTableDataSource<any>();
   dataSourceDesignacoes = new MatTableDataSource<any>();
   dataSourceEstudos = new MatTableDataSource<any>();
@@ -243,6 +245,8 @@ export class MenuComponent implements AfterViewInit{
         if(res){
           this.montaGraficoPizza(res)
           this.montaGraficoLinha(res)
+          this.totalHorasAno = res.TotalHorasAno
+          this.totalHorasMes = res.totalHorasMes
           this.mostraGraficos = true
         }
       })

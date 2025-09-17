@@ -105,9 +105,21 @@ public class PublicadorServices {
             var obj = getDadosGraficoPizza(publicador);
             //buscando dadoss para grafico de linha
             var objGraficoLinha = getDadosGraficoLinha(publicador);
+
+            //buscar total horas no mes e no ano
+            var totalHoras = publicadorRepository.getTotalHoras(publicador.getId());
+            String totalHorasMes = "0";
+            String totalHorasAno = "0";
+
+            for(Object[] horas: totalHoras){
+                totalHorasMes = horas[1].toString().split(" ")[6];
+                totalHorasAno = horas[0].toString().split(" ")[6];
+            }
             return new DadosGraficoDTO(
                     new GraficoPizzaDTO(Integer.valueOf(obj[0].toString()), Integer.valueOf(obj[1].toString()), Integer.valueOf(obj[2].toString())),
-                    objGraficoLinha
+                    objGraficoLinha,
+                    totalHorasMes,
+                    totalHorasAno
             );
         } catch (Exception e) {
             throw new RuntimeException(e);

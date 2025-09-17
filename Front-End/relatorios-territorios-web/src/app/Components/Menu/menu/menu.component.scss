@@ -128,6 +128,12 @@ mat-icon{
     align-items: center;
 }
 
+.total-horas{
+    margin-left: 6rem;
+    width: 74%;
+    padding: 15px;
+}
+
 .tabela_estudos_informacoes .mat-mdc-cell{
     background: grey;
     color:white
@@ -153,5 +159,9 @@ mat-icon{
 
 .grafico-publicacoes-deixadas{
     width: 100%;
+}
+
+h6{
+    color:rgb(180, 103, 201)
 }
 
