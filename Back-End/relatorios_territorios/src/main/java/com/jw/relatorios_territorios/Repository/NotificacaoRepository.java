@@ -16,7 +16,7 @@ public interface NotificacaoRepository extends JpaRepository<Notificacao, UUID> 
     @Query(value = "select * from notificacao where id_publicador_emissor is null order by created_at desc", nativeQuery = true)
     public List<Notificacao> findAllCommon();
 
-    @Query(value = "select * from notificacao where id_publicador_remetente = :id and id_publicador_emissor <> :id", nativeQuery = true)
+    @Query(value = "select * from notificacao where id_publicador_remetente = :id and id_publicador_emissor <> :id order by created_at desc", nativeQuery = true)
     public List<Notificacao> findAllPersonal(@Param("id") UUID id);
 
     @Modifying

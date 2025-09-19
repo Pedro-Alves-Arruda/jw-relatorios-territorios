@@ -15,7 +15,6 @@ public interface PublicadorRepository extends JpaRepository<Publicador, UUID> {
 
     public Optional<Publicador> findByEmail(@Param("email") String email);
 
-    @Query(value = "select p.*, cg.nome as nomeCongregacao, cg.rua, cg.bairro, cg.cidade from publicador as p join congregacao as cg on p.congregacao_id = cg.id where p.id = :id", nativeQuery = true)
     public Optional<Publicador> findById(@Param("id") UUID id);
 
     @Query(value = "select count(*) as numero_revisitas,\n" +

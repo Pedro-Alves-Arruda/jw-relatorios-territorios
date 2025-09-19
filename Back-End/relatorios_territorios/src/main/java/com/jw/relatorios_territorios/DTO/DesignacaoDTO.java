@@ -5,7 +5,7 @@ import java.util.UUID;
 
 public record DesignacaoDTO(
         String designacao,
-        UUID idPublicador,
+        String email,
         LocalDateTime dia,
         LocalDateTime createdAt) {
 }

@@ -15,10 +15,12 @@ export class DesignacaoCadastroComponent {
   publicadores:any
   designacoes:any
   designacao = {
-    idPublicador:'',
+    email:'',
     dia:null,
     designacao:''
   }
+  mensagemSucesso:boolean = false
+  mensagemErro:boolean = false
 
   constructor(private publicadorServices:CadastroService, private designacoesServices:DesignacaoServicesService){}
 
@@ -50,7 +52,15 @@ export class DesignacaoCadastroComponent {
     this.designacoesServices.nova(this.designacao)
       .subscribe(res => {
         if(res){
-
+          this.mensagemSucesso = true;
+            setTimeout(() => {
+              this.mensagemSucesso = false;
+            }, 10000);
+        }else{
+          this.mensagemErro = true;
+            setTimeout(() => {
+              this.mensagemErro = false;
+            }, 10000);
         }
       })
   }

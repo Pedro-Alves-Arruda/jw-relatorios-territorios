@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, UnsubscriptionError } from 'rxjs';
 import { Enviroments } from '../../Enviroments/Enviroments';
 
 @Injectable({
@@ -20,6 +20,10 @@ export class LoginServicesService {
 
   salvarSenhaNova(senhaNova:any):Observable<any>{
     return this.http.post(Enviroments.url+"/login/redefinir-senha",senhaNova, { responseType: 'text' });
+  }
+
+  enviarSolicitacaoUsuarioNovo(usuario:any):Observable<any>{
+    return this.http.post(Enviroments.url+"/login/solicitar-criacao-usuario", usuario)
   }
 
 }

@@ -68,6 +68,13 @@ public class KafkaConfig {
             .replicas(2)
             .build(); }
 
+    @Bean
+    public NewTopic SolicitarUsuarioNovo(){
+        return TopicBuilder.name("solicitar-usuario-novo")
+                .partitions(1)
+                .replicas(2)
+                .build();
+    }
 
     //Bean para capturar as mensagens do topico kafka e apagar ela caso seja necessario
     @Bean

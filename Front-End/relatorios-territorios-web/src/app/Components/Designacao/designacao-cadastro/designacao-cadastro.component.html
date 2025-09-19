@@ -1,10 +1,12 @@
 <div class="container">
+    <div class="mensagem-sucesso" *ngIf="mensagemSucesso">Designação cadastrada com sucesso</div>
+    <div class="mensagem-erro" *ngIf="mensagemErro">Erro ao cadastrar designação</div>
     <h3 class="title">Cadastrar Nova Designação</h3>
     <div class="col-md-12">
         <hr>
         <label for="">Publicadores:</label>
-        <select #publicacao name="listPublicadores" class="form-control col-md-12" [(ngModel)]="designacao.idPublicador">
-            <option *ngFor="let pub of publicadores" [ngValue]="pub.id">{{ pub.nome }}</option>
+        <select #publicacao name="listPublicadores" class="form-control col-md-12" [(ngModel)]="designacao.email">
+            <option *ngFor="let pub of publicadores" [ngValue]="pub.email">{{ pub.nome }}</option>
         </select>
         <hr>
         <label for="">Tipo de Designação:</label>

@@ -8,12 +8,15 @@ import com.jw.relatorios_territorios.Models.Publicador;
 import com.jw.relatorios_territorios.Repository.DesignacaoRepository;
 import com.jw.relatorios_territorios.Repository.PublicadorRepository;
 import com.jw.relatorios_territorios.WebSockets.DesignacaoSockets;
+import jakarta.persistence.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.MessagingException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,13 +31,19 @@ public class DesignacaoServices {
     @Autowired
     private DesignacaoSockets designacaoSockets;
 
-    public void nova(DesignacaoDTO designacaoDTO){
+    @Autowired
+    private KafkaServices kafkaServices;
+
+    public void nova(DesignacaoDTO designacaoDTO) throws ExecutionException, InterruptedException {
+
+        //pegar email do usuario que a notificacao sera enviada
+        Publicador publicador = publicadorRepository.findByEmail(designacaoDTO.email()).get();
 
         //montar obj para ser salvo
         var designacao = new Designacao();
         designacao.setDesignacao(designacaoDTO.designacao());
         designacao.setDia(designacaoDTO.dia());
-        designacao.setIdPublicador(designacaoDTO.idPublicador());
+        designacao.setIdPublicador(publicador.getId());
         designacao.setCreatedAt(LocalDateTime.now());
 
         try{
@@ -43,12 +52,19 @@ public class DesignacaoServices {
 
             //enviar Notificacao de designacao para usuario em questão
 
-                //pegar email do usuario que a notificacao sera enviada
-                Publicador publicador = publicadorRepository.findById(designacaoDTO.idPublicador()).get();
                 //montar a notificacao que sera enviada
                 Notificacao notificacao = new Notificacao();
-                notificacao.setMessage("Segue designação abaixo\nDesignação:"+designacaoDTO.designacao()+"\nDia:"+designacaoDTO.dia());
+                notificacao.setMessage("Segue designação abaixo \nDesignação:"+designacaoDTO.designacao()+"\n Dia: "+ formataData(designacaoDTO.dia()));
+                notificacao.setCreatedAt(LocalDateTime.now());
+                notificacao.setIdPublicadorRemetente(publicador.getId());
+                notificacao.setTopic("/topic/notificacoes/"+publicador.getEmail());
+
                 designacaoSockets.enviarNotificacaoDesignacao(notificacao, publicador.getEmail());
+        }catch (PersistenceException e) {
+            throw new PersistenceException(e.getMessage());
+        }catch (MessagingException e) {
+            kafkaServices.deletarUltimaMensagem("designacao-salvar");
+            throw new MessagingException(e.getMessage());
         }catch (Exception e){
             throw new RuntimeException(e.getMessage());
         }
@@ -66,6 +82,11 @@ public class DesignacaoServices {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private String formataData(LocalDateTime data){
+        String[] dataS = data.toString().split("-");
+        return dataS[2].split(":")[0].split("T")[1]+"/"+dataS[1]+"/"+dataS[0];
     }
 
 }

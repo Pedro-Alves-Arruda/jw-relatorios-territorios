@@ -26,7 +26,7 @@ import java.util.List;
 @EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true)
 public class SecurityConfig {
 
-    private static String[] rotas = {"/publicador/**", "congregacao/**", "/login/**", "/revisita/**", "/campo/**", "/notificacoes/**"};
+    private static String[] rotas = {"/publicador/**", "congregacao/**", "/login/**", "/revisita/**", "/campo/**", "/notificacoes/**", "/publicacao/**"};
 
     @Autowired
     private SecurityFilter securityFilter_;

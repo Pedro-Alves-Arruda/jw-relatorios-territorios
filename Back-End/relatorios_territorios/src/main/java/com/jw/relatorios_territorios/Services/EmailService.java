@@ -1,6 +1,8 @@
 package com.jw.relatorios_territorios.Services;
 
 
+import com.jw.relatorios_territorios.DTO.PublicacaoDTO;
+import com.jw.relatorios_territorios.DTO.PublicadorDTO;
 import com.jw.relatorios_territorios.Models.Relatorio;
 import jakarta.mail.Address;
 import jakarta.mail.Message;
@@ -78,6 +80,49 @@ public class EmailService {
                                 "                 background-color:rgba(105, 36, 124, 0.735); color: white;\">" +
                                 "    Redefinir Senha" +
                                 "  </a>" +
+                            "  </div>"+
+                            "  <hr>"+
+                            "</body>" +
+                            "</html>";
+
+
+            mimeMessage.setContent(html, "text/html; charset=utf-8");
+
+            this.javaMailSender.send(mimeMessage);
+
+        } catch (MailSendException e) {
+            throw new RuntimeException(e.getMessage());
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public void enviarEmailSolicitacaoUsuarioNovo(PublicadorDTO publicadorDTO) throws MessagingException {
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+
+        try{
+            Address[] addresses = new Address[]{
+                    new InternetAddress(publicadorDTO.email())
+            };
+
+            mimeMessage.addFrom(addresses);
+            mimeMessage.setRecipients(Message.RecipientType.TO, addresses);
+            mimeMessage.setSubject("Solicitação de criação de usuario");
+
+            String html =
+                    "<!DOCTYPE html>" +
+                            "<html>" +
+                            "<head>" +
+                            "  <meta charset=\"UTF-8\">" +
+                            "  <title>Solicitar Usuario</title>" +
+                            "</head>" +
+                            "<body>" +
+                            "  <div style=\"display:flex;align-items:center;justify-content:center;\">"+
+                            "  <h3 style=\"color:rgba(105, 36, 124, 0.735);\"> Solicitação de criação de usuario</h3>"+
+                            "  </div>"+
+                            "  <p>O publicador "+publicadorDTO.nome()+" solicita a criação do usuario dele</p>"+
                             "  </div>"+
                             "  <hr>"+
                             "</body>" +

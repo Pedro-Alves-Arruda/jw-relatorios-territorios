@@ -40,4 +40,14 @@ public class LoginProducers {
             throw new RuntimeException(e.getMessage());
         }
     }
+
+    public String enviarMensagemSolicitacaoUsuarioNovo(PublicadorDTO publicadorDTO){
+        try{
+            log.info("Enviando mensagem de solicitação de usuario novo");
+            templateRedefinicao.send("solicitar-usuario-novo", publicadorDTO);
+            return "mensagem de solicitação de usuario novo enviada com sucesso";
+        }catch (KafkaProducerException e){
+            throw new RuntimeException(e.getMessage());
+        }
+    }
 }

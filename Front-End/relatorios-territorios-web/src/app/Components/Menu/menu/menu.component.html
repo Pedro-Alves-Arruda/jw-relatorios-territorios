@@ -76,7 +76,7 @@
         </table>
 
         <!-- Paginação -->
-        <mat-paginator style="background: grey; color: white;" [pageSize]="4" [pageSizeOptions]="[4, 8]" showFirstLastButtons></mat-paginator>
+        <mat-paginator #paginatorRevisitas style="background: grey; color: white;" [pageSize]="4" [pageSizeOptions]="[4, 8]" showFirstLastButtons></mat-paginator>
     </div>
     <div class="tabela_estudos_informacoes" >
         <div class="table-estudos">
@@ -106,7 +106,7 @@
             </table>
     
             <!-- Paginação -->
-            <mat-paginator style="background: var(--color-principal); color: white;" [pageSize]="3" [pageSizeOptions]="[2, 4]" showFirstLastButtons></mat-paginator>
+            <mat-paginator #paginatorEstudos style="background: var(--color-principal); color: white;" [pageSize]="2" [pageSizeOptions]="[2, 4]" showFirstLastButtons></mat-paginator>
         </div>
         <div class="table-designacoes">
 
@@ -131,7 +131,7 @@
                </table>
        
                <!-- Paginação -->
-               <mat-paginator style="background: var(--color-principal); color: white;" [pageSize]="3" [pageSizeOptions]="[2, 4]" showFirstLastButtons></mat-paginator>
+               <mat-paginator #paginatorDesignacao style="background: var(--color-principal); color: white;" [pageSize]="3" [pageSizeOptions]="[3, 6]" showFirstLastButtons></mat-paginator>
         </div>
     </div>
 </div>

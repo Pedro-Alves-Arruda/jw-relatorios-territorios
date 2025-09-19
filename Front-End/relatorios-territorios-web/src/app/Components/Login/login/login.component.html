@@ -21,7 +21,7 @@
         <input autocomplete="off" type="password" class="col-md-10 ml-3 form-control" name="password" id="password" [(ngModel)]="usuario.password">
     </div>
     <hr>
-    <!-- <p>Primeiro login? <a data-toggle="modal" data-target="#modalLinkCadastro" href="" style="cursor: pointer;" (click)="preparaDadosModal()"> clique aqui</a> e solicite um codigo de liberação para cadastro para seu Ancião</p>!-->
+    <p>Primeiro login? <a data-toggle="modal" data-target="#modalLinkCadastro" href="" style="cursor: pointer;" (click)="preparaDadosModal()"> clique aqui</a> e solicite um codigo de liberação para cadastro para seu Ancião</p>
      <div class="col-md-12 ml-10">
         <button class="col-md-8 btn" type="submit" (click)="verificarLogin()">Login</button>
     </div>
@@ -40,15 +40,15 @@
             </div>
             <div class="modal-body">
                 <div class="col-md-12">
-                    <label for="nome">Digite seu nome:</label>
-                    <input type="text" name="nome" id="" class="form-control inputs" [(ngModel)]="usuario.nome">
-                </div>
-
-                <label for="funcao">Selecione sua congregação:</label>
-                <div class="col-md-12 inputs" style="display: flex; justify-content: flex-start; align-items: center;">
-                    <select class="form-control"name="funcao" id="funcao" [(ngModel)]="usuario.congregacao">
-                        <option *ngFor="let congregacao of congregacoes" value="{{congregacao.id}}">{{congregacao.nome}}</option>
-                    </select>
+                  <p>Digite o email do ancião da sua congregação responsavel 
+                    por cadastrar novos publicadores e será enviado uma solicitação para ele
+                    criar seu usario. Após seu usuario ser criado, recomendamos que depois do primeiro login
+                    coloque `Esqueceu sua senha?` e altere sua senha.</p>
+                  <label for="nome">Email:</label>
+                  <input type="text" name="email" id="" class="form-control inputs" [(ngModel)]="usuario.email">
+                  <label for="nome">Digite seu nome:</label>
+                  <input type="text" name="nome" id="" class="form-control inputs" [(ngModel)]="usuario.nome">
+                
                 </div>
             </div>
             <div class="modal-footer">

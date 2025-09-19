@@ -31,4 +31,10 @@ public class LoginConsumers {
         this.loginServices.atualizarSenha(publicadorDTO);
     }
 
+    @KafkaListener(topics = "solicitar-usuario-novo", groupId = "relatorios_territorios")
+    public void receberMensagemSolicitacaoUsuarioNovo(PublicadorDTO publicadorDTO){
+        log.info("Recebendo mensagem de solicitar usuario novo");
+        this.loginServices.enviarSolicitacaoUsuarioNovo(publicadorDTO);
+    }
+
 }

@@ -54,8 +54,8 @@ export class MenuComponent implements AfterViewInit{
   dataSource = new MatTableDataSource<any>();
   dataSourceDesignacoes = new MatTableDataSource<any>();
   dataSourceEstudos = new MatTableDataSource<any>();
-  @ViewChild(MatPaginator) paginator!: MatPaginator;  
-  @ViewChild(MatPaginator) paginatorDesignacoes!: MatPaginator;  
+  @ViewChild(MatPaginator) paginatorRevisitas!: MatPaginator;  
+  @ViewChild(MatPaginator) paginatorDesignacao!: MatPaginator;  
   @ViewChild(MatPaginator) paginatorEstudos!: MatPaginator;  
   displayedColumns:any = [
         'Nome',
@@ -165,9 +165,9 @@ export class MenuComponent implements AfterViewInit{
   };
   
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
+    this.dataSource.paginator = this.paginatorRevisitas;
     this.dataSourceEstudos.paginator = this.paginatorEstudos;
-    this.dataSourceDesignacoes.paginator = this.paginatorDesignacoes;
+    this.dataSourceDesignacoes.paginator = this.paginatorDesignacao;
   }
 
   ngOnInit(){
@@ -192,6 +192,7 @@ export class MenuComponent implements AfterViewInit{
           
           this.notificacoes.push(notificacao)
           this.countNotificacoes = this.countNotificacoes + 1
+          this.cdr.detectChanges();
         })
         
         this.webSocketServices.notificacaoPessoalSubject
@@ -199,6 +200,7 @@ export class MenuComponent implements AfterViewInit{
         
           this.notificacoes.push(notificacao)
           this.countNotificacoes = this.countNotificacoes + 1
+          this.cdr.detectChanges();
         })
   }
 
@@ -206,7 +208,7 @@ export class MenuComponent implements AfterViewInit{
     this.listarServices.listar(this.email)
       .subscribe(res=>{
         this.dataSource.data = res
-        this.dataSource.paginator = this.paginator;
+        this.dataSource.paginator = this.paginatorRevisitas;
       })
   }
 
@@ -215,7 +217,7 @@ export class MenuComponent implements AfterViewInit{
       .subscribe(res => {
         if(res){
           this.dataSourceDesignacoes.data = res
-          this.dataSourceDesignacoes.paginator = this.paginatorDesignacoes
+          this.dataSourceDesignacoes.paginator = this.paginatorDesignacao
         }
       })
   }

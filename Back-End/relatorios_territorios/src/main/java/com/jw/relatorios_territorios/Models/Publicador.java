@@ -13,6 +13,7 @@ import java.util.UUID;
 
 @Entity
 @RequiredArgsConstructor
+@Table(name = "publicador")
 public class Publicador {
 
     @Id

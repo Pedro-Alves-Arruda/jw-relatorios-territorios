@@ -50,7 +50,10 @@ export class LoginComponent {
   }
 
   solicitarLink(){
-
+      this.loginServices.enviarSolicitacaoUsuarioNovo(this.usuario)
+        .subscribe(res => {
+          
+        })
   }
 
   preparaDadosModal(){

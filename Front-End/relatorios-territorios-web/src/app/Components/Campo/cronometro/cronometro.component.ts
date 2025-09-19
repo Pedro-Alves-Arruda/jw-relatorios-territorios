@@ -6,6 +6,8 @@ import { ServicoCampoService } from '../../../Services/Campo/servico-campo.servi
 import { AuthService } from '../../../AuthService';
 import * as jwt from 'jwt-decode';
 import { Token } from '../../../Models/Token';
+import { PublicacaoServicesService } from '../../../Services/publicacao/publicacao-services.service';
+
 declare var $: any;
 
 
@@ -17,7 +19,9 @@ declare var $: any;
 })
 export class CronometroComponent {
 
-  constructor(private servicesCampo:ServicoCampoService, private authService:AuthService){}
+  constructor(private servicesCampo:ServicoCampoService, 
+              private authService:AuthService,
+              private publicacaoServices:PublicacaoServicesService){}
 
   private subscription!: Subscription;
   public tempo: number = 0; // tempo em segundos
@@ -25,20 +29,17 @@ export class CronometroComponent {
   hora:number = 0;
   minuto:number = 0;
   tempoFinal: string = "00:00:00";
+  mensagemSucesso:boolean = false
+  mensagemErro:boolean = false
 
   @ViewChild('publicacao', { static: false }) publicacao!: ElementRef;
 
-  publicacoes:string[] = ['Sentinela - o fim das guerras, como?', 
-                'Video - Por que estudar a Bíblia?',
-                'Video - como é um estudo da Bíblia?',
-                'Video - O que acontece em um salão do reino?',
-                'Brochura - Seja feliz para sempre', 
-                'Brochura - Ame as Pessoas',
-                'Livro - Seja feliz para sempre',];
+  publicacoes:any;
   
   listPublicacoesDeixadas:string[] = [] ;
   publicacaoControl = new FormControl([]);
   publicadorLogado:any;
+  isPioneiro:boolean = false;
 
   servicoCampo:any = {
     descricao: '',
@@ -50,11 +51,21 @@ export class CronometroComponent {
       
     });
     this.publicadorLogado = this.authService.getUsuarioLogado();
+    this.isPioneiro = jwt.jwtDecode<Token>(this.publicadorLogado.token).isPioneiro
+    this.listar()
   }
 
   editarTempo(hora:any) {
     const [hh, mm] = hora.split(":").map(Number);
     this.tempoFinal =  `${this.pad(hh)}:${this.pad(mm)}:${this.pad(0)}`;
+  }
+
+  listar(){
+    this.publicacaoServices.listar()
+      .subscribe(res => {
+        if(res)
+          this.publicacoes = res
+      })
   }
 
 
@@ -91,22 +102,27 @@ export class CronometroComponent {
   }
 
   salvar() {
-    if(this.tempoFinal != "00:00:00"){
-      this.servicoCampo.tempo = this.tempoFinal;
-      this.servicoCampo['publicacoesDeixadas'] =  this.publicacaoControl.value;
-      this.servicoCampo['email'] = jwt.jwtDecode<Token>(this.publicadorLogado.token).sub;
-      this.servicesCampo.salvarServicoCampo(this.servicoCampo)
-        .subscribe({
-          next: (sucess) =>{
   
-          },
-          error: (error) => {
-  
-          }
-        }) 
-    }else{
-      alert("Por favor, inicie o cronômetro ou edite o tempo antes de salvar.")
-    }
+    this.servicoCampo.tempo = this.tempoFinal == "00:00:00"? null : this.tempoFinal;
+    this.servicoCampo['publicacoesDeixadas'] =  this.publicacaoControl.value;
+    this.servicoCampo['email'] = jwt.jwtDecode<Token>(this.publicadorLogado.token).sub;
+    this.servicesCampo.salvarServicoCampo(this.servicoCampo)
+      .subscribe(res => {
+        if(res.includes("sucesso")){
+          this.mensagemSucesso = true;
+          setTimeout(() => {
+            this.mensagemSucesso = false;
+          }, 10000);
+        }else{
+          this.mensagemErro = true;
+          setTimeout(() => {
+            this.mensagemErro = false;
+          }, 10000);
+        }
+    
+        
+      }) 
+    
   }
 
   adicionar(value:any){

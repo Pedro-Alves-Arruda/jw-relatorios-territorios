@@ -49,10 +49,13 @@ public class LoginController {
         }
     }
 
-    @GetMapping("status-redefinir-senha")
-    public ResponseEntity<String> mudarStatusRedefinicaoSenha(@RequestParam String email){
-        System.out.println(email);
-        return ResponseEntity.ok().body("Ok");
+    @PostMapping("solicitar-criacao-usuario")
+    public ResponseEntity<String> enviarSolicitacaoUsuarioNovo(@RequestBody PublicadorDTO publicadorDTO){
+        try{
+            return ResponseEntity.ok().body(loginProducers.enviarMensagemSolicitacaoUsuarioNovo(publicadorDTO));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

@@ -74,3 +74,23 @@ h1 {
     vertical-align: bottom;
     white-space: nowrap;
 }
+
+.mensagem-sucesso{
+    border-radius: 2px;
+    background-color: rgb(141, 254, 75);
+    color:white;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mensagem-erro{
+    border-radius: 2px;
+    background-color: rgb(255, 91, 91);
+    color: white;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -19,6 +19,7 @@ public class GrupoCampo {
     private UUID idAjudante;
     private String nome;
     private String endereco;
+    private UUID idCongregacao;
 
     @OneToMany(mappedBy = "grupoCampo", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
@@ -70,5 +71,13 @@ public class GrupoCampo {
 
     public void setIdAjudante(UUID idAjudante) {
         this.idAjudante = idAjudante;
+    }
+
+    public UUID getIdCongregacao() {
+        return idCongregacao;
+    }
+
+    public void setIdCongregacao(UUID idCongregacao) {
+        this.idCongregacao = idCongregacao;
     }
 }
